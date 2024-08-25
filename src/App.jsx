@@ -1,16 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { StrictMode } from 'react';
+import { RouterProvider } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
+import { RouterObject } from './RouterList'; // Import RouterObject instead of RouterList
+import './styles/index.css';
+import { RecoilRoot } from 'recoil';
+// import { GoogleOAuthProvider } from '@react-oauth/google';
 
-function App() {
-  const [count, setCount] = useState(0)
+// const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID; // Access your Google Client ID from .env
 
-  return (
-    <>
-      <div>hello</div>
-    </>
-  )
-}
-
-export default App
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        {/*<GoogleOAuthProvider clientId={clientId}>*/}
+            <RecoilRoot>
+                <RouterProvider router={RouterObject} />
+            </RecoilRoot>
+        {/*</GoogleOAuthProvider>*/}
+    </StrictMode>,
+);
