@@ -5,7 +5,7 @@ import naverIcon from "../assets/naver.png";
 // import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const Login = () => {
-  return <>login!!!</>;
+  return <>login!!!!</>;
 };
 
 export default Login;
