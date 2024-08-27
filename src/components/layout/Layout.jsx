@@ -23,6 +23,9 @@ const Layout = () => {
 
     return (
         <SettingBackImages>
+            <div style={{color:"white"}}>
+                <h1>타이틀 ㅌ데스</h1>
+            </div>
             <Outlet />
         </SettingBackImages>
     )
