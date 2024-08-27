@@ -27,7 +27,8 @@ const Login = () => {
     `
 
   const SettingTitle = styled.h1` //로그인 안내 텍스트
-        font-family: 'Pretendard-SemiBold';
+        margin:0;
+        font-family: 'Pretendard-Bold';
         position: absolute;
         text-align: center;
         color: white;
