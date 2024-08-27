@@ -53,14 +53,12 @@ const Login = () => {
         align-items: center;
         justify-content: center;
         display: flex;
+        cursor: pointer;
 
         &:hover { //마우스호버 시 변경
             border: 1px solid white;
             color: white;
             transition: 0.5s ease;
-        }
-        & span {    //커서 변경
-        cursor: pointer;
         }
     `;
 
