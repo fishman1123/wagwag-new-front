@@ -4,6 +4,7 @@ import googleIcon from '../assets/google.png';
 import naverIcon from '../assets/naver.png';
 import kakaoIcon from '../assets/kakao.png';
 import styled from 'styled-components';
+
 // import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
@@ -26,6 +27,7 @@ const Login = () => {
     `
 
   const SettingTitle = styled.h1` //로그인 안내 텍스트
+        font-family: 'Pretendard-SemiBold';
         position: absolute;
         text-align: center;
         color: white;
@@ -44,7 +46,7 @@ const Login = () => {
         margin-top: 1.25vw;
         background-color: rgba(8,8,8,0.3);
         color: #787878;
-        font-family: Pretendard;
+        font-family: 'Pretendard-Medium';
         border-radius: 1vw;
         border: 1px solid #787878;
         transition: 0.5s ease;

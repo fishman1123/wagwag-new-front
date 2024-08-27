@@ -22,10 +22,10 @@ const Layout = () => {
     `
 
     return (
-        <div>
+        <SettingBackImages>
             <Outlet />
-            <SettingBackImages />
-        </div>
+
+        </SettingBackImages>
     )
 }
 
