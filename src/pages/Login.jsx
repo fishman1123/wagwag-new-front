@@ -106,24 +106,24 @@ const Login = () => {
     display: flex;
     cursor: pointer;
 
-    &:hover {
-      border: 1px solid white;
-      color: white;
-      transition: 0.5s ease;
-    }
-  `;
+        &:hover { //마우스호버 시 변경
+            border: 1px solid white;
+            color: white;
+            transition: 0.5s ease;
+        }
+    `;
 
-  const GoogleImg = styled.img.attrs({
+  const GoogleImg = styled.img.attrs({ //구글로고
     src: googleIcon,
     alt: "",
   })`
-    position: absolute;
-    width: 2vw;
-    height: 2vw;
-    left: 1.25vw;
-  `;
+        position:absolute;
+        width: 2vw;
+        height: 2vw;
+        left: 1.25vw;
+    `
 
-  const NaverImg = styled.img.attrs({
+  const NaverImg = styled.img.attrs({ //네이버로고
     src: naverIcon,
     alt: "",
   })`
@@ -171,3 +171,4 @@ const Login = () => {
 };
 
 export default Login;
+
