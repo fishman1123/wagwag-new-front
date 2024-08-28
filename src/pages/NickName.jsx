@@ -10,6 +10,7 @@ const NickName = () => {
   return (
     <div>
       nicknames
+        <button/>
     </div>
   );
 };
