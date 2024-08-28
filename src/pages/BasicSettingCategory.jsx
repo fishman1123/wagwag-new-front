@@ -95,7 +95,7 @@ const CategoryList = styled.div`
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 6vw;
-    width: 26%;
+    width: 25%;
 `;
 
 const CategoryItem = styled.div`
@@ -106,7 +106,7 @@ const CategoryItem = styled.div`
     border-radius: 50vh;
     padding: 1vw 2.6vw;
     margin-bottom: 2vw;
-    font-size: 1.2vw;
+    font-size: 1.1vw;
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
