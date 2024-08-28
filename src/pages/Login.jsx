@@ -7,54 +7,86 @@ import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { userAtoms } from '../recoil/userAtoms';
-import { useGoogleLogin } from '@react-oauth/google';  // Use hook instead of GoogleLogin component
+import { useGoogleLogin } from '@react-oauth/google';  // Using the hook
 
 const Login = () => {
   const navigate = useNavigate();
   const setAuthState = useSetRecoilState(userAtoms);
 
-  // Use the GoogleLogin hook for manual triggering
+  // Google Login with Authorization Code flow
   const login = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: async (response) => {
       try {
-        // Google returns the authorization code
-        const { code } = response; // Extract the authorization code
+        // Extract the authorization code from the Google response
+        const { code } = response;
 
-        // Send the authorization code to your backend server for token exchange
+        // Exchange the authorization code for ID token with Google (or get it from the initial response)
+        const googleTokenResponse = await fetch(
+            `https://oauth2.googleapis.com/token`, // Google API to exchange code for token
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: new URLSearchParams({
+                code: code,
+                client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID, // Your Google Client ID
+                client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET, // Your Google Client Secret
+                redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI, // Your redirect URI
+                grant_type: 'authorization_code',
+              }),
+            }
+        );
+
+        const googleTokens = await googleTokenResponse.json();
+        console.log(googleTokens);
+        const { id_token } = googleTokens; // Get ID token from Google's response
+
+        // Store ID token in Recoil state
+        setAuthState((prevState) => ({
+          ...prevState,
+          idToken: id_token, // Save the ID token
+        }));
+
+        // Send the ID token to your backend server for token exchange (access/refresh token)
         const backendResponse = await fetch('/auth/google', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code }), // Send authorization code to the server
+          body: JSON.stringify({ id_token }), // Send ID token to backend for token exchange
+          credentials: 'include', // Ensures HTTP-only cookies are included (for refresh token)
         });
 
-        const result = await backendResponse.json(); // Parse server response (tokens, user data)
+        // Check if the request was successful
+        if (!backendResponse.ok) {
+          throw new Error('Failed to exchange authorization code');
+        }
 
-        if (backendResponse.ok) {
-          const { isNewcomer, user } = result;
+        // Parse the result from the server (should include accessToken, user data, etc.)
+        const result = await backendResponse.json();
+        const { accessToken, user, isNewcomer } = result; // Now include the idToken
 
-          // Update Recoil state with the authenticated user data and newcomer flag
-          setAuthState({
-            isAuthenticated: true,
-            user: user, // Backend should return user data
-            isNewcomer: isNewcomer,
-          });
+        // Update Recoil state with the authenticated user data, access token
+        setAuthState({
+          isAuthenticated: true,
+          user: user, // Store user data
+          accessToken: accessToken, // Store access token
+          idToken: id_token, // Already stored earlier, but keeping it
+          isNewcomer: isNewcomer, // Track if the user is new
+        });
 
-          // Redirect based on newcomer status
-          if (isNewcomer) {
-            navigate('/basic/nickname');  // Newcomer, redirect to nickname
-          } else {
-            navigate('/main');  // Returning user, redirect to main
-          }
+        // Redirect based on whether the user is a newcomer
+        if (isNewcomer) {
+          navigate('/basic/nickname');  // Newcomer, redirect to nickname setup
         } else {
-          console.error('Login failed: ', result.message);
+          navigate('/main');  // Returning user, redirect to main page
         }
       } catch (error) {
-        console.error('Error during login process: ', error);
+        console.error('Error during login:', error);
       }
     },
     onError: () => {
-      console.log('Login Failed');
+      console.error('Login Failed');
     },
   });
 
@@ -67,7 +99,7 @@ const Login = () => {
 
   const LogoImg = styled.img.attrs({
     src: logoImage,
-    alt: "",
+    alt: '',
   })`
     top: 15.3vw;
     position: absolute;
@@ -93,7 +125,7 @@ const Login = () => {
     width: 36.25vw;
     height: 4.6vw;
     margin-top: 1.25vw;
-    background-color: rgba(8,8,8,0.3);
+    background-color: rgba(8, 8, 8, 0.3);
     color: #787878;
     font-family: 'Pretendard-Medium';
     border-radius: 1vw;
@@ -106,26 +138,26 @@ const Login = () => {
     display: flex;
     cursor: pointer;
 
-        &:hover { //마우스호버 시 변경
-            border: 1px solid white;
-            color: white;
-            transition: 0.5s ease;
-        }
-    `;
+    &:hover {
+      border: 1px solid white;
+      color: white;
+      transition: 0.5s ease;
+    }
+  `;
 
-  const GoogleImg = styled.img.attrs({ //구글로고
+  const GoogleImg = styled.img.attrs({
     src: googleIcon,
-    alt: "",
+    alt: '',
   })`
-        position:absolute;
-        width: 2vw;
-        height: 2vw;
-        left: 1.25vw;
-    `
+    position: absolute;
+    width: 2vw;
+    height: 2vw;
+    left: 1.25vw;
+  `;
 
-  const NaverImg = styled.img.attrs({ //네이버로고
+  const NaverImg = styled.img.attrs({
     src: naverIcon,
-    alt: "",
+    alt: '',
   })`
     position: absolute;
     width: 2vw;
@@ -135,7 +167,7 @@ const Login = () => {
 
   const KakaoImg = styled.img.attrs({
     src: kakaoIcon,
-    alt: "",
+    alt: '',
   })`
     position: absolute;
     width: 2vw;
@@ -144,31 +176,28 @@ const Login = () => {
   `;
 
   return (
-      <>
-        <Wrapper>
-          <LogoImg />
-          <SettingTitle>로그인을 위한 계정을 선택해주세요</SettingTitle>
-          <ButtonContainer>
-            {/* Custom Google Login Button */}
-            <Button type="button" onClick={login}>
-              <GoogleImg />
-              구글로 시작하기
-            </Button>
+      <Wrapper>
+        <LogoImg />
+        <SettingTitle>로그인을 위한 계정을 선택해주세요</SettingTitle>
+        <ButtonContainer>
+          {/* Custom Google Login Button */}
+          <Button type="button" onClick={login}>
+            <GoogleImg />
+            구글로 시작하기
+          </Button>
 
-            {/* Other buttons */}
-            <Button type="submit">
-              <NaverImg />
-              네이버로 시작하기
-            </Button>
-            <Button type="submit">
-              <KakaoImg />
-              카카오로 시작하기
-            </Button>
-          </ButtonContainer>
-        </Wrapper>
-      </>
+          {/* Other login buttons */}
+          <Button type="submit">
+            <NaverImg />
+            네이버로 시작하기
+          </Button>
+          <Button type="submit">
+            <KakaoImg />
+            카카오로 시작하기
+          </Button>
+        </ButtonContainer>
+      </Wrapper>
   );
 };
 
 export default Login;
-
