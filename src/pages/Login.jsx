@@ -7,58 +7,62 @@ import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { userAtoms } from '../recoil/userAtoms';
-import { useGoogleLogin } from '@react-oauth/google';  // Use hook instead of GoogleLogin component
+import { useGoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const navigate = useNavigate();
   const setAuthState = useSetRecoilState(userAtoms);
 
-  // Use the GoogleLogin hook for manual triggering
+  // 구글로 오픈 id 요청
   const login = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: async (response) => {
       try {
-        // Google returns the authorization code
-        const { code } = response; // Extract the authorization code
+        // 코드로 리스폰스 할당
+        const { code } = response;
 
-        // Send the authorization code to your backend server for token exchange
+        // 토큰 교환을 위한 리퀘스트
         const backendResponse = await fetch('/auth/google', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code }), // Send authorization code to the server
+          body: JSON.stringify({ code }), // 객체화
+          credentials: 'include', // http-cookie only 포한 유무 확인?
         });
 
-        const result = await backendResponse.json(); // Parse server response (tokens, user data)
 
-        if (backendResponse.ok) {
-          const { isNewcomer, user } = result;
+        if (!backendResponse.ok) {
+          throw new Error('Failed to exchange authorization code');
+        }
 
-          // Update Recoil state with the authenticated user data and newcomer flag
-          setAuthState({
-            isAuthenticated: true,
-            user: user, // Backend should return user data
-            isNewcomer: isNewcomer,
-          });
+        // 파싱
+        const result = await backendResponse.json();
+        const { accessToken, idToken, user, isNewcomer } = result;
 
-          // Redirect based on newcomer status
-          if (isNewcomer) {
-            navigate('/basic/nickname');  // Newcomer, redirect to nickname
-          } else {
-            navigate('/main');  // Returning user, redirect to main
-          }
+        // 리코일 업데이트
+        setAuthState({
+          isAuthenticated: true,
+          user: user,
+          accessToken: accessToken,
+          idToken: idToken,
+          isNewcomer: isNewcomer,
+        });
+
+        // 신규 유저 구분
+        if (isNewcomer) {
+          navigate('/basic/nickname');
         } else {
-          console.error('Login failed: ', result.message);
+          navigate('/main');
         }
       } catch (error) {
-        console.error('Error during login process: ', error);
+        console.error('Error during login:', error);
       }
     },
     onError: () => {
-      console.log('Login Failed');
+      console.error('Login Failed');
     },
   });
 
-  // Styled components
+  // 스타일 컴포넌트
   const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -67,7 +71,7 @@ const Login = () => {
 
   const LogoImg = styled.img.attrs({
     src: logoImage,
-    alt: "",
+    alt: '',
   })`
     top: 15.3vw;
     position: absolute;
@@ -93,7 +97,7 @@ const Login = () => {
     width: 36.25vw;
     height: 4.6vw;
     margin-top: 1.25vw;
-    background-color: rgba(8,8,8,0.3);
+    background-color: rgba(8, 8, 8, 0.3);
     color: #787878;
     font-family: 'Pretendard-Medium';
     border-radius: 1vw;
@@ -115,7 +119,7 @@ const Login = () => {
 
   const GoogleImg = styled.img.attrs({
     src: googleIcon,
-    alt: "",
+    alt: '',
   })`
     position: absolute;
     width: 2vw;
@@ -125,7 +129,7 @@ const Login = () => {
 
   const NaverImg = styled.img.attrs({
     src: naverIcon,
-    alt: "",
+    alt: '',
   })`
     position: absolute;
     width: 2vw;
@@ -135,7 +139,7 @@ const Login = () => {
 
   const KakaoImg = styled.img.attrs({
     src: kakaoIcon,
-    alt: "",
+    alt: '',
   })`
     position: absolute;
     width: 2vw;
@@ -144,29 +148,25 @@ const Login = () => {
   `;
 
   return (
-      <>
-        <Wrapper>
-          <LogoImg />
-          <SettingTitle>로그인을 위한 계정을 선택해주세요</SettingTitle>
-          <ButtonContainer>
-            {/* Custom Google Login Button */}
-            <Button type="button" onClick={login}>
-              <GoogleImg />
-              구글로 시작하기
-            </Button>
+      <Wrapper>
+        <LogoImg />
+        <SettingTitle>로그인을 위한 계정을 선택해주세요</SettingTitle>
+        <ButtonContainer>
+          <Button type="button" onClick={login}>
+            <GoogleImg />
+            구글로 시작하기
+          </Button>
 
-            {/* Other buttons */}
-            <Button type="submit">
-              <NaverImg />
-              네이버로 시작하기
-            </Button>
-            <Button type="submit">
-              <KakaoImg />
-              카카오로 시작하기
-            </Button>
-          </ButtonContainer>
-        </Wrapper>
-      </>
+          <Button type="submit">
+            <NaverImg />
+            네이버로 시작하기
+          </Button>
+          <Button type="submit">
+            <KakaoImg />
+            카카오로 시작하기
+          </Button>
+        </ButtonContainer>
+      </Wrapper>
   );
 };
 
