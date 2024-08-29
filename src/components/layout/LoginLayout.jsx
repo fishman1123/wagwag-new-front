@@ -1,10 +1,10 @@
 // import Navbar from "./components/Navbar.jsx";
 // import Footer from "./components/Footer.jsx";
 import { Outlet } from "react-router-dom";
-import settingBg from "../assets/settingBg.png";
+import settingBg from "../../assets/settingBg.png";
 import styled from 'styled-components';
 
-const Layout = () => {
+const LoginLayout = () => {
 
     const SettingBackImages = styled.div` //네이버로고
         width: 100vw;
@@ -24,9 +24,8 @@ const Layout = () => {
     return (
         <SettingBackImages>
             <Outlet />
-
         </SettingBackImages>
     )
 }
 
-export default Layout;
+export default LoginLayout;
