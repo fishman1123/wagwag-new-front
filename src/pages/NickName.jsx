@@ -53,7 +53,7 @@ const HighlightText = styled.span`
   color: ${(props) => props.color || ""};
 `;
 const NickName = () => {
-  const [text, setText] = useState("");
+  const [nickname, setNickname] = useState("");
   const [message, setMessage] = useState("");
   const [profileImage, setProfileImage] = useState();
   const fileInputRef = useRef(null);
@@ -64,23 +64,23 @@ const NickName = () => {
     const specialCharacterRegex =
       /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
 
-    if (!text.length) {
+    if (!nickname.length) {
       setMessage("");
-    } else if (text.length > 0 && text.length < 2) {
+    } else if (nickname.length > 0 && nickname.length < 2) {
       setMessage(
         <>
           <HighlightText color="#FF7777">* 2 글자 이상의 </HighlightText>
           닉네임으로 정해주세요
         </>
       );
-    } else if (specialCharacterRegex.test(text)) {
+    } else if (specialCharacterRegex.test(nickname)) {
       setMessage(
         <>
           <HighlightText color="#FF7777">* 특수문자</HighlightText>는
           제거해주세요
         </>
       );
-    } else if (nicknames.includes(text)) {
+    } else if (nicknames.includes(nickname)) {
       setMessage(
         <>
           <HighlightText color="#FF7777">* 이미 사용 중</HighlightText>인
@@ -95,7 +95,7 @@ const NickName = () => {
         </>
       );
     }
-  }, [text]);
+  }, [nickname]);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -121,7 +121,7 @@ const NickName = () => {
         <Input
           type="text"
           placeholder="닉네임을 입력하세요"
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => setNickname(e.target.value)}
         />
         <Message>{message}</Message>
       </InputWrapper>
