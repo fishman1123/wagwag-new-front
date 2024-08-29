@@ -1,4 +1,5 @@
-import Layout from "./components/Layout.jsx";
+// src/RouterList.js
+import Layout from "./components/layout/Layout.jsx";
 import Login from "./pages/Login.jsx";
 import { createBrowserRouter } from "react-router-dom";
 import BasicSettingRegion from "./pages/BasicSettingRegion.jsx";
@@ -10,11 +11,15 @@ import WagMain from "./pages/WagMain.jsx";
 import UserUploadedList from "./pages/UserUploadedList.jsx";
 import UserLayout from "./components/UserLayout.jsx";
 import UserLikeList from "./pages/UserLikeList.jsx";
+import SecuredRoute from "./components/SecuredRoute.jsx"; // Import ProtectedRoute
+import LandingPage from "./pages/LandingPage.jsx";
+import LoginLayout from "./components/layout/LoginLayout.jsx"; // Import LandingPage
 
 export const RouterList = () => [
   {
+    // Wrap login and intro routes with LoginLayout
     path: "/",
-    element: <Layout />,
+    element: <LoginLayout />,
     children: [
       {
         path: "login",
@@ -22,6 +27,21 @@ export const RouterList = () => [
       },
       {
         path: "intro",
+        element: <LandingPage />,
+      },
+    ],
+  },
+  {
+    // All other routes are protected
+    path: "/",
+    element: (
+        <SecuredRoute>
+          <Layout />
+        </SecuredRoute>
+    ),
+    children: [
+      {
+        path: "basic",
         children: [
           {
             index: true,
@@ -46,12 +66,12 @@ export const RouterList = () => [
         ],
       },
       {
-        //메인페이지
+        // Main page
         path: "main",
         element: <WagMain />,
       },
       {
-        //마이페이지 라우터
+        // User page routes
         path: "user",
         element: <UserLayout />,
         children: [
@@ -60,18 +80,18 @@ export const RouterList = () => [
             element: <WrongPath />,
           },
           {
-            //마이페이지
+            // My Page
             path: "main",
             element: <WagUser />,
           },
           {
-            //마이페이지 업로드한 동영상 더보기
+            // User's uploaded videos
             path: "uploaded",
             element: <UserUploadedList />,
           },
           {
-            //마이페이지 좋와요를 누른 동영상 더보기
-            path: "uploaded",
+            // User's liked videos
+            path: "liked",
             element: <UserLikeList />,
           },
         ],
