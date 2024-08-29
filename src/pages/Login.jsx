@@ -8,37 +8,96 @@ import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { userAtoms } from '../recoil/userAtoms';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useEffect } from 'react';
 
 const Login = () => {
   const navigate = useNavigate();
   const setAuthState = useSetRecoilState(userAtoms);
 
-  // 구글로 오픈 id 요청
-  const login = useGoogleLogin({
-    flow: 'auth-code',
-    onSuccess: async (response) => {
-      try {
-        // 코드로 리스폰스 할당
-        const { code } = response;
+  // Kakao Login function to redirect user to Kakao login page
+  const kakaoLogin = () => {
+    const kakaoClient = import.meta.env.VITE_KAKAO_CLIENT_ID;
+    const kakaoRedirect = import.meta.env.VITE_KAKAO_REDIRECT_URL;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClient}&redirect_uri=${kakaoRedirect}&response_type=code`;
+    window.location.href = kakaoAuthUrl;
+  };
 
-        // 토큰 교환을 위한 리퀘스트
-        const backendResponse = await fetch('/auth/google', {
+  // Extract Kakao authorization code from the URL
+  const extractKakaoCode = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('code');
+  };
+
+  // Handle Kakao login after redirection
+  const handleKakaoLogin = async () => {
+    const code = extractKakaoCode();
+    if (code) {
+      try {
+        // Send the authorization code to the backend server to exchange for tokens
+        const backendResponse = await fetch('/auth/kakao', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code }), // 객체화
-          credentials: 'include', // http-cookie only 포한 유무 확인?
+          body: JSON.stringify({ code }),
         });
-
 
         if (!backendResponse.ok) {
           throw new Error('Failed to exchange authorization code');
         }
 
-        // 파싱
+        // Parse the result from the backend (includes accessToken, refreshToken, user info)
+        const result = await backendResponse.json();
+        const { accessToken, refreshToken, user, isNewcomer } = result;
+
+        // Store tokens in local storage
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+
+        // Update Recoil state
+        setAuthState({
+          isAuthenticated: true,
+          user: user,
+          accessToken: accessToken,
+          idToken: null, // No ID token for Kakao
+          isNewcomer: isNewcomer,
+        });
+
+        // Redirect based on whether the user is a newcomer
+        if (isNewcomer) {
+          navigate('/basic/nickname');
+        } else {
+          navigate('/main');
+        }
+      } catch (error) {
+        console.error('Error during Kakao login:', error);
+      }
+    }
+  };
+
+  // Call handleKakaoLogin when the component is loaded (if there is a Kakao code in the URL)
+  useEffect(() => {
+    handleKakaoLogin();
+  }, []);
+
+  // Google login (same as before)
+  const googleLogin = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async (response) => {
+      try {
+        const { code } = response;
+        const backendResponse = await fetch('/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code }),
+          credentials: 'include',
+        });
+
+        if (!backendResponse.ok) {
+          throw new Error('Failed to exchange authorization code');
+        }
+
         const result = await backendResponse.json();
         const { accessToken, idToken, user, isNewcomer } = result;
 
-        // 리코일 업데이트
         setAuthState({
           isAuthenticated: true,
           user: user,
@@ -47,7 +106,6 @@ const Login = () => {
           isNewcomer: isNewcomer,
         });
 
-        // 신규 유저 구분
         if (isNewcomer) {
           navigate('/basic/nickname');
         } else {
@@ -62,7 +120,7 @@ const Login = () => {
     },
   });
 
-  // 스타일 컴포넌트
+  // Styled components
   const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -152,7 +210,7 @@ const Login = () => {
         <LogoImg />
         <SettingTitle>로그인을 위한 계정을 선택해주세요</SettingTitle>
         <ButtonContainer>
-          <Button type="button" onClick={login}>
+          <Button type="button" onClick={googleLogin}>
             <GoogleImg />
             구글로 시작하기
           </Button>
@@ -161,7 +219,7 @@ const Login = () => {
             <NaverImg />
             네이버로 시작하기
           </Button>
-          <Button type="submit">
+          <Button type="button" onClick={kakaoLogin}>
             <KakaoImg />
             카카오로 시작하기
           </Button>
