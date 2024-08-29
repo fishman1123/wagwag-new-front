@@ -2,32 +2,31 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Navigate } from 'react-router-dom';
 import { userAtoms } from '../recoil/userAtoms';
-import { refreshToken as refreshAccessToken } from '../util/token'; // Assuming you have a refresh token function
+import { refreshToken as refreshAccessToken } from '../util/token'; // Token refresh logic
 
 const SecuredRoute = ({ children }) => {
-    const { isAuthenticated, accessToken } = useRecoilValue(userAtoms); // Remove refreshToken from here
+    const { isAuthenticated } = useRecoilValue(userAtoms);
     const setAuthState = useSetRecoilState(userAtoms);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const checkAuthentication = async () => {
+            const accessToken = localStorage.getItem('accessToken'); // Retrieve token from local storage
             if (isAuthenticated && accessToken) {
-                // The user is authenticated, and access token exists
                 setIsLoading(false);
             } else {
-                // Try to refresh the token using HTTP-only cookie
+                // Token needs to be refreshed
                 try {
-                    const newAccessToken = await refreshAccessToken(); // No need to pass refreshToken
+                    const newAccessToken = await refreshAccessToken(); // Fetch new token
                     if (newAccessToken) {
-                        // Update Recoil state with the new access token
-                        setAuthState((prevState) => ({
+                        localStorage.setItem('accessToken', newAccessToken); // Update local storage
+                        setAuthState(prevState => ({
                             ...prevState,
                             accessToken: newAccessToken,
-                            isAuthenticated: true, // Mark the user as authenticated
+                            isAuthenticated: true,
                         }));
-                        setIsLoading(false); // Authentication succeeded after token refresh
+                        setIsLoading(false);
                     } else {
-                        // Failed to refresh the token
                         setIsLoading(false);
                     }
                 } catch (error) {
@@ -38,19 +37,16 @@ const SecuredRoute = ({ children }) => {
         };
 
         checkAuthentication();
-    }, [isAuthenticated, accessToken, setAuthState]);
+    }, [isAuthenticated, setAuthState]);
 
     if (isLoading) {
-        // Show loading indicator while checking authentication/token refresh
         return <div>Loading...</div>;
     }
 
-    // If the user is not authenticated, redirect to the login page
     if (!isAuthenticated) {
         return <Navigate to="/login" />;
     }
 
-    // If the user is authenticated, render the children (the protected component)
     return children;
 };
 
