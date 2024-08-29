@@ -7,79 +7,51 @@ import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { userAtoms } from '../recoil/userAtoms';
-import { useGoogleLogin } from '@react-oauth/google';  // Using the hook
+import { useGoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const navigate = useNavigate();
   const setAuthState = useSetRecoilState(userAtoms);
 
-  // Google Login with Authorization Code flow
+  // 구글로 오픈 id 요청
   const login = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: async (response) => {
       try {
-        // Extract the authorization code from the Google response
+        // 코드로 리스폰스 할당
         const { code } = response;
 
-        // Exchange the authorization code for ID token with Google (or get it from the initial response)
-        const googleTokenResponse = await fetch(
-            `https://oauth2.googleapis.com/token`, // Google API to exchange code for token
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-              },
-              body: new URLSearchParams({
-                code: code,
-                client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID, // Your Google Client ID
-                client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET, // Your Google Client Secret
-                redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI, // Your redirect URI
-                grant_type: 'authorization_code',
-              }),
-            }
-        );
-
-        const googleTokens = await googleTokenResponse.json();
-        console.log(googleTokens);
-        const { id_token } = googleTokens; // Get ID token from Google's response
-
-        // Store ID token in Recoil state
-        setAuthState((prevState) => ({
-          ...prevState,
-          idToken: id_token, // Save the ID token
-        }));
-
-        // Send the ID token to your backend server for token exchange (access/refresh token)
+        // 토큰 교환을 위한 리퀘스트
         const backendResponse = await fetch('/auth/google', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id_token }), // Send ID token to backend for token exchange
-          credentials: 'include', // Ensures HTTP-only cookies are included (for refresh token)
+          body: JSON.stringify({ code }), // 객체화
+          credentials: 'include', // http-cookie only 포한 유무 확인?
         });
 
-        // Check if the request was successful
+
         if (!backendResponse.ok) {
           throw new Error('Failed to exchange authorization code');
         }
 
-        // Parse the result from the server (should include accessToken, user data, etc.)
+        // 파싱
         const result = await backendResponse.json();
-        const { accessToken, user, isNewcomer } = result; // Now include the idToken
+        const { accessToken, idToken, user, isNewcomer } = result;
 
-        // Update Recoil state with the authenticated user data, access token
+        // 리코일 업데이트
         setAuthState({
           isAuthenticated: true,
-          user: user, // Store user data
-          accessToken: accessToken, // Store access token
-          idToken: id_token, // Already stored earlier, but keeping it
-          isNewcomer: isNewcomer, // Track if the user is new
+          user: user,
+          accessToken: accessToken,
+          idToken: idToken,
+          isNewcomer: isNewcomer,
         });
 
-        // Redirect based on whether the user is a newcomer
+        // 신규 유저 구분
         if (isNewcomer) {
-          navigate('/basic/nickname');  // Newcomer, redirect to nickname setup
+          navigate('/basic/nickname');
         } else {
-          navigate('/main');  // Returning user, redirect to main page
+          navigate('/main');
         }
       } catch (error) {
         console.error('Error during login:', error);
@@ -90,7 +62,7 @@ const Login = () => {
     },
   });
 
-  // Styled components
+  // 스타일 컴포넌트
   const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -180,13 +152,11 @@ const Login = () => {
         <LogoImg />
         <SettingTitle>로그인을 위한 계정을 선택해주세요</SettingTitle>
         <ButtonContainer>
-          {/* Custom Google Login Button */}
           <Button type="button" onClick={login}>
             <GoogleImg />
             구글로 시작하기
           </Button>
 
-          {/* Other login buttons */}
           <Button type="submit">
             <NaverImg />
             네이버로 시작하기
