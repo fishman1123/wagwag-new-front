@@ -35,9 +35,9 @@ export const RouterList = () => [
     // All other routes are protected
     path: "/",
     element: (
-        <SecuredRoute>
+        // <SecuredRoute>
           <Layout />
-        </SecuredRoute>
+        // </SecuredRoute>
     ),
     children: [
       {

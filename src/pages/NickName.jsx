@@ -124,6 +124,7 @@ const NickName = () => {
           onChange={(e) => setText(e.target.value)}
         />
         <Message>{message}</Message>
+          <button style={{width:"100px", height:"60px"}}></button>
       </InputWrapper>
     </Wrapper>
   );
