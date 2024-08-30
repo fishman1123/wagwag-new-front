@@ -1,4 +1,4 @@
-import {atom, selector} from 'recoil';
+import {atom} from 'recoil';
 
 export const userAtoms = atom({
     key: 'authState', // Unique ID (with respect to other atoms/selectors)
@@ -11,12 +11,14 @@ export const userAtoms = atom({
     },
 });
 
+
+//atom for basic setting
 export const newComerAtoms = atom({
-    key: 'newOneState', // Unique ID (with respect to other atoms/selectors)
+    key: 'newOneState',
     default: {
-        userNickName: null, // Track if the user is authenticated
-        userRegion: null, // Store user data
-        userCategory: [], // Track if the user is new
+        userNickName: null,
+        userRegion: null,
+        userCategory: [],
     },
 });
 

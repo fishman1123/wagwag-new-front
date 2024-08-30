@@ -34,6 +34,26 @@ const ProfileImage = styled.div`
   }
 `;
 
+const SettingsmallTitle = styled.h2`
+    font-family: 'Pretendard-Medium';
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: 1vw;
+    top: 35.4vw;
+`;
+
+const ColorText = styled.span`
+  color: #57F98E;
+  font-family: "Pretendard-Medium";
+  position: absolute;
+  text-align: center;
+  color: white;
+  font-size: 1.35vw;
+ top: 12vw;
+ `;
+
+
 const SettingTitle = styled.h1`
   font-family: "Pretendard-Medium";
   position: absolute;
@@ -117,6 +137,7 @@ const Input = styled.input`
 `;
 
 const Message = styled.div`
+  font-family: "Pretendard-Medium";
   width: 18.75vw;
   height: 1.2vw;
   font-size: 1vw;
