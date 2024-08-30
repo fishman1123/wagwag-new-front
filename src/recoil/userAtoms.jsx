@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 
 export const userAtoms = atom({
     key: 'authState', // Unique ID (with respect to other atoms/selectors)
@@ -10,3 +10,25 @@ export const userAtoms = atom({
         idToken: null, // Store the ID token for user authentication and identity claims
     },
 });
+
+
+//atom for basic setting
+export const newComerAtoms = atom({
+    key: 'newOneState',
+    default: {
+        userNickName: null,
+        userRegion: null,
+        userCategory: [],
+    },
+});
+
+
+
+
+
+
+
+
+
+
+
