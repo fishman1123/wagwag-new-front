@@ -1,60 +1,120 @@
-import settingBg from '../assets/settingBg.png';
 import logoImage from '../assets/wagwagLogo.png';
 import googleIcon from '../assets/google.png';
 import naverIcon from '../assets/naver.png';
 import kakaoIcon from '../assets/kakao.png';
 import styled from 'styled-components';
-import { useSetRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
-import { userAtoms } from '../recoil/userAtoms';
-import { useGoogleLogin } from '@react-oauth/google';  // Use hook instead of GoogleLogin component
+import {useSetRecoilState} from 'recoil';
+import {useNavigate} from 'react-router-dom';
+import {userAtoms} from '../recoil/userAtoms';
+import {useGoogleLogin} from '@react-oauth/google';
+import {useEffect} from 'react';
 
 const Login = () => {
   const navigate = useNavigate();
   const setAuthState = useSetRecoilState(userAtoms);
 
-  // Use the GoogleLogin hook for manual triggering
-  const login = useGoogleLogin({
+  // Kakao Login function to redirect user to Kakao login page
+  const kakaoLogin = () => {
+    const kakaoClient = import.meta.env.VITE_KAKAO_CLIENT_ID;
+    const kakaoRedirect = import.meta.env.VITE_KAKAO_REDIRECT_URL;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClient}&redirect_uri=${kakaoRedirect}&response_type=code`;
+  };
+
+  // Extract Kakao authorization code from the URL
+  const extractKakaoCode = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('code');
+  };
+
+  // Handle Kakao login after redirection
+  const handleKakaoLogin = async () => {
+    const code = extractKakaoCode();
+    if (code) {
+      try {
+        // Send the authorization code to the backend server to exchange for tokens
+        const backendResponse = await fetch('/auth/kakao', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code }),
+        });
+
+        if (!backendResponse.ok) {
+          throw new Error('Failed to exchange authorization code');
+        }
+
+        // Parse the result from the backend (includes accessToken, refreshToken, user info)
+        const result = await backendResponse.json();
+        const { accessToken, refreshToken, user, isNewcomer } = result;
+
+        // Store tokens in local storage
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+
+        // Update Recoil state
+        setAuthState({
+          isAuthenticated: true,
+          user: user,
+          accessToken: accessToken,
+          idToken: null, // No ID token for Kakao
+          isNewcomer: isNewcomer,
+        });
+
+        // Redirect based on whether the user is a newcomer
+        if (isNewcomer) {
+          navigate('/basic/nickname');
+        } else {
+          navigate('/main');
+        }
+      } catch (error) {
+        console.error('Error during Kakao login:', error);
+      }
+    }
+  };
+
+  // Call handleKakaoLogin when the component is loaded (if there is a Kakao code in the URL)
+  useEffect(() => {
+    handleKakaoLogin();
+  }, []);
+
+  // Google login (same as before)
+  const googleLogin = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: async (response) => {
       try {
-        // Google returns the authorization code
-        const { code } = response; // Extract the authorization code
-
-        // Send the authorization code to your backend server for token exchange
+        const { code } = response;
         const backendResponse = await fetch('/auth/google', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code }), // Send authorization code to the server
+          body: JSON.stringify({ code }),
+          credentials: 'include',
         });
 
-        const result = await backendResponse.json(); // Parse server response (tokens, user data)
+        if (!backendResponse.ok) {
+          throw new Error('Failed to exchange authorization code');
+        }
 
-        if (backendResponse.ok) {
-          const { isNewcomer, user } = result;
+        const result = await backendResponse.json();
+        const { accessToken, idToken, user, isNewcomer } = result;
 
-          // Update Recoil state with the authenticated user data and newcomer flag
-          setAuthState({
-            isAuthenticated: true,
-            user: user, // Backend should return user data
-            isNewcomer: isNewcomer,
-          });
+        setAuthState({
+          isAuthenticated: true,
+          user: user,
+          accessToken: accessToken,
+          idToken: idToken,
+          isNewcomer: isNewcomer,
+        });
 
-          // Redirect based on newcomer status
-          if (isNewcomer) {
-            navigate('/basic/nickname');  // Newcomer, redirect to nickname
-          } else {
-            navigate('/main');  // Returning user, redirect to main
-          }
+        if (isNewcomer) {
+          navigate('/basic/nickname');
         } else {
-          console.error('Login failed: ', result.message);
+          navigate('/main');
         }
       } catch (error) {
-        console.error('Error during login process: ', error);
+        console.error('Error during login:', error);
       }
     },
     onError: () => {
-      console.log('Login Failed');
+      console.error('Login Failed');
     },
   });
 
@@ -67,7 +127,7 @@ const Login = () => {
 
   const LogoImg = styled.img.attrs({
     src: logoImage,
-    alt: "",
+    alt: '',
   })`
     top: 15.3vw;
     position: absolute;
@@ -93,7 +153,7 @@ const Login = () => {
     width: 36.25vw;
     height: 4.6vw;
     margin-top: 1.25vw;
-    background-color: rgba(8,8,8,0.3);
+    background-color: rgba(8, 8, 8, 0.3);
     color: #787878;
     font-family: 'Pretendard-Medium';
     border-radius: 1vw;
@@ -106,26 +166,26 @@ const Login = () => {
     display: flex;
     cursor: pointer;
 
-        &:hover { //마우스호버 시 변경
-            border: 1px solid white;
-            color: white;
-            transition: 0.5s ease;
-        }
-    `;
+    &:hover {
+      border: 1px solid white;
+      color: white;
+      transition: 0.5s ease;
+    }
+  `;
 
-  const GoogleImg = styled.img.attrs({ //구글로고
+  const GoogleImg = styled.img.attrs({
     src: googleIcon,
-    alt: "",
+    alt: '',
   })`
-        position:absolute;
-        width: 2vw;
-        height: 2vw;
-        left: 1.25vw;
-    `
+    position: absolute;
+    width: 2vw;
+    height: 2vw;
+    left: 1.25vw;
+  `;
 
-  const NaverImg = styled.img.attrs({ //네이버로고
+  const NaverImg = styled.img.attrs({
     src: naverIcon,
-    alt: "",
+    alt: '',
   })`
     position: absolute;
     width: 2vw;
@@ -135,7 +195,7 @@ const Login = () => {
 
   const KakaoImg = styled.img.attrs({
     src: kakaoIcon,
-    alt: "",
+    alt: '',
   })`
     position: absolute;
     width: 2vw;
@@ -144,29 +204,25 @@ const Login = () => {
   `;
 
   return (
-      <>
-        <Wrapper>
-          <LogoImg />
-          <SettingTitle>로그인을 위한 계정을 선택해주세요</SettingTitle>
-          <ButtonContainer>
-            {/* Custom Google Login Button */}
-            <Button type="button" onClick={login}>
-              <GoogleImg />
-              구글로 시작하기
-            </Button>
+      <Wrapper>
+        <LogoImg />
+        <SettingTitle>로그인을 위한 계정을 선택해주세요</SettingTitle>
+        <ButtonContainer>
+          <Button type="button" onClick={googleLogin}>
+            <GoogleImg />
+            구글로 시작하기
+          </Button>
 
-            {/* Other buttons */}
-            <Button type="submit">
-              <NaverImg />
-              네이버로 시작하기
-            </Button>
-            <Button type="submit">
-              <KakaoImg />
-              카카오로 시작하기
-            </Button>
-          </ButtonContainer>
-        </Wrapper>
-      </>
+          <Button type="submit">
+            <NaverImg />
+            네이버로 시작하기
+          </Button>
+          <Button type="button" onClick={kakaoLogin}>
+            <KakaoImg />
+            카카오로 시작하기
+          </Button>
+        </ButtonContainer>
+      </Wrapper>
   );
 };
 
