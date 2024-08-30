@@ -1,10 +1,10 @@
 import settingBg from "../assets/aaa.png";
 import profile from "../assets/profile.jpg";
 import logoImage from '../assets/wagwagLogo.png';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from 'styled-components';
 
-const LogoImg = styled.img.attrs({ // 로고 이미지
+const LogoImg = styled.img.attrs({
     src: logoImage,
     alt: "",
 })`
@@ -16,12 +16,26 @@ const LogoImg = styled.img.attrs({ // 로고 이미지
 `;
 
 const Wrapper = styled.div`
+    width: 100vw;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
 `;
 
-const SettingTitle = styled.h1` // 세팅 타이틀
+const ProfileImage = styled.div`
+  position: absolute;
+  top: 21.3vw;
+  width: 8.43vw;
+  height: 8.43vw;
+  border-radius: 50%;
+  background: ${(props) => (props.image ? `url(${props.image})` : "gray")};
+  background-size: cover;
+  background-position: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const SettingTitle = styled.h1`
     font-family: 'Pretendard-Medium';
     position: absolute;
     text-align: center;
@@ -30,7 +44,7 @@ const SettingTitle = styled.h1` // 세팅 타이틀
     top: 12vw;
 `;
 
-const SettingsmallTitle = styled.h2` // 세팅 설명 타이틀
+const SettingsmallTitle = styled.h2`
     font-family: 'Pretendard-Medium';
     position: absolute;
     text-align: center;
@@ -39,8 +53,8 @@ const SettingsmallTitle = styled.h2` // 세팅 설명 타이틀
     top: 35.4vw;
 `;
 
-const ColorText = styled.span`  // 세팅 설명 타이틀 컬러변경
-    color: #57F98E; /* 와그와그 포인트컬러로 설정 */
+const ColorText = styled.span`
+    color: #57F98E;
 `;
 
 const SaveButton = styled.button`
@@ -71,7 +85,7 @@ const SaveButton = styled.button`
 const NavWrapper = styled.div`
     position: absolute;
     display: flex;
-    justify-content: space-around; /* 가로 정렬을 위한 설정 */
+    justify-content: space-around;
     align-items: center;
 `;
 
@@ -81,7 +95,6 @@ const NavItem = styled.div`
     padding: 0.1vw;
     text-align: center;
     display: flex;
-    padding: 0.1vw;
     margin: 0.5vw;
     background: ${(props) => (props.active ? '#D9D9D9' : '#474747')};
     justify-content: space-around;
@@ -89,12 +102,115 @@ const NavItem = styled.div`
     top: 50vw;
 `;
 
+const InputWrapper = styled.div`
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 31.4vw;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Input = styled.input`
+    border: 2px solid #5e5e5e;
+    width: 18.75vw;
+    height: 3.43vw;
+    border-radius: 15px;
+    color: #fff;
+    &::placeholder {
+        color: #5e5e5e;
+    }
+    outline: none;
+    background: transparent;
+    padding: 0 10px;`;
+
+
+const Message = styled.div`
+    font-size: 1vw;
+    color: white;
+    text-align: center;
+`;
+
+const HighlightText = styled.span`
+    color: ${(props) => props.color || "inherit"};
+`;
+
 const NickName = () => {
+    const [text, setText] = useState("");
+    const [message, setMessage] = useState("");
+    const [profileImage, setProfileImage] = useState(profile);
+    const fileInputRef = useRef(null);
+    const nicknames = ["example1", "example2"]; // Example nicknames array
+
+    useEffect(() => {
+        const specialCharacterRegex = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
+
+        if (!text.length) {
+            setMessage("");
+        } else if (text.length > 0 && text.length < 2) {
+            setMessage(
+                <>
+                    <HighlightText color="#FF7777">* 2 글자 이상의 </HighlightText>
+                    닉네임으로 정해주세요
+                </>
+            );
+        } else if (specialCharacterRegex.test(text)) {
+            setMessage(
+                <>
+                    <HighlightText color="#FF7777">* 특수문자</HighlightText>는
+                    제거해주세요
+                </>
+            );
+        } else if (nicknames.includes(text)) {
+            setMessage(
+                <>
+                    <HighlightText color="#FF7777">* 이미 사용 중</HighlightText>인
+                    닉네임입니다
+                </>
+            );
+        } else {
+            setMessage(
+                <>
+                    <HighlightText color="#57F98E">* 사용가능한 </HighlightText>
+                    닉네임입니다
+                </>
+            );
+        }
+    }, [text]);
+
+    const handleImageClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handlePreview = () => {
+        if (fileInputRef.current.files !== null) {
+            setProfileImage(URL.createObjectURL(fileInputRef.current.files[0]));
+        }
+    };
+
     return (
         <div>
             <LogoImg />
             <Wrapper>
                 <SettingTitle>닉네임을 설정해 주세요</SettingTitle>
+                <ProfileImage image={profileImage} onClick={handleImageClick}>
+                    <input
+                        type="file"
+                        style={{ display: "none" }}
+                        accept="image/*"
+                        onChange={handlePreview}
+                        ref={fileInputRef}
+                    />
+                </ProfileImage>
+                <InputWrapper>
+                    <Input
+                        type="text"
+                        placeholder="닉네임을 입력하세요"
+                        onChange={(e) => setText(e.target.value)}
+                    />
+                    <Message>{message}</Message>
+                </InputWrapper>
                 <SettingsmallTitle><ColorText>* 사용가능</ColorText>한 닉네임입니다</SettingsmallTitle>
                 <SaveButton>확인</SaveButton>
                 <NavWrapper>
