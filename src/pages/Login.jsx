@@ -1,14 +1,13 @@
-import settingBg from '../assets/settingBg.png';
 import logoImage from '../assets/wagwagLogo.png';
 import googleIcon from '../assets/google.png';
 import naverIcon from '../assets/naver.png';
 import kakaoIcon from '../assets/kakao.png';
 import styled from 'styled-components';
-import { useSetRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
-import { userAtoms } from '../recoil/userAtoms';
-import { useGoogleLogin } from '@react-oauth/google';
-import { useEffect } from 'react';
+import {useSetRecoilState} from 'recoil';
+import {useNavigate} from 'react-router-dom';
+import {userAtoms} from '../recoil/userAtoms';
+import {useGoogleLogin} from '@react-oauth/google';
+import {useEffect} from 'react';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,8 +17,7 @@ const Login = () => {
   const kakaoLogin = () => {
     const kakaoClient = import.meta.env.VITE_KAKAO_CLIENT_ID;
     const kakaoRedirect = import.meta.env.VITE_KAKAO_REDIRECT_URL;
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClient}&redirect_uri=${kakaoRedirect}&response_type=code`;
-    window.location.href = kakaoAuthUrl;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClient}&redirect_uri=${kakaoRedirect}&response_type=code`;
   };
 
   // Extract Kakao authorization code from the URL
