@@ -72,7 +72,7 @@ const SettingTitle = styled.p`
     text-align: center;
     color: white;
     font-size: 1.3vw;
-    top: 12vh;
+    top: 12vw;
     margin: 0;
     padding: 0;
 `;
@@ -81,9 +81,7 @@ const SettingSubTitle = styled.p`
     text-align: center;
     color: #898989;
     font-size: 1vw;
-    top: 14.6vw;
-    margin: 0;
-    padding: 0.8vw 0 0 0;
+    margin: 0.7vw 0 0 0;
 `;
 
 const NickName = styled.span`
@@ -102,7 +100,7 @@ const CategoryItem = styled.div`
     background-color: transparent;
     width: auto;
     color: ${({ selected }) => (selected ? '#57F98E' : '#898989')};
-    border: 0.2px solid ${({ selected }) => (selected ? '#57F98E' : '#898989')};
+    border: solid ${({ selected }) => (selected ? '#57F98E' : '#898989')};
     border-radius: 50vh;
     padding: 1vw 2.6vw;
     margin-bottom: 2vw;
@@ -110,11 +108,6 @@ const CategoryItem = styled.div`
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    
-    &:hover {
-        border-color: #57F98E;
-        color: #57F98E;
-    }
 `;
 
 const DoneButton = styled.button`

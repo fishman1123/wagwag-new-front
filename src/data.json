@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "date": "2024-08-29",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "오늘 제가 올린 영상 안 보시면 후회합니다!! 꿀팁 모음",
+    "view": "12만",
+    "liked": "127",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
+  },
+  {
+    "id": 2,
+    "date": "2024-08-29",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "선릉역 2번 출구 앞에 에스파 지나감!! (직접 찍음)",
+    "view": "14만",
+    "liked": "19",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
+  },
+  {
+    "id": 3,
+    "date": "2024-08-29",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "넬 - 기억을 걷는 시간 (Cover)",
+    "view": "79만",
+    "liked": "8.4만",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
+  },
+  {
+    "id": 4,
+    "date": "2024-08-28",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "우리 강아지 뚜띠 보고 월요병 이겨내세요~~!",
+    "view": "1만",
+    "liked": "777",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
+  },
+  {
+    "id": 5,
+    "date": "2024-08-28",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "뚜띠",
+    "view": "2만",
+    "liked": "37",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
+  },
+  {
+    "id": 6,
+    "date": "2024-08-28",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "뚜띠 귀여움",
+    "view": "1.5만",
+    "liked": "7천",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
+  }
+]
