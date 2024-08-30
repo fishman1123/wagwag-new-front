@@ -2,6 +2,8 @@ import logoImage from '../assets/wagwagLogo.png';
 import googleIcon from '../assets/google.png';
 import naverIcon from '../assets/naver.png';
 import kakaoIcon from '../assets/kakao.png';
+//test image
+import testaIcon from '../assets/podol.jpg';
 import styled from 'styled-components';
 import {useSetRecoilState} from 'recoil';
 import {useNavigate} from 'react-router-dom';
@@ -118,6 +120,22 @@ const Login = () => {
     },
   });
 
+  const noLogin = () => {
+    const isNewcomer = true;
+    setAuthState({
+      isAuthenticated: true,
+      user: "test",
+      accessToken: "testToken",
+      idToken: null,
+      isNewcomer: isNewcomer,
+    });
+    if (isNewcomer) {
+      navigate('/basic/nickname');
+    } else {
+      navigate('/main');
+    }
+  }
+
   // Styled components
   const Wrapper = styled.div`
     display: flex;
@@ -203,6 +221,15 @@ const Login = () => {
     left: 1.25vw;
   `;
 
+  const TestImg = styled.img.attrs({
+    src: testaIcon,
+    alt: '',
+  })`position: absolute;
+  width: 2vw;
+  height: 2vw;
+  left: 1.25vw;`;
+
+
   return (
       <Wrapper>
         <LogoImg />
@@ -220,6 +247,10 @@ const Login = () => {
           <Button type="button" onClick={kakaoLogin}>
             <KakaoImg />
             카카오로 시작하기
+          </Button>
+          <Button type="button" onClick={noLogin}>
+            <TestImg />
+            그냥 시작하기
           </Button>
         </ButtonContainer>
       </Wrapper>
