@@ -11,7 +11,7 @@ import WagMain from "./pages/WagMain.jsx";
 import UserUploadedList from "./pages/UserUploadedList.jsx";
 import UserLayout from "./components/UserLayout.jsx";
 import UserLikeList from "./pages/UserLikeList.jsx";
-import ProtectedRoute from "./components/SecuredRoute.jsx"; // Import ProtectedRoute
+import SecuredRoute from "./components/SecuredRoute.jsx"; // Import ProtectedRoute
 import LandingPage from "./pages/LandingPage.jsx";
 import LoginLayout from "./components/layout/LoginLayout.jsx"; // Import LandingPage
 
@@ -35,9 +35,9 @@ export const RouterList = () => [
     // All other routes are protected
     path: "/",
     element: (
-        // <ProtectedRoute>
+        // <SecuredRoute>
           <Layout />
-        // </ProtectedRoute>
+        // </SecuredRoute>
     ),
     children: [
       {
