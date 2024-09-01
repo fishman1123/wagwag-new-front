@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import logoImage from '../assets/wagwagLogo.png'
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const nickname = '와글와글';
 
@@ -10,6 +11,7 @@ const BasicSettingRegion = () => {
     const [selectedTown, setSelectedTown] = useState("강남구");
     const [selectedVillage, setSelectedVillage] = useState("개포동");
     const [userSelection, setUserSelection] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const initialRegion = regionData.find(region => region.region === "서울");
@@ -37,24 +39,29 @@ const BasicSettingRegion = () => {
         setSelectedVillage(village);
     };
 
+
+    const handleSaveButtonClick = () => {
+        navigate('/basic/Category');
+    };
+
     return (
         <>
             <Wrapper>
-                <LogoImg/>
+                <LogoImg />
                 <SettingTitle><NickName>{nickname}</NickName>님의 지역을 설정해주세요</SettingTitle>
                 <SettingSubTitle>* 내 지역을 기반으로 와글을 볼 수 있어요</SettingSubTitle>
                 <RegionSelect>
                     <CitySelect>
                         <AdministrativeText>시 · 도</AdministrativeText>
-                            {regionData.map((region) => (
-                                <CityItem
-                                    key={region.region}
-                                    onClick={() => handleRegionClick(region.region)}
-                                    selected={selectedRegion === region.region}
-                                >
-                                    {region.region}
-                                </CityItem>
-                            ))}
+                        {regionData.map((region) => (
+                            <CityItem
+                                key={region.region}
+                                onClick={() => handleRegionClick(region.region)}
+                                selected={selectedRegion === region.region}
+                            >
+                                {region.region}
+                            </CityItem>
+                        ))}
                     </CitySelect>
 
                     <TownSelect>
@@ -93,10 +100,10 @@ const BasicSettingRegion = () => {
                         </ItemList>
                     </VillageSelect>
                 </RegionSelect>
-                <SaveButton>다음</SaveButton>
+                <SaveButton onClick={handleSaveButtonClick}>확인</SaveButton>
                 <NavWrapper>
                     <NavItem />
-                    <NavItem />
+                    <NavItem style={{ backgroundColor: '#D9D9D9' }} />
                     <NavItem />
                 </NavWrapper>
             </Wrapper>
@@ -126,7 +133,7 @@ const Wrapper = styled.div`
 const LogoImg = styled.img.attrs({
     src: logoImage,
     alt: "",
-  })`
+})`
     top: 3.4vw;
     left: 3.6vw;
     position: absolute;
