@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import logoImage from '../assets/wagwagLogo.png';
+import { useNavigate } from 'react-router-dom';
 
 const nickname = '와글와글';
 
@@ -12,6 +13,7 @@ const categories = [
 
 const BasicSettingCategory = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const navigate = useNavigate();
 
     const toggleCategory = (category) => {
         if (selectedCategories.includes(category)) {
@@ -22,6 +24,17 @@ const BasicSettingCategory = () => {
     };
 
     const isCategorySelected = (category) => selectedCategories.includes(category);
+
+
+    const handleSaveButtonClick = () => {
+        if (
+            selectedCategories.length == 3  //3가지 이상 선택했는지 확인
+        ) {
+            navigate('/Main');  //선택했다면 메인페이지로 이동
+        } else {
+            navigate('/basic/Category');  // 그렇지 않으면 카테고리 설정 페이지에 남음
+        }
+    };
 
     return (
         <Wrapper>
@@ -39,14 +52,14 @@ const BasicSettingCategory = () => {
                     </CategoryItem>
                 ))}
             </CategoryList>
-            <DoneButton disabled={selectedCategories.length !== 3}>
+            <DoneButton onClick={handleSaveButtonClick} disabled={selectedCategories.length !== 3}>
                 완료
             </DoneButton>
             <NavWrapper>
-                    <NavItem />
-                    <NavItem />
-                    <NavItem />
-                </NavWrapper>
+                <NavItem />
+                <NavItem />
+                <NavItem style={{ backgroundColor: '#D9D9D9' }} />
+            </NavWrapper>
         </Wrapper>
     );
 }
@@ -65,7 +78,7 @@ const Wrapper = styled.div`
 const LogoImg = styled.img.attrs({
     src: logoImage,
     alt: "",
-  })`
+})`
     top: 3.4vw;
     left: 3.6vw;
     position: absolute;

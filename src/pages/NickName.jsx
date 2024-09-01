@@ -106,7 +106,7 @@ const NavItem = styled.div`
   text-align: center;
   display: flex;
   margin: 0.5vw;
-  background: ${(props) => (props.active ? "#D9D9D9" : "#474747")};
+  background: #474747;
   justify-content: space-around;
   border-radius: 5px;
   top: 50vw;
@@ -212,7 +212,7 @@ const NickName = () => {
     if (
       message.props.children[0].props.color === '#57F98E'  // 첫 번째 자식의 색상이 #57F98E(녹색)인지 확인
     ) {
-      navigate('/basic/BasicSettingRegion');  // 녹색 메시지라면 다음 페이지로 이동
+      navigate('/basic/region');  // 녹색 메시지라면 다음 페이지로 이동
     } else {
       navigate('/basic/NickName');  // 그렇지 않으면 닉네임 설정 페이지에 남음
     }
@@ -242,7 +242,7 @@ const NickName = () => {
         </InputWrapper>
         <SaveButton onClick={handleSaveButtonClick}>확인</SaveButton>
         <NavWrapper>
-          <NavItem />
+          <NavItem style={{ backgroundColor: '#D9D9D9' }} />
           <NavItem />
           <NavItem />
         </NavWrapper>
