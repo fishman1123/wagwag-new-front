@@ -1,33 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import profile from "../assets/profile.jpg";
 import markerIcon from "../assets/Icon/markerIcon.png";
 
-// 로그인한 계정 데이터
-const userProfileData = {
-    id: 1,
-    profileImg: profile,
-    nickName: "waggle",
-    email: "LGU+frontend@gmail.com",
-    region: "서대문구 대현동",
-    registerDate: "2024.08.11",
-  };
+const UserProfile = ({ userData }) => {
+    console.log(userData);
 
-const UserProfile = (props) => {
     return (
-        <>
-            <Wrapper>
-                <ProfileImage img={userProfileData.profileImg}></ProfileImage>
-                <NickName>{userProfileData.nickName}</NickName>
-                <Email>{userProfileData.email}</Email>
-                <Hr></Hr>
-                <MarkerIcon img={markerIcon}></MarkerIcon>
-                <Region>{userProfileData.region}</Region>
-                <RegisterDate>{userProfileData.registerDate}</RegisterDate>
-            </Wrapper>
-        </>
+      <Wrapper>
+        <ProfileImage img={userData.profileImg}></ProfileImage>
+        <NickName>{userData.nickName}</NickName>
+        <Email>{userData.email}</Email>
+        <Hr></Hr>
+        <MarkerIcon img={markerIcon}></MarkerIcon>
+        <Region>{userData.region}</Region>
+        <RegisterDate>{userData.registerDate}</RegisterDate>
+      </Wrapper>
     );
-}
+};
 
 export default UserProfile;
 
@@ -52,7 +41,7 @@ const ProfileImage = styled.div`
     border-radius: 50%;
     background-image: url(${(props) => props.img});
     background-position: center;
-    background-size: contain;
+    background-size: 100% 101%;
     margin-top: 3.7vw;
 `;
 

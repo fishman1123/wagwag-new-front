@@ -18,22 +18,20 @@ const formatNumber = (num) => {
     return num.toString();
 };
 
-const UserUploadWaggleListItem = (props) => {
-    const {post} = props;
-
-    return (
-        <>
-            <Wrapper>
-                <ThumbnailImage thumbnail={post.thumbnail}>
-                    <View>▷&nbsp;&nbsp;{formatNumber(post.view)}</View>
-                    <Like>♡&nbsp;&nbsp;{formatNumber(post.liked)}</Like>
-                </ThumbnailImage>
-                <TitleArea>
-                    {post.mainTitle}
-                </TitleArea>
-            </Wrapper>
-        </>
-    );
+const UserUploadWaggleListItem = ({ post }) => {
+  return (
+    <>
+      <Wrapper>
+        <ThumbnailImage img={post.img}>
+          <View>▷&nbsp;&nbsp;{formatNumber(post.views)}</View>
+          <Like>♡&nbsp;&nbsp;{formatNumber(post.likes)}</Like>
+        </ThumbnailImage>
+        <TitleArea>
+          {post.title}
+        </TitleArea>
+      </Wrapper>
+    </>
+  );
 }
 
 export default UserUploadWaggleListItem;
@@ -41,10 +39,11 @@ export default UserUploadWaggleListItem;
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-  `;
+    margin-right: 0.7vw;
+`;
 
 const ThumbnailImage = styled.div`
-    background-image: url(${(props) => props.thumbnail});
+    background-image: url(${(props) => props.img});
     background-size: 100% 101%;
     background-position: center;
     background-repeat: no-repeat;
@@ -73,7 +72,7 @@ const Like = styled.p`
 
 const TitleArea = styled.p`
     color: white;
-    width: 16vw;
+    width: 14vw;
     font-size: 1.1vw;
     margin-top: 0.65vw;
     text-overflow: ellipsis;

@@ -18,7 +18,7 @@ const formatNumber = (num) => {
     return num.toString();
 };
 
-const UserUploadWaggleListItem = (props) => {
+const UserLikeWaggleListItem = (props) => {
     const {post} = props;
 
     return (
@@ -37,13 +37,13 @@ const UserUploadWaggleListItem = (props) => {
     );
 }
 
-export default UserUploadWaggleListItem;
+export default UserLikeWaggleListItem;
 
-// style component
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-  `;
+    margin-right: 0.7vw;
+`;
 
 const ThumbnailImage = styled.div`
     background-image: url(${(props) => props.thumbnail});
@@ -53,10 +53,8 @@ const ThumbnailImage = styled.div`
     background-color: gray;
     width: 15vw;
     height: 20vw;
-    border-radius: 0.3vw;
-    display: flex;
     display: grid;
-    grid-template-rows: auto 1fr auto; /* 상단, 중간, 하단으로 구분 */
+    grid-template-rows: auto 1fr auto;
     grid-template-columns: 1fr 1fr;
     margin-top: 1.3vw;
 `;
@@ -91,7 +89,7 @@ const Like = styled.p`
 
 const TitleArea = styled.p`
     color: white;
-    width: 16vw;
+    width: 14vw;
     font-size: 1.1vw;
     margin-top: 0.65vw;
     text-overflow: ellipsis;

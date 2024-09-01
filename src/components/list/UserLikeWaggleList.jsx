@@ -13,20 +13,20 @@ const UserLikeWaggleList = (props) => {
           <MainTitle>좋아요 한 와글</MainTitle>
           <MoreButton onClick={() => {navigate('/user/Liked')}}>모두보기</MoreButton>
         </HeadWrapper>
-        <UserUploadList>
+        <UserLikeList>
           {posts.map((post) => (
             <React.Fragment key={post.id}>
               <UserLikeWaggleListItem post={post} />
             </React.Fragment>
           ))}
-        </UserUploadList>
+        </UserLikeList>
       </Wrapper>
     );
-  }
+}
+
 
 export default UserLikeWaggleList;
 
-// styled components
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,12 +43,14 @@ const MainTitle = styled.h2`
   font-size: 1.56vw;
 `;
 
-const UserUploadList = styled.div`
+const UserLikeList = styled.div`
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  width: 84vw;
+  width: 100%;
   height: 26.3vw;
+  padding: 0;
+  margin: 0;
 
   &::-webkit-scrollbar{
     display: none;
@@ -66,11 +68,10 @@ const MoreButton = styled.p`
   border: 1px solid white;
   color: #fff;
   border-radius: 2.6vw;
-  margin-right: 1vw;
+  margin-right: 2.5vw;
   cursor: pointer;
 
   &:hover {
     background: #333;
   }
 `;
-
