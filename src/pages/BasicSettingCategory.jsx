@@ -42,6 +42,11 @@ const BasicSettingCategory = () => {
             <DoneButton disabled={selectedCategories.length !== 3}>
                 완료
             </DoneButton>
+            <NavWrapper>
+                    <NavItem />
+                    <NavItem />
+                    <NavItem />
+                </NavWrapper>
         </Wrapper>
     );
 }
@@ -60,30 +65,29 @@ const Wrapper = styled.div`
 const LogoImg = styled.img.attrs({
     src: logoImage,
     alt: "",
-})`
-    position: absolute;
+  })`
     top: 3.4vw;
-    left: 3.5vw;
+    left: 3.6vw;
+    position: absolute;
     width: 9.2vw;
     height: 1.5vw;
-`;
+  `;
 
-const SettingTitle = styled.p`
+const SettingTitle = styled.h1`
+    font-family: "Pretendard-Medium";
+    position: absolute;
     text-align: center;
     color: white;
-    font-size: 1.3vw;
-    top: 12vh;
-    margin: 0;
-    padding: 0;
+    font-size: 1.35vw;
+    top: 12vw;
 `;
 
 const SettingSubTitle = styled.p`
+    position: absolute;
     text-align: center;
     color: #898989;
     font-size: 1vw;
-    top: 14.6vw;
-    margin: 0;
-    padding: 0.8vw 0 0 0;
+    top: 14.2vw;
 `;
 
 const NickName = styled.span`
@@ -91,10 +95,11 @@ const NickName = styled.span`
 `
 
 const CategoryList = styled.div`
+    position: absolute;
+    top: 22vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-top: 6vw;
     width: 25%;
 `;
 
@@ -102,7 +107,7 @@ const CategoryItem = styled.div`
     background-color: transparent;
     width: auto;
     color: ${({ selected }) => (selected ? '#57F98E' : '#898989')};
-    border: 0.2px solid ${({ selected }) => (selected ? '#57F98E' : '#898989')};
+    border: solid ${({ selected }) => (selected ? '#57F98E' : '#898989')};
     border-radius: 50vh;
     padding: 1vw 2.6vw;
     margin-bottom: 2vw;
@@ -110,30 +115,41 @@ const CategoryItem = styled.div`
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    
-    &:hover {
-        border-color: #57F98E;
-        color: #57F98E;
-    }
 `;
 
 const DoneButton = styled.button`
-    background-color: #FFF;
-    color: black;
-    border-radius: 0.7vw;
-    border: none;
-    font-size: 1vw;
-    margin-top: 6.5vh;
-    padding: 1vw 2.6vw;
+    position: absolute;
+    top: 43.4vw;
+    width: 7vw;
+    height: 3.4vw;
+    background-color: white;
+    color: #080808;
+    font-family: "Pretendard-Medium";
+    border-radius: 0.8vw;
+    border: 1px solid #787878;
+    transition: 0.5s ease;
+    text-align: center;
+    font-size: 1.14vw;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    
-    &:hover {
-        background-color: #DDD;
-    }
 
     &:disabled {
         background-color: #898989;
         cursor: default;
     }
+`;
+
+const NavWrapper = styled.div`
+    position: absolute;
+    display: flex;
+    top: 50vw;
+`;
+
+const NavItem = styled.div`
+    width: 2.4vw;
+    padding: 0.1vw;
+    display: flex;
+    margin: 0.5vw;
+    background: ${(props) => (props.active ? "#D9D9D9" : "#474747")};
+    justify-content: space-around;
+    border-radius: 5px;
 `;
