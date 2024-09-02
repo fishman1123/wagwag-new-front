@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import logoImage from '../assets/wagwagLogo.png'
 import styled from "styled-components";
@@ -144,6 +145,7 @@ const SettingTitle = styled.h1`
 `;
 
 const SettingSubTitle = styled.p`
+    font-family: "Pretendard-Medium";
     position: absolute;
     text-align: center;
     color: #898989;
@@ -164,13 +166,15 @@ const RegionSelect = styled.div`
 `;
 
 const CitySelect = styled.div`
-    flex: 5vw;
+    font-family: "Pretendard-Medium";
+    flex: 4.8vw;
     display: flex;
     flex-direction: column;
-    border-right: solid 1.5px #898989;
+    border-right: solid 1px #2B2B2B;
 `;
 
 const TownSelect = styled.div`
+    font-family: "Pretendard-Medium";
     flex: 31vw;
     display: flex;
     flex-direction: column;
@@ -179,6 +183,7 @@ const TownSelect = styled.div`
 `;
 
 const VillageSelect = styled.div`
+    font-family: "Pretendard-Medium";
     flex: 31vw;
     display: flex;
     flex-direction: column;
@@ -187,21 +192,23 @@ const VillageSelect = styled.div`
 `;
 
 const CityItem = styled.div`
+    font-family: "Pretendard-Medium";
     width: auto;
-    color: ${({ selected }) => (selected ? '#57F98E' : 'white')};
+    color: white;
     margin: 0.9vw 0;
     padding: 0;
-    font-size: 1.4vw;
-    text-align: left;
+    font-size: 1.3vw;
+    justify-self: center;
     cursor: pointer;
 `;
 
 const TownItem = styled.div`
+    font-family: "Pretendard-Medium";
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 6.8vw;
-    height: 3.2vw;
+    width: 6.82vw;
+    height: 3.22vw;
     color: ${({ selected }) => (selected ? '#57F98E' : 'white')};
     border: solid ${({ selected }) => (selected ? '#57F98E' : 'transparent')};
     border-radius: 50vh;
@@ -212,14 +219,15 @@ const TownItem = styled.div`
 `;
 
 const VillageItem = styled.div`
+    font-family: "Pretendard-Medium";
     display: flex;
     justify-content: left;
     align-items: center;
-    width: 7vw;
-    height: 1.3vw;
+    width: 7.5vw;
+    height: 3.53vw;
     color: ${({ selected }) => (selected ? '#57F98E' : 'white')};
-    margin: 0.7vw 0 0.7vw 1.8vw;
-    font-size: 1.1vw;
+    margin: 0 0 0 1.8vw;
+    font-size: 1.2vw;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 `;
@@ -231,6 +239,20 @@ const ItemList = styled.div`
     width: 100%;
     overflow-y: auto;
     max-height: 18.4vw;
+
+    &::-webkit-scrollbar {
+        width: 0.31vw;
+    }
+
+  &::-webkit-scrollbar-thumb {
+        background-color: #898989;
+        border-radius: 0.4vw;
+    }
+
+  &::-webkit-scrollbar-track {
+        background-color: #2B2B2B;
+        border-radius: 0.4vw;
+    }
 `;
 
 const AdministrativeText = styled.p`
@@ -238,6 +260,7 @@ const AdministrativeText = styled.p`
     color: #898989;
     font-size: 1vw;
     margin-bottom: 1.3vw;
+    font-family: "Pretendard-Medium";
 `;
 
 const SaveButton = styled.button`
@@ -412,4 +435,3 @@ const regionData = [
         ]
     }
 ];
-

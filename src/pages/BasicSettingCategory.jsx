@@ -100,16 +100,15 @@ const CategoryList = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 25%;
+    width: 25.3vw;
 `;
 
 const CategoryItem = styled.div`
-    background-color: transparent;
     width: auto;
     color: ${({ selected }) => (selected ? '#57F98E' : '#898989')};
     border: solid ${({ selected }) => (selected ? '#57F98E' : '#898989')};
-    border-radius: 50vh;
-    padding: 1vw 2.6vw;
+    border-radius: 50vw;
+    padding: 1vw 2.5vw;
     margin-bottom: 2vw;
     font-size: 1.1vw;
     text-align: center;
@@ -135,16 +134,19 @@ const DoneButton = styled.button`
     &:disabled {
         background-color: #898989;
         cursor: default;
+
     }
 `;
 
 const NavWrapper = styled.div`
     position: absolute;
     display: flex;
+    justify-content: space-around;
     top: 50vw;
 `;
 
 const NavItem = styled.div`
+    position: relative;
     width: 2.4vw;
     padding: 0.1vw;
     display: flex;
