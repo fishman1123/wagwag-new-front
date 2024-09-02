@@ -39,7 +39,7 @@ export default UserUploadWaggleListItem;
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    margin-right: 0.7vw;
+    margin-right: 1vw;
 `;
 
 const ThumbnailImage = styled.div`
@@ -48,8 +48,8 @@ const ThumbnailImage = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-color: gray;
-    width: 15vw;
-    height: 20vw;
+    width: 16.35vw;
+    height: 21.72vw;
     border-radius: 0.3vw;
     display: flex;
     flex-direction: column;
@@ -72,7 +72,7 @@ const Like = styled.p`
 
 const TitleArea = styled.p`
     color: white;
-    width: 14vw;
+    width: 16vw;
     font-size: 1.1vw;
     margin-top: 0.65vw;
     text-overflow: ellipsis;

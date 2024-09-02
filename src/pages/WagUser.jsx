@@ -9,7 +9,7 @@ import UserStats from "../components/UserStats";
 const WagUser = () => {
     return (
             <Wrapper>
-                <SideBar>사이드바</SideBar>
+                <Sidebar>사이드바</Sidebar>
                 <MainArea>
                     <HeadArea>
                         <UserProfile userData={userProfileData}/>
@@ -23,7 +23,6 @@ const WagUser = () => {
     )
 }
 
-
 export default WagUser;
 
 
@@ -31,24 +30,25 @@ export default WagUser;
 
 const Wrapper = styled.div`
     width: calc(100vw - 10px);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     background-color: black;
     `;
 
-const SideBar = styled.div`
+const Sidebar = styled.div`
     width: 10vw;
-    height: 62.5vw;
-    background-color: gray;
+    height: 100vh;
+    background-color: #080808;
+    border-right: 1px solid #2B2B2B;
+    position: fixed;
+    top: 0;  
+    left: 0;
     color: white;
-    font-size: 2vw;
-    `;
+`;
 
 const MainArea = styled.div`
     display: flex;
     flex-direction: column;
-    width: 84.3vw;
+    width: calc(85vw - 10px);
+    margin-left: 15vw;
 `;
 
 const HeadArea = styled.div`
@@ -58,11 +58,12 @@ const HeadArea = styled.div`
 `;
 
 const Footer = styled.div`
-    width: 100%;
-    height: 10vw;
+    width: 79.06vw;
+    height: 6.77vw;
     background-color: gray;
     color: white;
     font-size: 2vw;
+    margin-bottom: 2.87vw;
 `;
 
 
@@ -75,7 +76,7 @@ const userProfileData = {
     email: "LGU+frontend@gmail.com", // 이메일
     region: "서대문구 대현동", // 지역 정보
     registerDate: "2024-08-11", // 가입일
-    contribution: 50, // 기여도 (0~100%)
+    contribution: 60, // 기여도 (0~100%)
     posts: [
       {
         id: 101,
