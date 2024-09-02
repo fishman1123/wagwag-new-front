@@ -30,9 +30,9 @@ const BasicSettingCategory = () => {
         if (
             selectedCategories.length == 3  //3가지 이상 선택했는지 확인
         ) {
-            navigate('/Main');  //선택했다면 메인페이지로 이동
+            navigate('/main');  //선택했다면 메인페이지로 이동
         } else {
-            navigate('/basic/Category');  // 그렇지 않으면 카테고리 설정 페이지에 남음
+            navigate('/basic/category');  // 그렇지 않으면 카테고리 설정 페이지에 남음
         }
     };
 

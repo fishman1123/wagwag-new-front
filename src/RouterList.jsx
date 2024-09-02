@@ -35,9 +35,9 @@ export const RouterList = () => [
     // All other routes are protected
     path: "/",
     element: (
-        // <SecuredRoute>
-          <Layout />
-        // </SecuredRoute>
+      // <SecuredRoute>
+      <Layout />
+      // </SecuredRoute>
     ),
     children: [
       {
@@ -65,42 +65,42 @@ export const RouterList = () => [
           },
         ],
       },
+    ],
+  },
+  {
+    // Main page
+    path: "main",
+    element: <WagMain />,
+  },
+  {
+    // User page routes
+    path: "user",
+    element: <UserLayout />,
+    children: [
       {
-        // Main page
-        path: "main",
-        element: <WagMain />,
-      },
-      {
-        // User page routes
-        path: "user",
-        element: <UserLayout />,
-        children: [
-          {
-            index: true,
-            element: <WrongPath />,
-          },
-          {
-            // My Page
-            path: "main",
-            element: <WagUser />,
-          },
-          {
-            // User's uploaded videos
-            path: "uploaded",
-            element: <UserUploadedList />,
-          },
-          {
-            // User's liked videos
-            path: "liked",
-            element: <UserLikeList />,
-          },
-        ],
-      },
-      {
-        path: "*",
+        index: true,
         element: <WrongPath />,
       },
+      {
+        // My Page
+        path: "main",
+        element: <WagUser />,
+      },
+      {
+        // User's uploaded videos
+        path: "uploaded",
+        element: <UserUploadedList />,
+      },
+      {
+        // User's liked videos
+        path: "liked",
+        element: <UserLikeList />,
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <WrongPath />,
   },
 ];
 
