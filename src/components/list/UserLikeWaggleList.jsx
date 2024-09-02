@@ -30,6 +30,7 @@ export default UserLikeWaggleList;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 8.48vw;
 `;
 
 const HeadWrapper = styled.div`

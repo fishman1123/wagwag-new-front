@@ -16,7 +16,7 @@ const UserUploadWaggleList = ({ userData }) => {
       <UserUploadList>
         {posts.map((post) => (
           <React.Fragment key={post.id}>
-            <UserUploadWaggleListItem post={post} /> {/* post 전달 */}
+            <UserUploadWaggleListItem post={post} />
           </React.Fragment>
         ))}
       </UserUploadList>
@@ -29,6 +29,7 @@ export default UserUploadWaggleList;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 7.4vw;
 `;
 
 const HeadWrapper = styled.div`
