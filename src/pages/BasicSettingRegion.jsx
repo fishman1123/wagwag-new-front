@@ -41,7 +41,7 @@ const BasicSettingRegion = () => {
 
 
     const handleSaveButtonClick = () => {
-        navigate('/basic/Category');
+        navigate('/basic/category');
     };
 
     return (
