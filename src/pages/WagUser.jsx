@@ -8,7 +8,6 @@ import UserStats from "../components/UserStats";
 
 const WagUser = () => {
     return (
-        <>
             <Wrapper>
                 <SideBar>사이드바</SideBar>
                 <MainArea>
@@ -21,17 +20,17 @@ const WagUser = () => {
                     <Footer>푸터</Footer>
                 </MainArea>
             </Wrapper>
-        </>
     )
 }
 
 
 export default WagUser;
 
+
 // style components
 
 const Wrapper = styled.div`
-    width: 100vw;
+    width: calc(100vw - 10px);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -39,7 +38,7 @@ const Wrapper = styled.div`
     `;
 
 const SideBar = styled.div`
-    width: 10.4vw;
+    width: 10vw;
     height: 62.5vw;
     background-color: gray;
     color: white;
