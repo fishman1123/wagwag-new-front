@@ -10,17 +10,11 @@
 
 *::-webkit-scrollbar-track {
     background: #2b2b2b;
-    border-radius: 10px;
 }
 
 *::-webkit-scrollbar-thumb {
     background-color: #888;
     border-radius: 10px;
-    border: 3px solid transparent;
-}
-
-*::-webkit-scrollbar:hover {
-    width: 10px;
 }
 
 /* Thumb hover state */
