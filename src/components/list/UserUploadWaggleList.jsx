@@ -65,7 +65,7 @@ const MoreButton = styled.p`
   border: 1px solid white;
   color: #fff;
   border-radius: 2.6vw;
-  margin-right: 2.5vw;
+  margin-right: 5.62vw;
   cursor: pointer;
 
   &:hover {

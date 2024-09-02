@@ -72,7 +72,7 @@ export default UserStats;
 
 
 const Wrapper = styled.div`
-    margin: 11.3vw 9vw 8.2vw 10vw;
+    margin: 11.3vw 9vw 8.2vw 10.47vw;
     width: 38.3vw;
     height: 31.4vw;
     display: flex;
