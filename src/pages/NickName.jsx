@@ -3,6 +3,10 @@ import logoImage from "../assets/wagwagLogo.png";
 import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
+// import { useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+// import { userAtoms } from '../recoil/userAtoms';
+
 const LogoImg = styled.img.attrs({
   src: logoImage,
   alt: "",
@@ -102,7 +106,7 @@ const NavItem = styled.div`
   text-align: center;
   display: flex;
   margin: 0.5vw;
-  background: ${(props) => (props.active ? "#D9D9D9" : "#474747")};
+  background: #474747;
   justify-content: space-around;
   border-radius: 5px;
   top: 50vw;
@@ -154,6 +158,7 @@ const NickName = () => {
   const [profileImage, setProfileImage] = useState(profile);
   const fileInputRef = useRef(null);
   const nicknames = ["example1", "example2"]; // Example nicknames array
+  const navigate = useNavigate();
 
   useEffect(() => {
     const specialCharacterRegex =
@@ -202,6 +207,17 @@ const NickName = () => {
     }
   };
 
+  const handleSaveButtonClick = () => {
+    // "사용가능한 닉네임입니다"가 메시지에 포함되어 있는지 확인
+    if (
+      message.props.children[0].props.color === '#57F98E'  // 첫 번째 자식의 색상이 #57F98E(녹색)인지 확인
+    ) {
+      navigate('/basic/region');  // 녹색 메시지라면 다음 페이지로 이동
+    } else {
+      navigate('/basic/NickName');  // 그렇지 않으면 닉네임 설정 페이지에 남음
+    }
+  };
+
   return (
     <div>
       <LogoImg />
@@ -224,9 +240,9 @@ const NickName = () => {
           />
           <Message>{message}</Message>
         </InputWrapper>
-        <SaveButton>확인</SaveButton>
+        <SaveButton onClick={handleSaveButtonClick}>확인</SaveButton>
         <NavWrapper>
-          <NavItem />
+          <NavItem style={{ backgroundColor: '#D9D9D9' }} />
           <NavItem />
           <NavItem />
         </NavWrapper>
