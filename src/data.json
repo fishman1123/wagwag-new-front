@@ -4,8 +4,9 @@
     "date": "2024-08-29",
     "thumbnail": "/profile.jpg",
     "mainTitle": "오늘 제가 올린 영상 안 보시면 후회합니다!! 꿀팁 모음",
-    "view": "12만",
-    "liked": "127",
+    "view": 183000,
+    "liked": 134,
+    "account": "user_cool123",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
   },
   {
@@ -13,8 +14,9 @@
     "date": "2024-08-29",
     "thumbnail": "/profile.jpg",
     "mainTitle": "선릉역 2번 출구 앞에 에스파 지나감!! (직접 찍음)",
-    "view": "14만",
-    "liked": "19",
+    "view": 256000,
+    "liked": 24,
+    "account": "aespa_fan92",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
   },
   {
@@ -22,8 +24,9 @@
     "date": "2024-08-29",
     "thumbnail": "/profile.jpg",
     "mainTitle": "넬 - 기억을 걷는 시간 (Cover)",
-    "view": "79만",
-    "liked": "8.4만",
+    "view": 910000,
+    "liked": 76000,
+    "account": "musiclover_nell",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
   },
   {
@@ -31,8 +34,9 @@
     "date": "2024-08-28",
     "thumbnail": "/profile.jpg",
     "mainTitle": "우리 강아지 뚜띠 보고 월요병 이겨내세요~~!",
-    "view": "1만",
-    "liked": "777",
+    "view": 8500,
+    "liked": 540,
+    "account": "doglover_tutti",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
   },
   {
@@ -40,8 +44,9 @@
     "date": "2024-08-28",
     "thumbnail": "/profile.jpg",
     "mainTitle": "뚜띠",
-    "view": "2만",
-    "liked": "37",
+    "view": 19300,
+    "liked": 48,
+    "account": "cutepet_tutti",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
   },
   {
@@ -49,8 +54,49 @@
     "date": "2024-08-28",
     "thumbnail": "/profile.jpg",
     "mainTitle": "뚜띠 귀여움",
-    "view": "1.5만",
-    "liked": "7천",
+    "view": 14200,
+    "liked": 6800,
+    "account": "petfanatic_001",
     "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nostrum dolorum placeat aliquam similique maiores, repellendus inventore dolores labore assumenda possimus, voluptates vitae, a praesentium voluptatem? Aliquid, reiciendis. Hic, quis."
+  },
+  {
+    "id": 7,
+    "date": "2024-08-27",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "드디어 공개! 우리 집안의 비밀 레시피!",
+    "view": 62000,
+    "liked": 789,
+    "account": "chef_secret99",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum velit quibusdam tempore deserunt fugiat."
+  },
+  {
+    "id": 8,
+    "date": "2024-08-27",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "여름휴가 브이로그! 제주도 여행 함께해요",
+    "view": 375000,
+    "liked": 29500,
+    "account": "jeju_travel_vlog",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem accusantium doloremque laudantium, totam rem aperiam."
+  },
+  {
+    "id": 9,
+    "date": "2024-08-26",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "하루 만에 배우는 초간단 기타 강좌!",
+    "view": 208000,
+    "liked": 12700,
+    "account": "guitar_master",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid minima libero doloribus recusandae assumenda exercitationem."
+  },
+  {
+    "id": 10,
+    "date": "2024-08-26",
+    "thumbnail": "/profile.jpg",
+    "mainTitle": "비 오는 날 듣기 좋은 감성 피아노 연주",
+    "view": 154000,
+    "liked": 6340,
+    "account": "rainy_piano",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, eius qui aut molestias animi."
   }
 ]
