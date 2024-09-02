@@ -28,7 +28,6 @@ const Bar = styled.div`
   background-color: #2b2b2b;
   border-radius: 1vw;
   position: relative;
-  overflow: hidden;
 `;
 
 const FilledBar = styled.div`

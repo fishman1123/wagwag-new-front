@@ -49,13 +49,13 @@ const SideBar = styled.div`
 const MainArea = styled.div`
     display: flex;
     flex-direction: column;
-    width: 80vw;
+    width: 84.3vw;
 `;
 
 const HeadArea = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
 `;
 
 const Footer = styled.div`
