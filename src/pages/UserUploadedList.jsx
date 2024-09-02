@@ -28,7 +28,7 @@ const MainTitle = styled.div`
   width: calc(100vw - 12.65vw);
   color: #fff;
   font-size: 2.1vw;
-  font-width: bold;
+  font-weight: bold;
   margin: 2.65vw 3vw;
 `;
 const MainContent = styled.div`
