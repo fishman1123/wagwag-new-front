@@ -13,7 +13,10 @@ import UserLayout from "./components/UserLayout.jsx";
 import UserLikeList from "./pages/UserLikeList.jsx";
 import SecuredRoute from "./components/SecuredRoute.jsx"; // Import ProtectedRoute
 import LandingPage from "./pages/LandingPage.jsx";
-import LoginLayout from "./components/layout/LoginLayout.jsx"; // Import LandingPage
+import LoginLayout from "./components/layout/LoginLayout.jsx";
+import {Upload} from "./pages/Upload.jsx";
+import UploadLayout from "./components/layout/UploadLayout.jsx";
+import * as path from "node:path"; // Import LandingPage
 
 export const RouterList = () => [
   {
@@ -95,6 +98,17 @@ export const RouterList = () => [
         // User's liked videos
         path: "liked",
         element: <UserLikeList />,
+      },
+      {
+        // User's liked videos
+        element: <UploadLayout />,
+        children: [
+            {
+              path: "dev",
+              element: <Upload />
+        },
+
+        ]
       },
     ],
   },
