@@ -4,7 +4,7 @@ import logoImage from '../assets/wagwagLogo.png'
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 
-const nickname = '와글와글';
+const nickname = 'waggle';
 
 const BasicSettingRegion = () => {
 
@@ -49,8 +49,8 @@ const BasicSettingRegion = () => {
         <>
             <Wrapper>
                 <LogoImg />
-                <SettingTitle><NickName>{nickname}</NickName>님의 지역을 설정해주세요</SettingTitle>
-                <SettingSubTitle>* 내 지역을 기반으로 와글을 볼 수 있어요</SettingSubTitle>
+                <SettingTitle>{nickname}님의 지역을 설정해주세요</SettingTitle>
+                <SettingSubTitle><ColorText>* 내 지역</ColorText>을 기반으로 와글을 볼 수 있어요</SettingSubTitle>
                 <RegionSelect>
                     <CitySelect>
                         <AdministrativeText>시 · 도</AdministrativeText>
@@ -160,7 +160,7 @@ const SettingSubTitle = styled.p`
     top: 14.2vw;
 `;
 
-const NickName = styled.span`
+const ColorText = styled.span`
     color: #57F98E;
 `
 
