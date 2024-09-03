@@ -17,7 +17,10 @@ export const newComerAtoms = atom({
     key: 'newOneState',
     default: {
         userNickName: null,
-        userRegion: null,
+        userProfileImage: null,
+        userRegion: [
+
+        ],
         userCategory: [],
     },
 });
