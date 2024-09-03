@@ -94,7 +94,7 @@ const ProfileImage = styled.div`
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    margin-top: 46vw;
+    bottom: 3.95vw;
     width: 2.91vw;
     height: 2.91vw;
     border-radius: 50%;
@@ -111,7 +111,7 @@ const UserName = styled.h1`
     font-size: 0.93vw;
     position: absolute;
     width: 10vw;
-    margin-top: 48vw;
+    bottom: 3.95vw;
     text-align: center;
     color: white;
 `
