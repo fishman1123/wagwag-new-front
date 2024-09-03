@@ -5,7 +5,8 @@ import styled from "styled-components";
 
 // import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-// import { userAtoms } from '../recoil/userAtoms';
+import { useRecoilState } from 'recoil';
+import { newComerAtoms } from '../recoil/userAtoms';
 
 const LogoImg = styled.img.attrs({
   src: logoImage,
@@ -155,44 +156,65 @@ const HighlightText = styled.span`
 const NickName = () => {
   const [text, setText] = useState("");
   const [message, setMessage] = useState("");
-  const [profileImage, setProfileImage] = useState(profile);
+  const [newComerState, setNewComerState] = useRecoilState(newComerAtoms); // 리코일 선언
+  const [profileImage, setProfileImage] = useState(newComerState.userProfileImage); // 이미지만의 리코링 상태관리
   const fileInputRef = useRef(null);
   const nicknames = ["example1", "example2"]; // Example nicknames array
   const navigate = useNavigate();
 
   useEffect(() => {
+    // 소셜이미지 로드
+    const loadProfileImage = async () => {
+      const socialImage = profile; // 이부분에서 이미지 로드 필요
+
+      if (socialImage) {
+        setProfileImage(socialImage);
+        setNewComerState((prevState) => ({
+          ...prevState,
+          userProfileImage: socialImage,
+        }));
+      }
+    };
+
+    // 이미지 할당 될때까지 로드
+    if (!newComerState.userProfileImage) {
+      loadProfileImage();
+    }
+  }, [newComerState.userProfileImage, setNewComerState]);
+
+  useEffect(() => {
     const specialCharacterRegex =
-      /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
+        /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
 
     if (!text.length) {
       setMessage("");
     } else if (text.length > 0 && text.length < 2) {
       setMessage(
-        <>
-          <HighlightText color="#FF7777">* 2 글자 이상의 </HighlightText>
-          닉네임으로 정해주세요
-        </>
+          <>
+            <HighlightText color="#FF7777">* 2 글자 이상의 </HighlightText>
+            닉네임으로 정해주세요
+          </>
       );
     } else if (specialCharacterRegex.test(text)) {
       setMessage(
-        <>
-          <HighlightText color="#FF7777">* 특수문자</HighlightText>는
-          제거해주세요
-        </>
+          <>
+            <HighlightText color="#FF7777">* 특수문자</HighlightText>는
+            제거해주세요
+          </>
       );
     } else if (nicknames.includes(text)) {
       setMessage(
-        <>
-          <HighlightText color="#FF7777">* 이미 사용 중</HighlightText>인
-          닉네임입니다
-        </>
+          <>
+            <HighlightText color="#FF7777">* 이미 사용 중</HighlightText>인
+            닉네임입니다
+          </>
       );
     } else {
       setMessage(
-        <>
-          <HighlightText color="#57F98E">* 사용가능한 </HighlightText>
-          닉네임입니다
-        </>
+          <>
+            <HighlightText color="#57F98E">* 사용가능한 </HighlightText>
+            닉네임입니다
+          </>
       );
     }
   }, [text]);
@@ -203,51 +225,60 @@ const NickName = () => {
 
   const handlePreview = () => {
     if (fileInputRef.current.files !== null) {
-      setProfileImage(URL.createObjectURL(fileInputRef.current.files[0]));
+      const newImage = URL.createObjectURL(fileInputRef.current.files[0]);
+      setProfileImage(newImage);
+      setNewComerState((prevState) => ({
+        ...prevState,
+        userProfileImage: newImage,
+      }));
     }
   };
 
   const handleSaveButtonClick = () => {
     // "사용가능한 닉네임입니다"가 메시지에 포함되어 있는지 확인
     if (
-      message.props.children[0].props.color === '#57F98E'  // 첫 번째 자식의 색상이 #57F98E(녹색)인지 확인
+        message.props.children[0].props.color === '#57F98E'
     ) {
-      navigate('/basic/region');  // 녹색 메시지라면 다음 페이지로 이동
+      setNewComerState((prevState) => ({
+        ...prevState,
+        userNickName: text,
+      }));
+      navigate('/basic/region');
     } else {
-      navigate('/basic/NickName');  // 그렇지 않으면 닉네임 설정 페이지에 남음
+      navigate('/basic/NickName');
     }
   };
 
   return (
-    <div>
-      <LogoImg />
-      <Wrapper>
-        <SettingTitle>닉네임을 설정해 주세요</SettingTitle>
-        <ProfileImage image={profileImage} onClick={handleImageClick}>
-          <input
-            type="file"
-            style={{ display: "none" }}
-            accept="image/*"
-            onChange={handlePreview}
-            ref={fileInputRef}
-          />
-        </ProfileImage>
-        <InputWrapper>
-          <Input
-            type="text"
-            placeholder="닉네임을 입력하세요"
-            onChange={(e) => setText(e.target.value)}
-          />
-          <Message>{message}</Message>
-        </InputWrapper>
-        <SaveButton onClick={handleSaveButtonClick}>확인</SaveButton>
-        <NavWrapper>
-          <NavItem style={{ backgroundColor: '#D9D9D9' }} />
-          <NavItem />
-          <NavItem />
-        </NavWrapper>
-      </Wrapper>
-    </div>
+      <div>
+        <LogoImg />
+        <Wrapper>
+          <SettingTitle>닉네임을 설정해 주세요</SettingTitle>
+          <ProfileImage image={profileImage} onClick={handleImageClick}>
+            <input
+                type="file"
+                style={{ display: "none" }}
+                accept="image/*"
+                onChange={handlePreview}
+                ref={fileInputRef}
+            />
+          </ProfileImage>
+          <InputWrapper>
+            <Input
+                type="text"
+                placeholder="닉네임을 입력하세요"
+                onChange={(e) => setText(e.target.value)}
+            />
+            <Message>{message}</Message>
+          </InputWrapper>
+          <SaveButton onClick={handleSaveButtonClick}>확인</SaveButton>
+          <NavWrapper>
+            <NavItem style={{ backgroundColor: '#D9D9D9' }} />
+            <NavItem />
+            <NavItem />
+          </NavWrapper>
+        </Wrapper>
+      </div>
   );
 };
 
