@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import logoImage from '../assets/wagwagLogo.png';
 import { useNavigate } from 'react-router-dom';
 
-const nickname = '와글와글';
+const nickname = 'waggle';
 
 const categories = [
     '뷰티', '운동', '노래',
@@ -39,8 +39,8 @@ const BasicSettingCategory = () => {
     return (
         <Wrapper>
             <LogoImg />
-            <SettingTitle><NickName>{nickname}</NickName>님이 관심있는 주제를 알려주세요</SettingTitle>
-            <SettingSubTitle>* 내 취향에 맞는 와글을 더 편리하게 볼 수 있어요</SettingSubTitle>
+            <SettingTitle>{nickname}님이 관심있는 주제를 알려주세요</SettingTitle>
+            <SettingSubTitle><ColorText>*</ColorText> 내 취향에 맞는 와글을 더 편리하게 볼 수 있어요</SettingSubTitle>
             <CategoryList>
                 {categories.map((category, index) => (
                     <CategoryItem
@@ -103,7 +103,7 @@ const SettingSubTitle = styled.p`
     top: 14.2vw;
 `;
 
-const NickName = styled.span`
+const ColorText = styled.span`
     color: #57F98E;
 `
 
