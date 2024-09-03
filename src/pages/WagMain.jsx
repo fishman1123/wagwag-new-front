@@ -8,6 +8,8 @@ import SettingIcon from "../assets/SettingIcon.png";
 import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import {useRecoilState} from "recoil";
+import {newComerAtoms} from "../recoil/userAtoms.jsx";
 
 const LogoImg = styled.img.attrs({
     src: logoImage,
@@ -193,6 +195,8 @@ const HorizontalLine = styled.hr`
 `;
 
 export const WagMain = () => {
+    const [newComerState, setNewComerState] = useRecoilState(newComerAtoms);
+    console.log("this is what we have", newComerState);
     return (
         <>
             <BackGroundColor>
