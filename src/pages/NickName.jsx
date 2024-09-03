@@ -2,6 +2,8 @@ import profile from "../assets/profile.jpg";
 import logoImage from "../assets/wagwagLogo.png";
 import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+
+// import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { newComerAtoms } from '../recoil/userAtoms';
@@ -37,14 +39,6 @@ const ProfileImage = styled.div`
   }
 `;
 
-const SettingTitle = styled.h1`
-  font-family: "Pretendard-Medium";
-  position: absolute;
-  text-align: center;
-  color: white;
-  font-size: 1.35vw;
-  top: 12vw;
-`;
 const SettingsmallTitle = styled.h2`
     font-family: 'Pretendard-Medium';
     position: absolute;
@@ -64,6 +58,15 @@ const ColorText = styled.span`
  top: 12vw;
  `;
 
+
+const SettingTitle = styled.h1`
+  font-family: "Pretendard-Medium";
+  position: absolute;
+  text-align: center;
+  color: white;
+  font-size: 1.35vw;
+  top: 12vw;
+`;
 
 const SaveButton = styled.button`
   width: 7vw;
@@ -232,6 +235,7 @@ const NickName = () => {
   };
 
   const handleSaveButtonClick = () => {
+    // "사용가능한 닉네임입니다"가 메시지에 포함되어 있는지 확인
     if (
         message.props.children[0].props.color === '#57F98E'
     ) {
