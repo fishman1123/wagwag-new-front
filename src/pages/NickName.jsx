@@ -214,7 +214,7 @@ const NickName = () => {
     ) {
       navigate('/basic/region');  // 녹색 메시지라면 다음 페이지로 이동
     } else {
-      navigate('/basic/NickName');  // 그렇지 않으면 닉네임 설정 페이지에 남음
+      navigate('/basic/nickName');  // 그렇지 않으면 닉네임 설정 페이지에 남음
     }
   };
 
