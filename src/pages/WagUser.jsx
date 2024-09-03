@@ -60,10 +60,9 @@ const HeadArea = styled.div`
 const Footer = styled.div`
     width: 79.06vw;
     height: 6.77vw;
-    background-color: gray;
     color: white;
-    font-size: 2vw;
     margin-bottom: 2.87vw;
+    border-top: solid 1px #2B2B2B;
 `;
 
 
