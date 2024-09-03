@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import logoImage from '../assets/wagwagLogo.png';
 import { useNavigate } from 'react-router-dom';
+import {useRecoilState} from "recoil";
+import {newComerAtoms} from "../recoil/userAtoms.jsx";
 
 const nickname = 'waggle';
 
@@ -14,6 +16,10 @@ const categories = [
 const BasicSettingCategory = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const navigate = useNavigate();
+    const [newComerState, setNewComerState] = useRecoilState(newComerAtoms);
+    console.log("this is what we have", newComerState);
+
+
 
     const toggleCategory = (category) => {
         if (selectedCategories.includes(category)) {

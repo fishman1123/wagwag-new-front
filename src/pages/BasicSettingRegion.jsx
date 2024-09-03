@@ -3,16 +3,17 @@ import { useState, useEffect } from "react";
 import logoImage from '../assets/wagwagLogo.png'
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import {useRecoilState} from "recoil";
+import {newComerAtoms} from "../recoil/userAtoms.jsx";
 
-const nickname = 'waggle';
 
 const BasicSettingRegion = () => {
-
     const [selectedRegion, setSelectedRegion] = useState("서울");
     const [selectedTown, setSelectedTown] = useState("강남구");
     const [selectedVillage, setSelectedVillage] = useState("개포동");
-    const [userSelection, setUserSelection] = useState([]);
     const navigate = useNavigate();
+    const [newComerState, setNewComerState] = useRecoilState(newComerAtoms);
+    const nickname = newComerState.userNickName;
 
     useEffect(() => {
         const initialRegion = regionData.find(region => region.region === "서울");
@@ -25,6 +26,12 @@ const BasicSettingRegion = () => {
         const firstTown = regionData.find(item => item.region === region).city[0].town;
         setSelectedTown(firstTown);
         setSelectedVillage(null);
+
+
+        setNewComerState((prevState) => ({
+            ...prevState,
+            userRegion: [{ city: region, town: firstTown, village: null }],
+        }));
     };
 
     const handleTownClick = (town) => {
@@ -33,13 +40,23 @@ const BasicSettingRegion = () => {
             .find((region) => region.region === selectedRegion)
             .city.find((city) => city.town === town).village[0];
         setSelectedVillage(firstVillage);
-        setUserSelection((prevSelection) => [...prevSelection, { region: selectedRegion, town }]);
+
+
+        setNewComerState((prevState) => ({
+            ...prevState,
+            userRegion: [{ city: selectedRegion, town, village: firstVillage }],
+        }));
     };
 
     const handleVillageClick = (village) => {
         setSelectedVillage(village);
-    };
 
+
+        setNewComerState((prevState) => ({
+            ...prevState,
+            userRegion: [{ city: selectedRegion, town: selectedTown, village }],
+        }));
+    };
 
     const handleSaveButtonClick = () => {
         navigate('/basic/category');
