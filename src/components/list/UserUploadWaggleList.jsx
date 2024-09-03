@@ -7,6 +7,8 @@ const UserUploadWaggleList = ({ userData }) => {
   const navigate = useNavigate();
   const posts = userData.posts;
 
+  const limitedPosts = posts.slice(0, 10);
+
   return (
     <Wrapper>
       <HeadWrapper>
@@ -14,7 +16,7 @@ const UserUploadWaggleList = ({ userData }) => {
         <MoreButton onClick={() => { navigate('/user/uploaded') }}>모두보기</MoreButton>
       </HeadWrapper>
       <UserUploadList>
-        {posts.map((post) => (
+        {limitedPosts.map((post) => (
           <React.Fragment key={post.id}>
             <UserUploadWaggleListItem post={post} />
           </React.Fragment>
