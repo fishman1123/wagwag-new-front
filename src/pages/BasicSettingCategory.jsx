@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import {useRecoilState} from "recoil";
 import {newComerAtoms} from "../recoil/userAtoms.jsx";
 
-const nickname = 'waggle';
 
 const categories = [
     '뷰티', '운동', '노래',
@@ -18,6 +17,7 @@ const BasicSettingCategory = () => {
     const navigate = useNavigate();
     const [newComerState, setNewComerState] = useRecoilState(newComerAtoms);
     console.log("this is what we have", newComerState);
+    const nickname = newComerState.userNickName;
 
 
 
@@ -33,14 +33,17 @@ const BasicSettingCategory = () => {
 
 
     const handleSaveButtonClick = () => {
-        if (
-            selectedCategories.length == 3  //3가지 이상 선택했는지 확인
-        ) {
-            navigate('/main');  //선택했다면 메인페이지로 이동
+        if (selectedCategories.length === 3) {
+            setNewComerState((prevState) => ({
+                ...prevState,
+                userCategory: selectedCategories,
+            }));
+            navigate('/main');
         } else {
-            navigate('/basic/category');  // 그렇지 않으면 카테고리 설정 페이지에 남음
+            navigate('/basic/category');
         }
     };
+
 
     return (
         <Wrapper>
