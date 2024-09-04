@@ -9,11 +9,34 @@ const Wrapper = styled.div`
     justify-content: center;
 `;
 
+const UploadWrap = styled.div`
+    position: absolute;
+    top: 11.6vw;
+    left: 24.8vw;
+`
+
+const Uploadtitle = styled.div`
+    color: white;
+`
+const UploadContent = styled.div`
+    position: absolute;
+    color: white;
+    
+`
+
 export const Upload = () => {
     return (
         <>
             <Wrapper>
-                <h1 style={{color: "white"}}>hello</h1>
+                <UploadWrap>
+                    <Uploadtitle>
+                        <h1>hello</h1>
+                    </Uploadtitle>
+                    <UploadContent>
+                        <h1>hello?</h1>
+                    </UploadContent>
+
+                </UploadWrap>
             </Wrapper>
         </>
     )
