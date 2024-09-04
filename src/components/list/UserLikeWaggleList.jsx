@@ -7,6 +7,8 @@ const UserLikeWaggleList = (props) => {
     const { posts } = props;
     const navigate = useNavigate();
   
+    const limitedPosts = posts.slice(0, 10);
+
     return (
       <Wrapper>
         <HeadWrapper>
@@ -14,7 +16,7 @@ const UserLikeWaggleList = (props) => {
           <MoreButton onClick={() => {navigate('/user/Liked')}}>모두보기</MoreButton>
         </HeadWrapper>
         <UserLikeList>
-          {posts.map((post) => (
+          {limitedPosts.map((post) => (
             <React.Fragment key={post.id}>
               <UserLikeWaggleListItem post={post} />
             </React.Fragment>
@@ -30,7 +32,7 @@ export default UserLikeWaggleList;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 8.48vw;
+  margin-bottom: 17.9vw;
 `;
 
 const HeadWrapper = styled.div`

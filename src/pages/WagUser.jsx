@@ -5,11 +5,13 @@ import UserUploadWaggleList from "../components/list/UserUploadWaggleList";
 import UserLikeWaggleList from "../components/list/UserLikeWaggleList";
 import UserProfile from "../components/UserProfile";
 import UserStats from "../components/UserStats";
+import {SideBarComponent} from "../styles/SideBar";
+import { FooterComponent } from "../styles/Footer";
 
 const WagUser = () => {
     return (
             <Wrapper>
-                <Sidebar>사이드바</Sidebar>
+                <SideBarComponent></SideBarComponent>
                 <MainArea>
                     <HeadArea>
                         <UserProfile userData={userProfileData}/>
@@ -17,7 +19,9 @@ const WagUser = () => {
                     </HeadArea>
                     <UserUploadWaggleList userData={userProfileData}></UserUploadWaggleList>
                     <UserLikeWaggleList posts={data}></UserLikeWaggleList>
-                    <Footer>푸터</Footer>
+                    <FooterWrapper>
+                      <FooterComponent>푸터</FooterComponent>
+                    </FooterWrapper>
                 </MainArea>
             </Wrapper>
     )
@@ -31,17 +35,7 @@ export default WagUser;
 const Wrapper = styled.div`
     width: calc(100vw - 10px);
     background-color: black;
-    `;
-
-const Sidebar = styled.div`
-    width: 10vw;
-    height: 100vh;
-    background-color: #080808;
-    border-right: 1px solid #2B2B2B;
-    position: fixed;
-    top: 0;  
-    left: 0;
-    color: white;
+    position: relative;
 `;
 
 const MainArea = styled.div`
@@ -57,12 +51,8 @@ const HeadArea = styled.div`
     justify-content: flex-start;
 `;
 
-const Footer = styled.div`
-    width: 79.06vw;
-    height: 6.77vw;
-    color: white;
-    margin-bottom: 2.87vw;
-    border-top: solid 1px #2B2B2B;
+const FooterWrapper = styled.div`
+    width: calc(85vw - 10px);
 `;
 
 
