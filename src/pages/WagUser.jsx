@@ -19,9 +19,7 @@ const WagUser = () => {
                     </HeadArea>
                     <UserUploadWaggleList userData={userProfileData}></UserUploadWaggleList>
                     <UserLikeWaggleList posts={data}></UserLikeWaggleList>
-                    <FooterWrapper>
-                      <FooterComponent>푸터</FooterComponent>
-                    </FooterWrapper>
+                    <FooterComponent>푸터</FooterComponent>
                 </MainArea>
             </Wrapper>
     )
@@ -51,9 +49,6 @@ const HeadArea = styled.div`
     justify-content: flex-start;
 `;
 
-const FooterWrapper = styled.div`
-    width: calc(85vw - 10px);
-`;
 
 
 /////////////////user dummy data///////////////////
