@@ -14,6 +14,7 @@ import UserLikeList from "./pages/UserLikeList.jsx";
 import SecuredRoute from "./components/SecuredRoute.jsx"; // Import ProtectedRoute
 import LandingPage from "./pages/LandingPage.jsx";
 import LoginLayout from "./components/layout/LoginLayout.jsx"; // Import LandingPage
+import Detail from "./pages/Detail.jsx";
 
 export const RouterList = () => [
   {
@@ -95,6 +96,11 @@ export const RouterList = () => [
         // User's liked videos
         path: "liked",
         element: <UserLikeList />,
+      },
+      {
+        // User's liked videos
+        path: "detail",
+        element: <Detail />,
       },
     ],
   },
