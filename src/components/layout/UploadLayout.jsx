@@ -16,7 +16,7 @@ import {FooterComponent} from "../../styles/Footer.jsx";
 
 
 
-const LoginLayout = () => {
+const UploadLayout = () => {
 
     const SettingBackImages = styled.div` //네이버로고
         width: 100vw;
@@ -37,11 +37,9 @@ const LoginLayout = () => {
     return (
         <SettingBackImages>
             <SideBarComponent />
-
             <Outlet />
-
         </SettingBackImages>
     )
 }
 
-export default LoginLayout;
+export default UploadLayout;
