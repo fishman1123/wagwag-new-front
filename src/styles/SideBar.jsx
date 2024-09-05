@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import profile from "../assets/profile.jpg";
 import logoImage from "../assets/wagwagLogo.png";
 import UploadIcon from "../assets/UploadIcon.png";
@@ -8,6 +9,7 @@ import MapIcon from "../assets/MapIcon.png";
 import SearchIcon from "../assets/SearchIcon.png";
 import SettingIcon from "../assets/SettingIcon.png";
 
+// Styled components
 
 const LogoImg = styled.img.attrs({
     src: logoImage,
@@ -18,21 +20,28 @@ const LogoImg = styled.img.attrs({
     position: absolute;
     width: 7.7vw;
     height: 1.3vw;
-    `;
+`;
 
+const IconButton = styled.button`
+    background: none;
+    border: none;
+    padding: 0;
+    position: absolute;
+    top: 11.3vw;
+    left: 4.3vw;
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+// Updated UploadIconImg (wrapped inside a button for navigation)
 const UploadIconImg = styled.img.attrs({
     src: UploadIcon,
     alt: "",
 })`
-    top: 11.3vw;
-    left: 4.3vw;
-    position: absolute;
     width: 1.77vw;
     height: 1.77vw;
-        &:hover {
-        cursor: pointer;
-    }
-    `;
+`;
 
 const HomeIconImg = styled.img.attrs({
     src: HomeIcon,
@@ -43,10 +52,10 @@ const HomeIconImg = styled.img.attrs({
     position: absolute;
     width: 1.87vw;
     height: 1.7vw;
-        &:hover {
+    &:hover {
         cursor: pointer;
     }
-    `;
+`;
 
 const MapIconImg = styled.img.attrs({
     src: MapIcon,
@@ -57,10 +66,10 @@ const MapIconImg = styled.img.attrs({
     position: absolute;
     width: 1.77vw;
     height: 1.92vw;
-        &:hover {
+    &:hover {
         cursor: pointer;
     }
-    `;
+`;
 
 const SearchIconImg = styled.img.attrs({
     src: SearchIcon,
@@ -71,10 +80,10 @@ const SearchIconImg = styled.img.attrs({
     position: absolute;
     width: 1.77vw;
     height: 1.77vw;
-        &:hover {
+    &:hover {
         cursor: pointer;
     }
-    `;
+`;
 
 const SettingIconImg = styled.img.attrs({
     src: SettingIcon,
@@ -85,10 +94,10 @@ const SettingIconImg = styled.img.attrs({
     position: absolute;
     width: 1.87vw;
     height: 1.82vw;
-        &:hover {
+    &:hover {
         cursor: pointer;
     }
-    `;
+`;
 
 const ProfileImage = styled.div`
     position: absolute;
@@ -114,7 +123,7 @@ const UserName = styled.h1`
     bottom: 3.95vw;
     text-align: center;
     color: white;
-`
+`;
 
 const Sidebar = styled.div`
     position: relative;
@@ -127,12 +136,20 @@ const Sidebar = styled.div`
     left: 0;
 `;
 
-
 export const SideBarComponent = () => {
+    const navigate = useNavigate(); // useNavigate hook for navigation
+
+    const handleUploadClick = () => {
+        navigate("/user/dev"); // Navigate to the upload route
+    };
+
     return (
         <Sidebar>
             <LogoImg />
-            <UploadIconImg />
+            {/* Button for UploadIcon */}
+            <IconButton onClick={handleUploadClick}>
+                <UploadIconImg />
+            </IconButton>
             <HomeIconImg />
             <MapIconImg />
             <SearchIconImg />
