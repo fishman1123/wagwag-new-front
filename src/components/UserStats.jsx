@@ -9,21 +9,21 @@ import eyeIcon from "../assets/Icon/EyeIcon.png";
 // view, like 표기 형식 설정
 const formatNumber = (num) => {
     const roundNumber = (value) => {
-      const rounded = (Math.round(value * 10) / 10).toFixed(1);
-      return rounded.endsWith('.0') ? rounded.slice(0, -2) : rounded;
+        const rounded = (Math.round(value * 10) / 10).toFixed(1);
+        return rounded.endsWith('.0') ? rounded.slice(0, -2) : rounded;
     };
 
     if (num >= 1000000000) {
-      return `${roundNumber(num / 1000000000)}B`;
+        return `${roundNumber(num / 1000000000)}B`;
     } else if (num >= 1000000) {
-      return `${roundNumber(num / 1000000)}M`;
+        return `${roundNumber(num / 1000000)}M`;
     } else if (num >= 1000) {
-      return `${roundNumber(num / 1000)}K`;
+        return `${roundNumber(num / 1000)}K`;
     }
     return num.toString();
 };
 
-const UserStats = ({userData}) => {
+const UserStats = ({ userData }) => {
     const totalPosts = userData.posts.length;
     const totalLikes = userData.posts.reduce((acc, post) => acc + post.likes, 0);
     const totalViews = userData.posts.reduce((acc, post) => acc + post.views, 0);
@@ -32,11 +32,11 @@ const UserStats = ({userData}) => {
         <Wrapper>
             <Title>▶&nbsp;나의 지역 순위 기여도
                 <InfoIcon>
-                    <img src={infoIcon}/>
+                    <img src={infoIcon} />
                     <Tooltip>
-                            <p style={{fontSize: "1.2vw", fontWeight: "bold"}}>지역 순위 기여도란?</p><br />
-                            <p style={{fontSize: "0.9vw"}}>내 지역의 순위에 내가 다른 사람들에 비해 얼마나 많은 영향력을 끼쳤는지 보여줍니다.</p>
-                            <p style={{fontSize: "0.9vw"}}>기여도는 내가 업로드한 와글에 대한 좋아요 수와 조회수에 의해 계산됩니다.</p>
+                        <p style={{ fontSize: "1.2vw", fontWeight: "bold" }}>지역 순위 기여도란?</p><br />
+                        <p style={{ fontSize: "0.9vw" }}>내 지역의 순위에 내가 다른 사람들에 비해 얼마나 많은 영향력을 끼쳤는지 보여줍니다.</p>
+                        <p style={{ fontSize: "0.9vw" }}>기여도는 내가 업로드한 와글에 대한 좋아요 수와 조회수에 의해 계산됩니다.</p>
                     </Tooltip>
                 </InfoIcon>
             </Title>
@@ -45,21 +45,22 @@ const UserStats = ({userData}) => {
                 <UserUpload>
                     <SubTitle>내 와글</SubTitle>
                     <UploadCount>
-                        <img src={cameraIcon}/>
-                        {formatNumber(totalPosts)}
+                        {/* <img src={cameraIcon} />
+                        {formatNumber(totalPosts)} */}
+                        <CameraIconImg />
                     </UploadCount>
                 </UserUpload>
                 <UserLike>
                     <SubTitle>내가 받은 좋아요</SubTitle>
                     <LikeCount>
-                        <img src={heartIcon}/>
+                        <img src={heartIcon} />
                         {formatNumber(totalLikes)}
                     </LikeCount>
                 </UserLike>
                 <UserView>
                     <SubTitle>조회수</SubTitle>
                     <ViewCount>
-                        <img src={eyeIcon}/>
+                        <img src={eyeIcon} />
                         {formatNumber(totalViews)}
                     </ViewCount>
                 </UserView>
@@ -69,6 +70,15 @@ const UserStats = ({userData}) => {
 }
 
 export default UserStats;
+
+
+const CameraIconImg = styled.img.attrs({
+    src: cameraIcon,
+    alt: "",
+})`
+    width: 1.71vw;
+    height: 1.71vw;
+    `;
 
 
 const Wrapper = styled.div`
