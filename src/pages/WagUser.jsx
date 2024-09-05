@@ -5,11 +5,13 @@ import UserUploadWaggleList from "../components/list/UserUploadWaggleList";
 import UserLikeWaggleList from "../components/list/UserLikeWaggleList";
 import UserProfile from "../components/UserProfile";
 import UserStats from "../components/UserStats";
+import {SideBarComponent} from "../styles/SideBar";
+import { FooterComponent } from "../styles/Footer";
 
 const WagUser = () => {
     return (
             <Wrapper>
-                <SideBar>사이드바</SideBar>
+                <SideBarComponent></SideBarComponent>
                 <MainArea>
                     <HeadArea>
                         <UserProfile userData={userProfileData}/>
@@ -17,12 +19,11 @@ const WagUser = () => {
                     </HeadArea>
                     <UserUploadWaggleList userData={userProfileData}></UserUploadWaggleList>
                     <UserLikeWaggleList posts={data}></UserLikeWaggleList>
-                    <Footer>푸터</Footer>
+                    <FooterComponent>푸터</FooterComponent>
                 </MainArea>
             </Wrapper>
     )
 }
-
 
 export default WagUser;
 
@@ -31,24 +32,16 @@ export default WagUser;
 
 const Wrapper = styled.div`
     width: calc(100vw - 10px);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     background-color: black;
-    `;
-
-const SideBar = styled.div`
-    width: 10vw;
-    height: 62.5vw;
-    background-color: gray;
-    color: white;
-    font-size: 2vw;
-    `;
+    position: relative;
+    font-family: "Pretendard-Medium";
+`;
 
 const MainArea = styled.div`
     display: flex;
     flex-direction: column;
-    width: 84.3vw;
+    width: calc(85vw - 10px);
+    margin-left: 15vw;
 `;
 
 const HeadArea = styled.div`
@@ -57,13 +50,6 @@ const HeadArea = styled.div`
     justify-content: flex-start;
 `;
 
-const Footer = styled.div`
-    width: 100%;
-    height: 10vw;
-    background-color: gray;
-    color: white;
-    font-size: 2vw;
-`;
 
 
 /////////////////user dummy data///////////////////
@@ -75,7 +61,7 @@ const userProfileData = {
     email: "LGU+frontend@gmail.com", // 이메일
     region: "서대문구 대현동", // 지역 정보
     registerDate: "2024-08-11", // 가입일
-    contribution: 50, // 기여도 (0~100%)
+    contribution: 60, // 기여도 (0~100%)
     posts: [
       {
         id: 101,

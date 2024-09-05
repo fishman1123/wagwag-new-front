@@ -45,9 +45,8 @@ const UserStats = ({ userData }) => {
                 <UserUpload>
                     <SubTitle>내 와글</SubTitle>
                     <UploadCount>
-                        {/* <img src={cameraIcon} />
-                        {formatNumber(totalPosts)} */}
-                        <CameraIconImg />
+                        <img src={cameraIcon} />
+                        {formatNumber(totalPosts)}
                     </UploadCount>
                 </UserUpload>
                 <UserLike>
@@ -70,15 +69,6 @@ const UserStats = ({ userData }) => {
 }
 
 export default UserStats;
-
-
-const CameraIconImg = styled.img.attrs({
-    src: cameraIcon,
-    alt: "",
-})`
-    width: 1.71vw;
-    height: 1.71vw;
-    `;
 
 
 const Wrapper = styled.div`
