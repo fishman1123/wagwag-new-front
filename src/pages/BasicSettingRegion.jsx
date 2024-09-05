@@ -146,6 +146,7 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     height: 100vh;
+    font-family: "Pretendard-Medium";
 `;
 
 const LogoImg = styled.img.attrs({
@@ -160,7 +161,6 @@ const LogoImg = styled.img.attrs({
   `;
 
 const SettingTitle = styled.h1`
-    font-family: "Pretendard-Medium";
     position: absolute;
     text-align: center;
     color: white;
@@ -169,7 +169,6 @@ const SettingTitle = styled.h1`
 `;
 
 const SettingSubTitle = styled.p`
-    font-family: "Pretendard-Medium";
     position: absolute;
     text-align: center;
     color: #898989;
@@ -190,7 +189,6 @@ const RegionSelect = styled.div`
 `;
 
 const CitySelect = styled.div`
-    font-family: "Pretendard-Medium";
     flex: 4.8vw;
     display: flex;
     flex-direction: column;
@@ -198,7 +196,6 @@ const CitySelect = styled.div`
 `;
 
 const TownSelect = styled.div`
-    font-family: "Pretendard-Medium";
     flex: 31vw;
     display: flex;
     flex-direction: column;
@@ -207,7 +204,6 @@ const TownSelect = styled.div`
 `;
 
 const VillageSelect = styled.div`
-    font-family: "Pretendard-Medium";
     flex: 31vw;
     display: flex;
     flex-direction: column;
@@ -216,7 +212,6 @@ const VillageSelect = styled.div`
 `;
 
 const CityItem = styled.div`
-    font-family: "Pretendard-Medium";
     width: auto;
     color: white;
     margin: 0.9vw 0;
@@ -227,7 +222,6 @@ const CityItem = styled.div`
 `;
 
 const TownItem = styled.div`
-    font-family: "Pretendard-Medium";
     display: flex;
     align-items: center;
     justify-content: center;
@@ -243,7 +237,6 @@ const TownItem = styled.div`
 `;
 
 const VillageItem = styled.div`
-    font-family: "Pretendard-Medium";
     display: flex;
     justify-content: left;
     align-items: center;
@@ -284,7 +277,6 @@ const AdministrativeText = styled.p`
     color: #898989;
     font-size: 1vw;
     margin-bottom: 1.3vw;
-    font-family: "Pretendard-Medium";
 `;
 
 const SaveButton = styled.button`
@@ -294,7 +286,6 @@ const SaveButton = styled.button`
   height: 3.4vw;
   background-color: rgba(255, 255, 255, 0.8);
   color: #080808;
-  font-family: "Pretendard-Medium";
   border-radius: 0.8vw;
   border: 1px solid #787878;
   transition: 0.5s ease;

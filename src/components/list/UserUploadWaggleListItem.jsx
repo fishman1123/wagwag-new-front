@@ -47,7 +47,7 @@ const ThumbnailImage = styled.div`
     background-size: 100% 101%;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: gray;
+    background-color: #222222;
     width: 16.35vw;
     height: 21.72vw;
     border-radius: 0.3vw;

@@ -68,7 +68,7 @@ const MoreButton = styled.p`
   width: 6.5vw;
   height: 2.8vw;
   background: transparent;
-  border: 1px solid white;
+  border: 1px solid #898989;
   color: #fff;
   border-radius: 2.6vw;
   margin-right: 5.62vw;

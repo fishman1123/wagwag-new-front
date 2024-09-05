@@ -5,7 +5,7 @@ import infoIcon from "../assets/Icon/InfoIcon.png";
 import cameraIcon from "../assets/Icon/CameraIcon.png";
 import heartIcon from "../assets/Icon/HeartIcon.png";
 import eyeIcon from "../assets/Icon/EyeIcon.png";
-import triangleIcom from "../assets/Icon/Triangle.png"
+import triangleIcon from "../assets/Icon/Triangle.png"
 
 // view, like 표기 형식 설정
 const formatNumber = (num) => {
@@ -31,36 +31,36 @@ const UserStats = ({userData}) => {
 
     return (
         <Wrapper>
-            <Title><img src={triangleIcom} style={{width: "0.8vw", height: "0.8vw", position: "relative", bottom: "3px"}}></img>&nbsp;나의 지역 순위 기여도
-                <InfoIcon>
-                    <img src={infoIcon}/>
+            <Title><TriangleIcon />&nbsp;나의 지역 순위 기여도
+                <Info>
+                    <InfoIcon />
                     <Tooltip>
                             <p style={{fontSize: "1.2vw", fontWeight: "bold"}}>지역 순위 기여도란?</p><br />
                             <p style={{fontSize: "0.9vw"}}>내 지역의 순위에 내가 다른 사람들에 비해 얼마나 많은 영향력을 끼쳤는지 보여줍니다.</p>
                             <p style={{fontSize: "0.9vw"}}>기여도는 내가 업로드한 와글에 대한 좋아요 수와 조회수에 의해 계산됩니다.</p>
                     </Tooltip>
-                </InfoIcon>
+                </Info>
             </Title>
             <ContributeBar contribution={userData.contribution}></ContributeBar>
             <UserActivitySummaryContainer>
                 <UserUpload>
                     <SubTitle>내 와글</SubTitle>
                     <UploadCount>
-                        <Icon><img src={cameraIcon}/></Icon>
+                        <CameraIcon />
                         {formatNumber(totalPosts)}
                     </UploadCount>
                 </UserUpload>
                 <UserLike>
                     <SubTitle>받은 좋아요</SubTitle>
                     <LikeCount>
-                        <Icon><img src={heartIcon}/></Icon>
+                        <HeartIcon />
                         {formatNumber(totalLikes)}
                     </LikeCount>
                 </UserLike>
                 <UserView>
                     <SubTitle>총 조회수</SubTitle>
                     <ViewCount>
-                        <Icon><img src={eyeIcon}/></Icon>
+                        <EyeIcon />
                         {formatNumber(totalViews)}
                     </ViewCount>
                 </UserView>
@@ -87,7 +87,17 @@ const Title = styled.div`
     margin-bottom: 3.7vw;
 `;
 
-const InfoIcon = styled.div`
+const TriangleIcon = styled.div`
+    display: inline-block;
+    width: 0.8vw;
+    height: 0.8vw;
+    background: url(${triangleIcon}) no-repeat center;
+    background-size: contain;
+    position: relative;
+    bottom: 0.2vw;
+`;
+
+const Info = styled.div`
   position: relative;
   display: inline-block;
   width: 1.1vw;
@@ -103,6 +113,13 @@ const InfoIcon = styled.div`
     visibility: visible;
     opacity: 1;
   }
+`;
+
+const InfoIcon = styled.div`
+    width: 1vw;
+    height: 1vw;
+    background: url(${infoIcon}) no-repeat center;
+    background-size: contain;
 `;
 
 const Tooltip = styled.div`
@@ -162,7 +179,7 @@ const UploadCount = styled.div`
     background-color: #222222;
     border-radius: 1vw;
     color: white;
-    font-size: 1.5vw;
+    font-size: 1.4vw;
 `;
 
 const UserLike = styled.div`
@@ -183,7 +200,7 @@ const LikeCount = styled.div`
     background-color: #222222;
     border-radius: 1vw;
     color: white;
-    font-size: 1.5vw;
+    font-size: 1.4vw;
 `;
 
 const UserView = styled.div`
@@ -204,14 +221,26 @@ const ViewCount = styled.div`
     background-color: #222222;
     border-radius: 1vw;
     color: white;
-    font-size: 1.5vw;
+    font-size: 1.4vw;
 `;
 
-const Icon = styled.div`
-    height: 1.72vw;
+const CameraIcon = styled.div`
+    width: 1.7vw;
+    height: 1.7vw;
+    background: url(${cameraIcon}) no-repeat center;
+    background-size: contain;
+`;
 
-    img {
-        width: 100%;
-        object-fit: contain;
-    }
+const HeartIcon = styled.div`
+    width: 1.7vw;
+    height: 1.7vw;
+    background: url(${heartIcon}) no-repeat center;
+    background-size: contain;
+`;
+
+const EyeIcon = styled.div`
+    width: 2.2vw;
+    height: 1.7vw;
+    background: url(${eyeIcon}) no-repeat center;
+    background-size: contain;
 `;

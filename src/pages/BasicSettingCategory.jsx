@@ -82,6 +82,7 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     height: 100vh;
+    font-family: "Pretendard-Medium";
 `;
 
 const LogoImg = styled.img.attrs({
@@ -96,7 +97,6 @@ const LogoImg = styled.img.attrs({
   `;
 
 const SettingTitle = styled.h1`
-    font-family: "Pretendard-Medium";
     position: absolute;
     text-align: center;
     color: white;
@@ -145,7 +145,6 @@ const DoneButton = styled.button`
     height: 3.4vw;
     background-color: white;
     color: #080808;
-    font-family: "Pretendard-Medium";
     border-radius: 0.8vw;
     border: 1px solid #787878;
     transition: 0.5s ease;
