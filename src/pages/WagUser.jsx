@@ -34,6 +34,7 @@ const Wrapper = styled.div`
     width: calc(100vw - 10px);
     background-color: black;
     position: relative;
+    font-family: "Pretendard-Medium";
 `;
 
 const MainArea = styled.div`

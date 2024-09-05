@@ -5,6 +5,7 @@ import infoIcon from "../assets/Icon/InfoIcon.png";
 import cameraIcon from "../assets/Icon/CameraIcon.png";
 import heartIcon from "../assets/Icon/HeartIcon.png";
 import eyeIcon from "../assets/Icon/EyeIcon.png";
+import triangleIcom from "../assets/Icon/Triangle.png"
 
 // view, like 표기 형식 설정
 const formatNumber = (num) => {
@@ -30,7 +31,7 @@ const UserStats = ({userData}) => {
 
     return (
         <Wrapper>
-            <Title>▶&nbsp;나의 지역 순위 기여도
+            <Title><img src={triangleIcom} style={{width: "0.8vw", height: "0.8vw", position: "relative", bottom: "3px"}}></img>&nbsp;나의 지역 순위 기여도
                 <InfoIcon>
                     <img src={infoIcon}/>
                     <Tooltip>
@@ -50,14 +51,14 @@ const UserStats = ({userData}) => {
                     </UploadCount>
                 </UserUpload>
                 <UserLike>
-                    <SubTitle>내가 받은 좋아요</SubTitle>
+                    <SubTitle>받은 좋아요</SubTitle>
                     <LikeCount>
                         <Icon><img src={heartIcon}/></Icon>
                         {formatNumber(totalLikes)}
                     </LikeCount>
                 </UserLike>
                 <UserView>
-                    <SubTitle>조회수</SubTitle>
+                    <SubTitle>총 조회수</SubTitle>
                     <ViewCount>
                         <Icon><img src={eyeIcon}/></Icon>
                         {formatNumber(totalViews)}
@@ -156,8 +157,8 @@ const UploadCount = styled.div`
     align-items: center;
     row-gap: 1vw;
     padding-top: 1.2vw;
-    width: 9.3vw;
-    height: 8.2vw;
+    width: 9.37vw;
+    height: 7vw;
     background-color: #222222;
     border-radius: 1vw;
     color: white;
@@ -177,8 +178,8 @@ const LikeCount = styled.div`
     align-items: center;
     row-gap: 1vw;
     padding-top: 1.2vw;
-    width: 9.3vw;
-    height: 8.2vw;
+    width: 9.37vw;
+    height: 7vw;
     background-color: #222222;
     border-radius: 1vw;
     color: white;
@@ -198,8 +199,8 @@ const ViewCount = styled.div`
     align-items: center;
     row-gap: 1vw;
     padding-top: 1.2vw;
-    width: 9.3vw;
-    height: 8.2vw;
+    width: 9.37vw;
+    height: 7vw;
     background-color: #222222;
     border-radius: 1vw;
     color: white;
