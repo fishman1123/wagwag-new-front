@@ -150,7 +150,7 @@ const Title = styled.div`
 function Detail() {
   const [like, setLike] = useState(0);
   const [share, setShare] = useState(0);
-  const [isShared, setIsShared] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const dummyData = data[0];
   useEffect(() => {
     setLike(dummyData.liked);
@@ -158,15 +158,15 @@ function Detail() {
   }, []);
 
   const handleLikeCount = () => {
-    setLike(like + 1);
-  };
-  const handleShareCount = () => {
-    if (isShared) {
-      // 이미 공유한 경우 return
+    if (isLiked) {
+      // 이미 좋아요 누른 경우 return
       return;
     }
+    setLike(like + 1);
+    setIsLiked(true);
+  };
+  const handleShareCount = () => {
     setShare(share + 1);
-    setIsShared(true);
   };
 
   return (
