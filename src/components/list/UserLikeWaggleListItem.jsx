@@ -42,7 +42,7 @@ export default UserLikeWaggleListItem;
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    margin-right: 0.7vw;
+    margin-right: 1vw;
 `;
 
 const ThumbnailImage = styled.div`
@@ -51,8 +51,8 @@ const ThumbnailImage = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-color: gray;
-    width: 15vw;
-    height: 20vw;
+    width: 16.35vw;
+    height: 21.72vw;
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 1fr 1fr;
@@ -89,7 +89,7 @@ const Like = styled.p`
 
 const TitleArea = styled.p`
     color: white;
-    width: 14vw;
+    width: 16vw;
     font-size: 1.1vw;
     margin-top: 0.65vw;
     text-overflow: ellipsis;
