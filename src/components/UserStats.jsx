@@ -45,21 +45,21 @@ const UserStats = ({userData}) => {
                 <UserUpload>
                     <SubTitle>내 와글</SubTitle>
                     <UploadCount>
-                        <img src={cameraIcon}/>
+                        <Icon><img src={cameraIcon}/></Icon>
                         {formatNumber(totalPosts)}
                     </UploadCount>
                 </UserUpload>
                 <UserLike>
                     <SubTitle>내가 받은 좋아요</SubTitle>
                     <LikeCount>
-                        <img src={heartIcon}/>
+                        <Icon><img src={heartIcon}/></Icon>
                         {formatNumber(totalLikes)}
                     </LikeCount>
                 </UserLike>
                 <UserView>
                     <SubTitle>조회수</SubTitle>
                     <ViewCount>
-                        <img src={eyeIcon}/>
+                        <Icon><img src={eyeIcon}/></Icon>
                         {formatNumber(totalViews)}
                     </ViewCount>
                 </UserView>
@@ -204,4 +204,13 @@ const ViewCount = styled.div`
     border-radius: 1vw;
     color: white;
     font-size: 1.5vw;
+`;
+
+const Icon = styled.div`
+    height: 1.72vw;
+
+    img {
+        width: 100%;
+        object-fit: contain;
+    }
 `;
