@@ -77,6 +77,8 @@ export default BasicSettingCategory;
 
 // Styled components
 const Wrapper = styled.div`
+    font-family: "Pretendard-Medium";
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -117,6 +119,7 @@ const ColorText = styled.span`
 `
 
 const CategoryList = styled.div`
+    
     position: absolute;
     top: 22vw;
     display: flex;

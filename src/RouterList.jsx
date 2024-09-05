@@ -17,7 +17,6 @@ import LoginLayout from "./components/layout/LoginLayout.jsx";
 import {Upload} from "./pages/Upload.jsx";
 import UploadLayout from "./components/layout/UploadLayout.jsx";
 import * as path from "node:path"; // Import LandingPage
-import LoginLayout from "./components/layout/LoginLayout.jsx"; // Import LandingPage
 import Detail from "./pages/Detail.jsx";
 
 export const RouterList = () => [
