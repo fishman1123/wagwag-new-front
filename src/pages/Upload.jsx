@@ -18,13 +18,15 @@ const UploadWrap = styled.div`
 
 const UploadPageTitle = styled.div`
     color: white;
+    font-size: 1.25vw;
+    margin-bottom: 0.83vw;
 `;
 
 const UploadPreviewContent = styled.div`
     color: white;
     width: 16.35vw;
     height: 21.7vw;
-    background-color: blue;
+    background-color: #222222;
     border-radius: 15px;
 `;
 
@@ -88,10 +90,9 @@ const UploadTitleInput = styled.div`
     }
 `;
 
-// Styled component that accepts the `isOverLimit` prop
 const TitleCountCheck = styled.div`
     width: 4.9vw;
-    color: ${(props) => (props.isOverLimit ? '#FF7777' : '#5E5E5E')};  // Use the prop for conditional styling
+    color: ${(props) => (props.isOverLimit ? '#FF7777' : '#5E5E5E')};
     text-align: end;
     font-size: 0.93vw;
     padding-bottom: 0.47vw;
@@ -114,12 +115,13 @@ const UploadDescriptionInput = styled.div`
 
     textarea {
         color: #fff;
+        margin-right: 0.8vw;
         background: transparent;
         border: none;
         outline: none;
         width: 100%;
         height: 100%;
-        padding: 1.44vw 1.9vw 1.2vw 1.9vw;
+        padding: 1.44vw 1vw 1.2vw 1.9vw;
         font-size: 1.14vw;
         resize: none;
         overflow-y: auto;
@@ -129,12 +131,26 @@ const UploadDescriptionInput = styled.div`
             color: #5e5e5e;
             font-size: 1.14vw;
         }
+        &::-webkit-scrollbar {
+            width: 0.31vw;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: #898989;
+            border-radius: 0.4vw;
+        }
+
+        &::-webkit-scrollbar-track {
+            background-color: #2B2B2B;
+            border-radius: 0.4vw;
+            margin-top: 1vw;
+            margin-bottom: 1vw;
+        }
     }
 `;
 
-// Styled component that accepts the `isOverLimit` prop
 const UserTypedTitle = styled.span`
-    color: ${(props) => (props.isOverLimit ? '#FF7777' : 'white')};  // Use the prop for conditional styling
+    color: ${(props) => (props.isOverLimit ? '#FF7777' : 'white')};
 `;
 
 const TextCheck = ({ currentText, maxValue }) => {
@@ -149,11 +165,11 @@ const TextCheck = ({ currentText, maxValue }) => {
 
 const RevealButton = styled.div`
     margin-top: 1.35vw;
-    width: 9.06vw;
+    width: 8.33vw;
     height: 3.12vw;
 
     button {
-        padding-left: 1.51vw;
+        padding: 0.98vw 1vw 0.98vw 1.51vw;
         display: flex;
         align-items: center;
         color: white;
@@ -167,31 +183,54 @@ const RevealButton = styled.div`
     }
 `;
 
-// Main Upload Component
+const FileNameTag = styled.div`
+    color: #787878;
+    font-size: 1.04vw;
+    margin-left: 0.52vw;
+    padding-right: 1.04vw;
+    border-right: 1.5px solid #2B2B2B;
+`
+const FileName = styled.div`
+    color: white;
+    font-size: 1.04vw;
+    margin-left: 0.93vw;
+`
+
+const FileNameContainer = styled.div`
+    display: flex;
+    margin-top: 2.24vw;
+    height: 1.25vw;
+    max-width: 13.17;
+
+`
+const testFileName = "케인사과영상.MOV";
+
 export const Upload = () => {
     const [titleText, setTitleText] = useState('');
     const [descriptionText, setDescriptionText] = useState('');
     const maxTitleLength = 40;
     const maxDescriptionLength = 180;
 
-    const StatusIcon = () => {
-        return (
-            <div>
-                <img src={UnlockIcon} alt="Unlock Icon" width="10" height="10" />
-            </div>
-        );
+    const [isPublic, setIsPublic] = useState(true);
+
+    const togglePublicStatus = () => {
+        setIsPublic(prevState => !prevState);
     };
 
     return (
         <>
             <Wrapper>
                 <UploadWrap>
-                    <UploadPageTitle><h1>hello</h1></UploadPageTitle>
+                    <UploadPageTitle>와글 썸네일</UploadPageTitle>
                     <UploadContent>
                         <UploadImageContainer>
                             <UploadPreviewContent>
-                                <h1>hello?</h1>
+                                <h1>여기다 기능구현</h1>
                             </UploadPreviewContent>
+                            <FileNameContainer>
+                                <FileNameTag>파일이름</FileNameTag>
+                                <FileName>{testFileName}</FileName>
+                            </FileNameContainer>
                         </UploadImageContainer>
 
                         <UploadDescription>
@@ -227,7 +266,24 @@ export const Upload = () => {
                                 />
                             </UploadDescriptionInput>
                             <RevealButton>
-                                <button><StatusIcon />전체공개</button>
+                                <button
+                                    onClick={togglePublicStatus}
+                                    // style={{ justifyContent: isPublic ? 'flex-start' : 'center' }}
+                                >
+                                    <div style={{ marginRight: '0.5vw' }}>
+                                        {isPublic ? (
+                                            <img src={UnlockIcon} alt="Unlock Icon" style={{ width: '0.68vw', height: '0.94vw' }} />
+                                        ) : (
+                                            <img src={LockIcon} alt="Lock Icon" style={{ width: '0.68vw', height: '0.94vw' }} />
+                                        )}
+                                    </div>
+                                    <div style={{
+                                        justifyContent: isPublic ? 'flex-start' : 'center',
+                                        marginLeft: isPublic ? '0' : '0.36vw',
+                                    }}>
+                                        {isPublic ? '전체공개' : '비공개'}
+                                    </div>
+                                </button>
                             </RevealButton>
                         </UploadDescription>
                     </UploadContent>
