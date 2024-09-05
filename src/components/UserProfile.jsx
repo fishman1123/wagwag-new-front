@@ -13,7 +13,7 @@ const UserProfile = ({ userData }) => {
         <Hr></Hr>
         <MarkerIcon img={markerIcon}></MarkerIcon>
         <Region>{userData.region}</Region>
-        <RegisterDate>{userData.registerDate}</RegisterDate>
+        <RegisterDate>가입 : {userData.registerDate}</RegisterDate>
       </Wrapper>
     );
 };
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
     margin-bottom: 8.2vw;
     width: 21.7vw;
     height: 31.4vw;
-    border: 1.5px #898989 solid;
+    border: 1.5px #5E5E5E solid;
     border-radius: 1.2vw;
     display: flex;
     flex-direction: column;
