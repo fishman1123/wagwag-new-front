@@ -19,6 +19,7 @@ import HotIcon from "../assets/TopBarIcon/Hot.png";
 import StarIcon from "../assets/TopBarIcon/Star.png";
 
 const BackGroundColor = styled.div`
+    font-family: 'Pretendard-Medium';
     position: relative;
     background-color: #080808;
     width: 90vw;
@@ -29,6 +30,7 @@ const Topbar = styled.div`
     top: 2.9vw;
     display: flex;
     position: absolute;
+    /* position: fixed; */
     width: 79.16vw;
     height: 4.16vw;
     border: 1.5px solid rgba(87, 249, 142, 0.3);
@@ -53,77 +55,75 @@ const VideoIconImg = styled.img.attrs({
     src: VideoIcon,
     alt: "",
 })`
-    /* left: 20.47vw; */
-    position: absolute;
     width: 1.09vw;
     height: 1.09vw;
-    top:50%;
-    transform: translateY(-50%);
     `;
 
 const RankingIconImg = styled.img.attrs({
     src: RankingIcon,
     alt: "",
 })`
-    /* left: 35.37vw; */
-    position: absolute;
     width: 0.62vw;
     height: 0.78vw;
-    top:50%;
-    transform: translateY(-50%);
     `;
 
 const HotIconImg = styled.img.attrs({
     src: HotIcon,
     alt: "",
 })`
-    /* left: 47.71vw; */
-    position: absolute;
     width: 0.62vw;
     height: 0.88vw;
-    top:50%;
-    transform: translateY(-50%);
     `;
 
 const StarIconImg = styled.img.attrs({
     src: StarIcon,
     alt: "",
 })`
-    /* margin-right: 0.46vw; */
-    /* left: 62.97vw; */
-    position: absolute;
     width: 0.93vw;
     height: 0.93vw;
     `;
 
 const LocationText = styled.h1`
-    margin-right: 15.26vw;
-    transform: translateY(-50%);
-    top:50%;
+    font-family: 'Pretendard-Medium';
+    margin-left: 4.32vw;
     display: flex;
     align-items: center;
-    left: 4.32vw;
-    position: absolute;
     font-size: 1.14vw;
     color: white;
-    text-align: center;
-    justify-content: center;
 `
-
+const Line = styled.div`
+    width: 0.1vw;
+    height: 1.04vw;
+    background-color: #525252;
+    margin-left: 0.98vw;
+    margin-right: 2.7vw;
+`
 const LocationText2 = styled.h2`
-    position: absolute;
+    font-family: 'Pretendard-Medium';
     font-size: 0.93vw;
     color: white;
-    text-align: center;
-    justify-content: center;
-    margin-left: 1.51vw;
-`
-const IconTextContainer = styled.div`
-    top:50%;
-    display: flex;
-    align-items: center;
-    margin-left: 15.26vw;
+    margin-left: 0.42vw;
+    margin-right: 0.52vw;
 `;
+
+const LocationText3 = styled.h3`
+    font-family: 'Pretendard-Medium';
+    font-size: 1.25vw;
+    color: #57F98E;
+`;
+
+const LocationText4 = styled.h3`
+    font-family: 'Pretendard-Medium';
+    font-size: ${({ isBig }) => (isBig ? '1.04vw' : '0.93vw;')};
+    color: ${({ isBig }) => (isBig ? '#57F98E' : '#57F98E')};
+`;
+
+const IconTextContainer = styled.div`
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+    margin-right: 2.55vw;
+`;
+
 
 const CategoryContainer = styled.div`
     display: flex;
@@ -136,7 +136,7 @@ const CategoryButton = styled.button`
     font-size: 0.98vw;
     position: relative;
     margin-right: 0.83vw;
-    width: ${({ isWide }) => (isWide ? '10vw' : '7.34vw')};
+    width: ${({ isWide }) => (isWide ? '11.74vw' : '7.34vw')};
     height: 3.22vw;
     border: 1px solid #5E5E5E;
     background-color: #080808;
@@ -149,7 +149,46 @@ const CategoryButton = styled.button`
     background-color: white;
 }
 `
+const Waggle = styled.div`
+    width: 16.35vw;
+    height: 21.71vw;
+    margin-right: 1.04vw;
+    border-radius: 1vw;
+    background-color: #222222;
+`
+const WaggleComponent = styled.div`
+    position: absolute;
+    left: 5.2vw;
+    top: 14.42vw;
+    display: flex;
+`
 
+const WaggleTitle = styled.h3`
+    font-family: 'Pretendard-Regular';
+    font-size: 1.56vw;
+    top: 11.3vw;
+    left: 5.2vw;
+    position: absolute;
+    color: white;
+`
+const WaggleView = styled.h4`
+    font-family: 'Pretendard-Regular';
+    font-size: 0.93vw;
+    /* position: absolute; */
+    margin-right: 1.19vw;
+    color: #A7A7A7;
+`
+const WaggleNickName = styled.h4`
+    font-family: 'Pretendard-Regular';
+    font-size: 0.93vw;
+    color: #A7A7A7;
+`
+const WaggleLike = styled.h4`
+    font-family: 'Pretendard-Regular';
+    font-size: 0.93vw;
+    /* position: absolute; */
+    color: #A7A7A7;
+`
 
 export const WagMain = () => {
     const [newComerState, setNewComerState] = useRecoilState(newComerAtoms);
@@ -158,21 +197,33 @@ export const WagMain = () => {
         <>
             <BackGroundColor>
                 <Topbar>
-                    <LocationIconImg></LocationIconImg> <LocationText>서대문구 대현동</LocationText>
+                    <LocationIconImg></LocationIconImg> <LocationText>서대문구 대현동<Line /></LocationText>
                     <IconTextContainer>
-                        <VideoIconImg /> <LocationText2>오늘 올라온 영상 갯수</LocationText2>
+                        <VideoIconImg /> <LocationText2>오늘 올라온 영상 갯수</LocationText2><LocationText3>43</LocationText3>
                     </IconTextContainer>
                     <IconTextContainer>
-                        <RankingIconImg /> <LocationText2>우리동네 와글 순위</LocationText2>
+                        <RankingIconImg /> <LocationText2>우리동네 와글 순위</LocationText2><LocationText3>2위</LocationText3>
                     </IconTextContainer>
                     <IconTextContainer>
-                        <HotIconImg /> <LocationText2>우리동네 핫한 키워드</LocationText2>
+                        <HotIconImg /> <LocationText2>우리동네 핫한 키워드</LocationText2><LocationText4 isBig>#버스킹</LocationText4>
                     </IconTextContainer>
                     <IconTextContainer>
-                        <StarIconImg /> <LocationText2>인기 와글</LocationText2>
+                        <StarIconImg /> <LocationText2>인기 와글</LocationText2><LocationText4>4. 이대 앞 휘낭시에 여기가 대박임</LocationText4>
                     </IconTextContainer>
                 </Topbar>
                 <SideBarComponent />
+                <WaggleTitle>서대문구 대현동 인기 와글</WaggleTitle>
+                <WaggleComponent>
+                    <Waggle>
+                        <WaggleView>23.9K</WaggleView>
+                        <WaggleNickName>SONNN</WaggleNickName>
+                        <WaggleLike>12.6KK</WaggleLike>
+                    </Waggle>
+                    <Waggle></Waggle>
+                    <Waggle></Waggle>
+                    <Waggle></Waggle>
+                    <Waggle></Waggle>
+                </WaggleComponent>
                 <CategoryContainer>
                     <CategoryButton>전체</CategoryButton>
                     <CategoryButton>운동</CategoryButton>
