@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import UnlockIcon from '../assets/svg/unlock.svg';
 import LockIcon from '../assets/svg/lock.svg';
+import {CommonButton} from "../components/SettingCommonStyle.jsx";
 
 const Wrapper = styled.div`
     width: 100vw;
@@ -11,6 +12,8 @@ const Wrapper = styled.div`
 `;
 
 const UploadWrap = styled.div`
+    
+    
     position: absolute;
     top: 11.6vw;
     left: 24.8vw;
@@ -287,6 +290,7 @@ export const Upload = () => {
                             </RevealButton>
                         </UploadDescription>
                     </UploadContent>
+                    <CommonButton type="button"></CommonButton>
                 </UploadWrap>
             </Wrapper>
         </>
