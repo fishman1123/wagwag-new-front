@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import UnlockIcon from '../assets/svg/unlock.svg';
 import LockIcon from '../assets/svg/lock.svg';
-import {CommonButton} from "../components/SettingCommonStyle.jsx";
 
 const Wrapper = styled.div`
     width: 100vw;
@@ -12,8 +11,6 @@ const Wrapper = styled.div`
 `;
 
 const UploadWrap = styled.div`
-    
-    
     position: absolute;
     top: 11.6vw;
     left: 24.8vw;
@@ -31,6 +28,11 @@ const UploadPreviewContent = styled.div`
     height: 21.7vw;
     background-color: #222222;
     border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1vw;
 `;
 
 const UploadContent = styled.div`
@@ -38,9 +40,7 @@ const UploadContent = styled.div`
     display: flex;
 `;
 
-const UploadImageContainer = styled.div`
-    //position: absolute;
-`;
+const UploadImageContainer = styled.div``;
 
 const UploadDescription = styled.div`
     color: white;
@@ -204,13 +204,35 @@ const FileNameContainer = styled.div`
     margin-top: 2.24vw;
     height: 1.25vw;
     max-width: 13.17;
-
 `
-const testFileName = "케인사과영상.MOV";
+
+const SaveButton = styled.button`
+    margin-top: 30vw;
+    margin-left: 53.8vw;
+    width: 7vw;
+    height: 3.4vw;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #080808;
+    font-family: "Pretendard-Medium";
+    border-radius: 0.8vw;
+    border: 1px solid #787878;
+    transition: 0.5s ease;
+    text-align: center;
+    font-size: 1.14vw;
+    cursor: pointer;
+
+    &:hover {
+        border: 1px solid white;
+        color: #080808;
+        background-color: white;
+        transition: 0.5s ease;
+    }
+`;
 
 export const Upload = () => {
     const [titleText, setTitleText] = useState('');
     const [descriptionText, setDescriptionText] = useState('');
+    const [fileName, setFileName] = useState('');
     const maxTitleLength = 40;
     const maxDescriptionLength = 180;
 
@@ -220,6 +242,13 @@ export const Upload = () => {
         setIsPublic(prevState => !prevState);
     };
 
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setFileName(file.name);
+        }
+    };
+
     return (
         <>
             <Wrapper>
@@ -227,12 +256,19 @@ export const Upload = () => {
                     <UploadPageTitle>와글 썸네일</UploadPageTitle>
                     <UploadContent>
                         <UploadImageContainer>
-                            <UploadPreviewContent>
-                                <h1>여기다 기능구현</h1>
+                            <UploadPreviewContent onClick={() => document.getElementById('fileInput').click()}>
+                                {fileName ? '업로드 완료' : '비디오를 업로드 하세요'}
+                                <input
+                                    id="fileInput"
+                                    type="file"
+                                    accept="video/*"
+                                    style={{ display: 'none' }}
+                                    onChange={handleFileUpload}
+                                />
                             </UploadPreviewContent>
                             <FileNameContainer>
                                 <FileNameTag>파일이름</FileNameTag>
-                                <FileName>{testFileName}</FileName>
+                                <FileName>{fileName || '파일이 없습니다'}</FileName>
                             </FileNameContainer>
                         </UploadImageContainer>
 
@@ -271,7 +307,6 @@ export const Upload = () => {
                             <RevealButton>
                                 <button
                                     onClick={togglePublicStatus}
-                                    // style={{ justifyContent: isPublic ? 'flex-start' : 'center' }}
                                 >
                                     <div style={{ marginRight: '0.5vw' }}>
                                         {isPublic ? (
@@ -290,7 +325,7 @@ export const Upload = () => {
                             </RevealButton>
                         </UploadDescription>
                     </UploadContent>
-                    <CommonButton type="button"></CommonButton>
+                    <SaveButton>확인</SaveButton>
                 </UploadWrap>
             </Wrapper>
         </>
