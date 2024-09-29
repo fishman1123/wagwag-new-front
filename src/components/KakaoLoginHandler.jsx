@@ -9,7 +9,7 @@ import LandingPage from '../pages/LandingPage';
 const KakaoLoginHandler = () => {
   const navigate = useNavigate();
   const setAuthState = useSetRecoilState(userAtoms);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // URL에서 인가 코드 추출
   const extractKakaoCode = () => {
@@ -24,7 +24,7 @@ const KakaoLoginHandler = () => {
       if (code) {
         try {
           // Send the authorization code to the backend server to exchange for tokens
-          const backendResponse = await fetch(`${backendUrl}/auth/kakao`, {
+          const backendResponse = await fetch(`${backendUrl}/api/v1/auth/kakao`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code }),
@@ -50,7 +50,6 @@ const KakaoLoginHandler = () => {
             idToken: null, // No ID token for Kakao
             isNewcomer: isNewcomer,
           });
-          console.log(userAtoms)
 
           // Redirect based on whether the user is a newcomer
           if (isNewcomer) {
