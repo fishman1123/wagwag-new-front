@@ -17,12 +17,13 @@ import { Upload } from "./pages/Upload.jsx";
 import UploadLayout from "./components/layout/UploadLayout.jsx";
 import * as path from "node:path"; // Import LandingPage
 import Detail from "./pages/Detail.jsx";
+import KakaoLoginHandler from "./components/KakaoLoginHandler.jsx";
 
 export const RouterList = () => [
   {
     // Wrap login and intro routes with LoginLayout
     path: "/",
-    element: <LoginLayout />,
+    // element: <LoginLayout />,
     children: [
       {
         path: "login",
@@ -31,6 +32,10 @@ export const RouterList = () => [
       {
         path: "intro",
         element: <LandingPage />,
+      },
+      {
+        path: "kakao-login",
+        element: <KakaoLoginHandler />,
       },
     ],
   },
