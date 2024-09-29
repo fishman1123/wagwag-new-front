@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { userAtoms } from '../recoil/userAtoms';
 import { refreshToken as refreshAccessToken } from '../util/token'; // Token refresh logic
+import LandingPage from '../pages/LandingPage';
 
 const SecuredRoute = ({ children }) => {
     const { isAuthenticated } = useRecoilValue(userAtoms);
     const setAuthState = useSetRecoilState(userAtoms);
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -27,7 +29,8 @@ const SecuredRoute = ({ children }) => {
                         }));
                         setIsLoading(false);
                     } else {
-                        setIsLoading(false);
+                        console.error('Failed to refresh token or received 401 response.');
+                        navigate('/login');
                     }
                 } catch (error) {
                     console.error('Error refreshing token:', error);
@@ -40,7 +43,7 @@ const SecuredRoute = ({ children }) => {
     }, [isAuthenticated, setAuthState]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <LandingPage />;
     }
 
     if (!isAuthenticated) {
