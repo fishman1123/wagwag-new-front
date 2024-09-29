@@ -9,6 +9,7 @@ import LandingPage from '../pages/LandingPage';
 const GoogleLoginHandler = () => {
   const navigate = useNavigate();
   const setAuthState = useSetRecoilState(userAtoms);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const handleGoogleLogin = async () => {
@@ -16,7 +17,6 @@ const GoogleLoginHandler = () => {
 
       if (code) {
         try {
-          const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
           // Send the authorization code to the backend server to exchange for tokens
           const response = await fetch(`${backendUrl}/api/v1/auth/google`, {
