@@ -18,6 +18,7 @@ import UploadLayout from "./components/layout/UploadLayout.jsx";
 import * as path from "node:path"; // Import LandingPage
 import Detail from "./pages/Detail.jsx";
 import KakaoLoginHandler from "./components/KakaoLoginHandler.jsx";
+import GoogleLoginHandler from "./components/GoogleLoginHandler.jsx";
 
 export const RouterList = () => [
   {
@@ -36,6 +37,10 @@ export const RouterList = () => [
       {
         path: "kakao-login",
         element: <KakaoLoginHandler />,
+      },
+      {
+        path: "google-login",
+        element: <GoogleLoginHandler />,
       },
     ],
   },

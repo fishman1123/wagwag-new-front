@@ -11,7 +11,6 @@ const KakaoLoginHandler = () => {
   const setAuthState = useSetRecoilState(userAtoms);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  // URL에서 인가 코드 추출
   const extractKakaoCode = () => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('code');

@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import {useSetRecoilState} from 'recoil';
 import {useNavigate} from 'react-router-dom';
 import {userAtoms} from '../recoil/userAtoms';
-import {useGoogleLogin} from '@react-oauth/google';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,47 +20,14 @@ const Login = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClient}&redirect_uri=${kakaoRedirect}&response_type=code`;
   };
 
-  // Google login (same as before)
-  const googleLogin = useGoogleLogin({
-    flow: 'auth-code',
-    onSuccess: async (response) => {
-      try {
-        const { code } = response;
-        const backendResponse = await fetch('/auth/google', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code }),
-          credentials: 'include',
-        });
+  // Google login function to redirect user to google login page
+  const googleLogin = () => {
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const googleRedirectUri = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
+    const scope = 'email profile';
 
-        if (!backendResponse.ok) {
-          throw new Error('Failed to exchange authorization code');
-        }
-
-        const result = await backendResponse.json();
-        const { accessToken, idToken, user, isNewcomer } = result;
-
-        setAuthState({
-          isAuthenticated: true,
-          user: user,
-          accessToken: accessToken,
-          idToken: idToken,
-          isNewcomer: isNewcomer,
-        });
-
-        if (isNewcomer) {
-          navigate('/basic/nickname');
-        } else {
-          navigate('/main');
-        }
-      } catch (error) {
-        console.error('Error during login:', error);
-      }
-    },
-    onError: () => {
-      console.error('Login Failed');
-    },
-  });
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${googleClientId}&redirect_uri=${encodeURIComponent(googleRedirectUri)}&scope=${encodeURIComponent(scope)}`;
+  };
 
   const noLogin = () => {
     const isNewcomer = true;
