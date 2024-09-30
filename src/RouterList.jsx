@@ -19,6 +19,7 @@ import * as path from "node:path"; // Import LandingPage
 import Detail from "./pages/Detail.jsx";
 import KakaoLoginHandler from "./components/KakaoLoginHandler.jsx";
 import GoogleLoginHandler from "./components/GoogleLoginHandler.jsx";
+import NaverLoginHandler from "./components/NaverLoginHandler.jsx";
 
 export const RouterList = () => [
   {
@@ -41,6 +42,10 @@ export const RouterList = () => [
       {
         path: "google-login",
         element: <GoogleLoginHandler />,
+      },
+      {
+        path: "naver-login",
+        element: <NaverLoginHandler />,
       },
     ],
   },

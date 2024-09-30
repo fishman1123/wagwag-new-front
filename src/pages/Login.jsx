@@ -20,13 +20,22 @@ const Login = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClient}&redirect_uri=${kakaoRedirect}&response_type=code`;
   };
 
+  // naver login function to redirect user to google login page
+  const naverLogin = () => {
+    const naverClient = import.meta.env.VITE_NAVER_CLIENT_ID;
+    const navetRedirect = import.meta.env.VITE_NAVER_REDIRECT_URI;
+    const state = false;
+
+    window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClient}&state=${state}&redirect_uri=${navetRedirect}`;
+  };
+
   // Google login function to redirect user to google login page
   const googleLogin = () => {
     const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const googleRedirectUri = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
+    const googleRedirect = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
     const scope = 'email profile';
 
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${googleClientId}&redirect_uri=${encodeURIComponent(googleRedirectUri)}&scope=${encodeURIComponent(scope)}`;
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${googleClientId}&redirect_uri=${encodeURIComponent(googleRedirect)}&scope=${encodeURIComponent(scope)}`;
   };
 
   const noLogin = () => {
@@ -55,7 +64,7 @@ const Login = () => {
             구글로 시작하기
           </Button>
 
-          <Button type="submit">
+          <Button type="button" onClick={naverLogin}>
             <NaverImg />
             네이버로 시작하기
           </Button>

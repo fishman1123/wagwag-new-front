@@ -1,4 +1,4 @@
-// GoogleLoginHandler.jsx
+// src/components/GoogleLoginHandler.jsx
 
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
