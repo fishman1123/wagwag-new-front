@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import UnlockIcon from '../assets/svg/unlock.svg';
 import LockIcon from '../assets/svg/lock.svg';
@@ -17,6 +17,7 @@ const UploadWrap = styled.div`
 `;
 
 const UploadPageTitle = styled.div`
+    padding-left: 0.52vw;
     color: white;
     font-size: 1.25vw;
     margin-bottom: 0.83vw;
@@ -188,6 +189,7 @@ const RevealButton = styled.div`
 
 const FileNameTag = styled.div`
     color: #787878;
+    width: 3.64vw;
     font-size: 1.04vw;
     margin-left: 0.52vw;
     padding-right: 1.04vw;
@@ -195,6 +197,7 @@ const FileNameTag = styled.div`
 `
 const FileName = styled.div`
     color: white;
+    max-width: 8.85vw;
     font-size: 1.04vw;
     margin-left: 0.93vw;
 `
@@ -233,21 +236,48 @@ export const Upload = () => {
     const [titleText, setTitleText] = useState('');
     const [descriptionText, setDescriptionText] = useState('');
     const [fileName, setFileName] = useState('');
+    const [videoSrc, setVideoSrc] = useState(null);
+    const videoRef = useRef(null);
+    const playerRef = useRef(null);
     const maxTitleLength = 40;
     const maxDescriptionLength = 180;
-
     const [isPublic, setIsPublic] = useState(true);
 
     const togglePublicStatus = () => {
-        setIsPublic(prevState => !prevState);
+        setIsPublic((prevState) => !prevState);
     };
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
+            const fileURL = URL.createObjectURL(file);
+            setVideoSrc(fileURL);
             setFileName(file.name);
         }
     };
+
+
+    useEffect(() => {
+        if (videoSrc && videoRef.current) {
+            if (!playerRef.current) {
+                playerRef.current = videojs(videoRef.current, {
+                    autoplay: true,
+                    loop: true,
+                    controls: true,
+                    fluid: true, // Makes the video player responsive
+                });
+            } else {
+                playerRef.current.src({ type: 'video/mp4', src: videoSrc });
+            }
+        }
+
+        return () => {
+            if (playerRef.current) {
+                playerRef.current.dispose(); // Clean up the video player instance
+                playerRef.current = null;
+            }
+        };
+    }, [videoSrc]);
 
     return (
         <>
