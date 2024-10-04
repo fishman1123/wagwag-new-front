@@ -14,15 +14,25 @@ const NaverLoginHandler = () => {
     useEffect(() => {
         const handleNaverLogin = async () => {
             const code = new URLSearchParams(window.location.search).get('code');
-            const state = new URLSearchParams(window.location.search).get('state'); // protect from CSRF
+            const urlState = new URLSearchParams(window.location.search).get('state'); // protect from CSRF
 
-            if(code){
+            if(code && urlState){
+                const storedState = localStorage.getItem('naver_login_state');
+
+                // state 값 비교
+                if (urlState !== storedState) {
+                    console.error('Invalid state parameter');
+                    navigate('/login');
+                    return;
+                }
+                localStorage.removeItem('naver_login_state');
+
                 try {
 
                     const  response = await fetch(`${backendUrl}/api/v1/auth/naver`, {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({ code, state }),
+                        body: JSON.stringify({ code, state: urlState }),
                     });
 
                     if (!response.ok) {

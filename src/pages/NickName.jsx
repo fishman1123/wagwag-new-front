@@ -1,12 +1,207 @@
+// src/components/NickName.jsx
+
 import profile from "../assets/profile.jpg";
 import logoImage from "../assets/wagwagLogo.png";
 import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-
-// import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { newComerAtoms } from '../recoil/userAtoms';
+
+const NickName = () => {
+  const [text, setText] = useState("");
+  const [message, setMessage] = useState("");
+  const [newComerState, setNewComerState] = useRecoilState(newComerAtoms);
+  const [profileImage, setProfileImage] = useState(newComerState.userProfileImage || profile);
+  const fileInputRef = useRef(null);
+  const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const [isChecking, setIsChecking] = useState(false);
+  const [isAvailable, setIsAvailable] = useState(null);
+  const debounceTimer = useRef(null);
+
+  useEffect(() => {
+    // 프로필 이미지 상태가 변경될 때마다 profileImage 상태 업데이트
+    if (newComerState.userProfileImage) {
+      if (typeof newComerState.userProfileImage === 'string') {
+        // 프로필 이미지가 URL인 경우
+        setProfileImage(newComerState.userProfileImage);
+      } else if (newComerState.userProfileImage instanceof File) {
+        // 프로필 이미지가 File 객체인 경우
+        const objectUrl = URL.createObjectURL(newComerState.userProfileImage);
+        setProfileImage(objectUrl);
+
+        // 컴포넌트 언마운트 시 객체 URL 해제
+        return () => {
+          URL.revokeObjectURL(objectUrl);
+        };
+      }
+    } else {
+      // 프로필 이미지가 없을 경우 기본 이미지 설정
+      setProfileImage(profile);
+    }
+  }, [newComerState.userProfileImage]);
+
+  useEffect(() => {
+    const specialCharacterRegex = /[\{\}\[\]\/?.,;:|\)*~!^\-_+<>@\#$%&\\\=\(\'\"]/g;
+
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    if (!text.length) {
+      setMessage("");
+      setIsAvailable(null);
+      return;
+    }
+
+    if (text.length < 2) {
+      setMessage(
+        <>
+          <HighlightText color="#FF7777">* 2 글자 이상의 </HighlightText>
+          닉네임으로 정해주세요
+        </>
+      );
+      setIsAvailable(false);
+      return;
+    }
+
+    if (specialCharacterRegex.test(text)) {
+      setMessage(
+        <>
+          <HighlightText color="#FF7777">* 특수문자</HighlightText>는 제거해주세요
+        </>
+      );
+      setIsAvailable(false);
+      return;
+    }
+
+    setIsChecking(true);
+    debounceTimer.current = setTimeout(() => {
+      checkNicknameAvailability(text);
+    }, 500);
+
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, [text]);
+
+  const checkNicknameAvailability = async (nickname) => {
+    try {
+      const response = await fetch(`${backendUrl}/api/v1/user/check-nickname`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nickname }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.available) {
+          setMessage(
+            <>
+              <HighlightText color="#57F98E">* 사용가능한 </HighlightText>
+              닉네임입니다
+            </>
+          );
+          setIsAvailable(true);
+        } else {
+          setMessage(
+            <>
+              <HighlightText color="#FF7777">* 이미 사용 중</HighlightText>인 닉네임입니다
+            </>
+          );
+          setIsAvailable(false);
+        }
+      } else {
+        setMessage(
+          <>
+            <HighlightText color="#FF7777">* 닉네임 확인에 실패했습니다.</HighlightText>
+          </>
+        );
+        setIsAvailable(false);
+      }
+    } catch (error) {
+      console.error("닉네임 확인 오류:", error);
+      setMessage(
+        <>
+          <HighlightText color="#FF7777">* 닉네임 확인 중 오류가 발생했습니다.</HighlightText>
+        </>
+      );
+      setIsAvailable(false);
+    } finally {
+      setIsChecking(false);
+    }
+  };
+
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handlePreview = () => {
+    if (fileInputRef.current.files && fileInputRef.current.files[0]) {
+      const file = fileInputRef.current.files[0];
+      setNewComerState((prevState) => ({
+        ...prevState,
+        userProfileImage: file,
+      }));
+    }
+  };
+
+  const handleSaveButtonClick = () => {
+    if (isAvailable) {
+      setNewComerState((prevState) => ({
+        ...prevState,
+        userNickName: text,
+      }));
+      navigate('/basic/region');
+    }
+  };
+
+  return (
+    <div>
+      <LogoImg />
+      <Wrapper>
+        <SettingTitle>닉네임을 설정해 주세요</SettingTitle>
+        <ProfileImage image={profileImage} onClick={handleImageClick}>
+          <input
+            type="file"
+            style={{ display: "none" }}
+            accept="image/*"
+            onChange={handlePreview}
+            ref={fileInputRef}
+          />
+        </ProfileImage>
+        <InputWrapper>
+          <Input
+            type="text"
+            placeholder="닉네임을 입력하세요"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+          <Message>
+            {isChecking ? "확인 중..." : message}
+          </Message>
+        </InputWrapper>
+        <SaveButton onClick={handleSaveButtonClick} disabled={!isAvailable}>
+          확인
+        </SaveButton>
+        <NavWrapper>
+          <NavItem style={{ backgroundColor: '#D9D9D9' }} />
+          <NavItem />
+          <NavItem />
+        </NavWrapper>
+      </Wrapper>
+    </div>
+  );
+};
+
+export default NickName;
+
+
 
 const LogoImg = styled.img.attrs({
   src: logoImage,
@@ -152,134 +347,3 @@ const Message = styled.div`
 const HighlightText = styled.span`
   color: ${(props) => props.color || "inherit"};
 `;
-
-const NickName = () => {
-  const [text, setText] = useState("");
-  const [message, setMessage] = useState("");
-  const [newComerState, setNewComerState] = useRecoilState(newComerAtoms); // 리코일 선언
-  const [profileImage, setProfileImage] = useState(newComerState.userProfileImage); // 이미지만의 리코링 상태관리
-  const fileInputRef = useRef(null);
-  const nicknames = ["example1", "example2"]; // Example nicknames array
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // 소셜이미지 로드
-    const loadProfileImage = async () => {
-      const socialImage = profile; // 이부분에서 이미지 로드 필요
-
-      if (socialImage) {
-        setProfileImage(socialImage);
-        setNewComerState((prevState) => ({
-          ...prevState,
-          userProfileImage: socialImage,
-        }));
-      }
-    };
-
-    // 이미지 할당 될때까지 로드
-    if (!newComerState.userProfileImage) {
-      loadProfileImage();
-    }
-  }, [newComerState.userProfileImage, setNewComerState]);
-
-  useEffect(() => {
-    const specialCharacterRegex =
-        /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
-
-    if (!text.length) {
-      setMessage("");
-    } else if (text.length > 0 && text.length < 2) {
-      setMessage(
-          <>
-            <HighlightText color="#FF7777">* 2 글자 이상의 </HighlightText>
-            닉네임으로 정해주세요
-          </>
-      );
-    } else if (specialCharacterRegex.test(text)) {
-      setMessage(
-          <>
-            <HighlightText color="#FF7777">* 특수문자</HighlightText>는
-            제거해주세요
-          </>
-      );
-    } else if (nicknames.includes(text)) {
-      setMessage(
-          <>
-            <HighlightText color="#FF7777">* 이미 사용 중</HighlightText>인
-            닉네임입니다
-          </>
-      );
-    } else {
-      setMessage(
-          <>
-            <HighlightText color="#57F98E">* 사용가능한 </HighlightText>
-            닉네임입니다
-          </>
-      );
-    }
-  }, [text]);
-
-  const handleImageClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handlePreview = () => {
-    if (fileInputRef.current.files !== null) {
-      const newImage = URL.createObjectURL(fileInputRef.current.files[0]);
-      setProfileImage(newImage);
-      setNewComerState((prevState) => ({
-        ...prevState,
-        userProfileImage: newImage,
-      }));
-    }
-  };
-
-  const handleSaveButtonClick = () => {
-    // "사용가능한 닉네임입니다"가 메시지에 포함되어 있는지 확인
-    if (
-        message.props.children[0].props.color === '#57F98E'
-    ) {
-      setNewComerState((prevState) => ({
-        ...prevState,
-        userNickName: text,
-      }));
-      navigate('/basic/region');
-    } else {
-      navigate('/basic/NickName');
-    }
-  };
-
-  return (
-      <div>
-        <LogoImg />
-        <Wrapper>
-          <SettingTitle>닉네임을 설정해 주세요</SettingTitle>
-          <ProfileImage image={profileImage} onClick={handleImageClick}>
-            <input
-                type="file"
-                style={{ display: "none" }}
-                accept="image/*"
-                onChange={handlePreview}
-                ref={fileInputRef}
-            />
-          </ProfileImage>
-          <InputWrapper>
-            <Input
-                type="text"
-                placeholder="닉네임을 입력하세요"
-                onChange={(e) => setText(e.target.value)}
-            />
-            <Message>{message}</Message>
-          </InputWrapper>
-          <SaveButton onClick={handleSaveButtonClick}>확인</SaveButton>
-          <NavWrapper>
-            <NavItem style={{ backgroundColor: '#D9D9D9' }} />
-            <NavItem />
-            <NavItem />
-          </NavWrapper>
-        </Wrapper>
-      </div>
-  );
-};
-
-export default NickName;

@@ -9,6 +9,7 @@ import LandingPage from '../pages/LandingPage';
 const GoogleLoginHandler = () => {
   const navigate = useNavigate();
   const setAuthState = useSetRecoilState(userAtoms);
+  const setNewComerState = useSetRecoilState(newComerAtoms);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
@@ -48,6 +49,15 @@ const GoogleLoginHandler = () => {
 
           // Redirect based on whether the user is a newcomer
           if (isNewcomer) {
+            // 백엔드에서 받은 사용자 정보에서 프로필 이미지 URL 추출
+            const profileImageUrl = user.profileImageUrl || null;
+
+            // newComerAtoms 상태 업데이트
+            setNewComerState((prevState) => ({
+              ...prevState,
+              userProfileImage: profileImageUrl,
+            }));
+
             navigate('/basic/nickname');
           } else {
             navigate('/main');

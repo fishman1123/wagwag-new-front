@@ -23,8 +23,10 @@ const Login = () => {
   // naver login function to redirect user to google login page
   const naverLogin = () => {
     const naverClient = import.meta.env.VITE_NAVER_CLIENT_ID;
-    const navetRedirect = import.meta.env.VITE_NAVER_REDIRECT_URI;
-    const state = false;
+    const navetRedirect = import.meta.env.VITE_NAVER_REDIRECT_URL;
+    const state = generateRandomState();
+
+    localStorage.setItem('naver_login_state', state);
 
     window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClient}&state=${state}&redirect_uri=${navetRedirect}`;
   };
@@ -52,6 +54,13 @@ const Login = () => {
     } else {
       navigate('/main');
     }
+  }
+
+  // CSRF Protection
+  function generateRandomState(length = 16) {
+    const array = new Uint8Array(length);
+    window.crypto.getRandomValues(array);
+    return Array.from(array, byte => ('0' + byte.toString(16)).slice(-2)).join('');
   }
 
   return (
