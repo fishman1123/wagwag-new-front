@@ -4,22 +4,13 @@ import logoImage from '../assets/wagwagLogo.png';
 import { useNavigate } from 'react-router-dom';
 import {useRecoilState} from "recoil";
 import {newComerAtoms} from "../recoil/userAtoms.jsx";
-
-
-const categories = [
-    '뷰티', '운동', '노래',
-    '게임', '산책', '음식',
-    '일상생활', '타 지역 인기 와글'
-];
+import categoryData from "../categoryData.json";
 
 const BasicSettingCategory = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const navigate = useNavigate();
     const [newComerState, setNewComerState] = useRecoilState(newComerAtoms);
-    console.log("this is what we have", newComerState);
     const nickname = newComerState.userNickName;
-
-
 
     const toggleCategory = (category) => {
         if (selectedCategories.includes(category)) {
@@ -51,7 +42,7 @@ const BasicSettingCategory = () => {
             <SettingTitle>{nickname}님이 관심있는 주제를 알려주세요</SettingTitle>
             <SettingSubTitle><ColorText>*</ColorText> 내 취향에 맞는 와글을 더 편리하게 볼 수 있어요</SettingSubTitle>
             <CategoryList>
-                {categories.map((category, index) => (
+                {categoryData.map((category, index) => (
                     <CategoryItem
                         key={index}
                         onClick={() => toggleCategory(category)}
