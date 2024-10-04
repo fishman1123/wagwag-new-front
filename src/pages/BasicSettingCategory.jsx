@@ -41,7 +41,7 @@ const BasicSettingCategory = () => {
             setError(null);
 
             try {
-                const backendUrl = import.meta.env.REACT_APP_BACKEND_URL;
+                const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
                 const { userId, authToken } = userState;
 
