@@ -18,41 +18,56 @@ const BasicSettingRegion = () => {
 
     useEffect(() => {
         const initialRegion = regionData.find(region => region.region === "서울");
-        const initialTown = initialRegion.city[0].town;
-        setSelectedTown(initialTown);
-    }, []);
+        if (initialRegion) {
+            const firstTown = initialRegion.city[0].town;
+            const firstVillage = initialRegion.city[0].village[0];
+            setSelectedRegion("서울");
+            setSelectedTown(firstTown);
+            setSelectedVillage(firstVillage);
+    
+            setNewComerState((prevState) => ({
+                ...prevState,
+                userRegion: [{ city: "서울", town: firstTown, village: firstVillage }],
+            }));
+        }
+    }, [setNewComerState]);
 
     const handleRegionClick = (region) => {
         setSelectedRegion(region);
-        const firstTown = regionData.find(item => item.region === region).city[0].town;
-        setSelectedTown(firstTown);
-        setSelectedVillage(null);
-
-
-        setNewComerState((prevState) => ({
-            ...prevState,
-            userRegion: [{ city: region, town: firstTown, village: null }],
-        }));
+        const regionObj = regionData.find(item => item.region === region);
+        if (regionObj) {
+            const firstTown = regionObj.city[0].town;
+            const firstVillage = regionObj.city[0].village[0];
+            setSelectedTown(firstTown);
+            setSelectedVillage(firstVillage);
+    
+            setNewComerState((prevState) => ({
+                ...prevState,
+                userRegion: [{ city: region, town: firstTown, village: firstVillage }],
+            }));
+        }
     };
 
     const handleTownClick = (town) => {
         setSelectedTown(town);
-        const firstVillage = regionData
-            .find((region) => region.region === selectedRegion)
-            .city.find((city) => city.town === town).village[0];
-        setSelectedVillage(firstVillage);
-
-
-        setNewComerState((prevState) => ({
-            ...prevState,
-            userRegion: [{ city: selectedRegion, town, village: firstVillage }],
-        }));
+        const regionObj = regionData.find((region) => region.region === selectedRegion);
+        if (regionObj) {
+            const cityObj = regionObj.city.find((city) => city.town === town);
+            if (cityObj) {
+                const firstVillage = cityObj.village[0];
+                setSelectedVillage(firstVillage);
+    
+                setNewComerState((prevState) => ({
+                    ...prevState,
+                    userRegion: [{ city: selectedRegion, town, village: firstVillage }],
+                }));
+            }
+        }
     };
 
     const handleVillageClick = (village) => {
         setSelectedVillage(village);
-
-
+    
         setNewComerState((prevState) => ({
             ...prevState,
             userRegion: [{ city: selectedRegion, town: selectedTown, village }],
@@ -60,7 +75,10 @@ const BasicSettingRegion = () => {
     };
 
     const handleSaveButtonClick = () => {
+        // 모든 선택이 완료되었는지 확인
+        if (selectedRegion && selectedTown && selectedVillage) {
         navigate('/basic/category');
+    }
     };
 
     return (

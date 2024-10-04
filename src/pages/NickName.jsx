@@ -183,7 +183,7 @@ const NickName = () => {
             onChange={(e) => setText(e.target.value)}
           />
           <Message>
-            {isChecking ? "확인 중..." : message}
+            {isChecking ? "닉네임 중복 체크 중.." : message}
           </Message>
         </InputWrapper>
         <SaveButton onClick={handleSaveButtonClick} disabled={!isAvailable}>
