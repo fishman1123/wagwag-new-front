@@ -1,59 +1,106 @@
+// src/components/BasicSettingCategory.jsx
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import logoImage from '../assets/wagwagLogo.png';
 import { useNavigate } from 'react-router-dom';
-import {useRecoilState} from "recoil";
-import {newComerAtoms} from "../recoil/userAtoms.jsx";
+import { useRecoilState } from "recoil";
+import { userAtoms } from '../recoil/userAtoms.jsx';
+import { newComerAtoms } from "../recoil/userAtoms.jsx";
 import categoryData from "../categoryData.json";
 
 const BasicSettingCategory = () => {
-    const [selectedCategories, setSelectedCategories] = useState([]);
     const navigate = useNavigate();
+    const [userState, setUserState] = useRecoilState(userAtoms);
     const [newComerState, setNewComerState] = useRecoilState(newComerAtoms);
     const nickname = newComerState.userNickName;
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
     const toggleCategory = (category) => {
-        if (selectedCategories.includes(category)) {
-            setSelectedCategories(selectedCategories.filter(item => item !== category));
-        } else if (selectedCategories.length < 3) {
-            setSelectedCategories([...selectedCategories, category]);
-        }
-    };
-
-    const isCategorySelected = (category) => selectedCategories.includes(category);
-
-
-    const handleSaveButtonClick = () => {
-        if (selectedCategories.length === 3) {
+        const { userCategory } = newComerState;
+        if (userCategory.includes(category)) {
             setNewComerState((prevState) => ({
                 ...prevState,
-                userCategory: selectedCategories,
+                userCategory: prevState.userCategory.filter(item => item !== category),
             }));
-            navigate('/main');
-        } else {
-            navigate('/basic/category');
+        } else if (userCategory.length < 3) {
+            setNewComerState((prevState) => ({
+                ...prevState,
+                userCategory: [...prevState.userCategory, category],
+            }));
         }
     };
 
+    const isCategorySelected = (category) => newComerState.userCategory.includes(category);
+
+    const handleSaveButtonClick = async () => {
+        if (newComerState.userCategory.length === 3) {
+            setIsLoading(true);
+            setError(null);
+
+            try {
+                const backendUrl = import.meta.env.REACT_APP_BACKEND_URL;
+
+                const { userId, authToken } = userState;
+
+                const response = await fetch(`${backendUrl}/api/v1/user/complete-setup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`, 
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        nickname: newComerState.userNickName,
+                        userRegion: newComerState.userRegion,
+                        userCategory: newComerState.userCategory,
+                    }),
+                });
+
+                if (!response.ok) {
+                    // 서버에서 에러 응답을 보낸 경우
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || '설정 완료에 실패했습니다.');
+                }
+
+                const data = await response.json();
+
+                navigate('/main');
+            } catch (err) {
+                console.error('설정 완료 오류:', err);
+                setError(err.message);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    };
 
     return (
         <Wrapper>
             <LogoImg />
             <SettingTitle>{nickname}님이 관심있는 주제를 알려주세요</SettingTitle>
-            <SettingSubTitle><ColorText>*</ColorText> 내 취향에 맞는 와글을 더 편리하게 볼 수 있어요</SettingSubTitle>
+            <SettingSubTitle>
+                <ColorText>*</ColorText> 내 취향에 맞는 와글을 더 편리하게 볼 수 있어요
+            </SettingSubTitle>
             <CategoryList>
                 {categoryData.map((category, index) => (
                     <CategoryItem
                         key={index}
                         onClick={() => toggleCategory(category)}
                         selected={isCategorySelected(category)}
+                        aria-pressed={isCategorySelected(category)}
                     >
                         {category}
                     </CategoryItem>
                 ))}
             </CategoryList>
-            <DoneButton onClick={handleSaveButtonClick} disabled={selectedCategories.length !== 3}>
-                완료
+            <DoneButton
+                onClick={handleSaveButtonClick}
+                disabled={newComerState.userCategory.length !== 3 || isLoading}
+            >
+                {isLoading ? '완료 중...' : '완료'}
             </DoneButton>
             <NavWrapper>
                 <NavItem />
