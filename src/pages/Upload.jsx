@@ -56,16 +56,25 @@ const UploadTitleContainer = styled.div`
 `;
 
 const UploadTitle = styled.div`
+    display: flex;
     margin-bottom: 0.89vw;
     padding-left: 0.83vw;
     font-size: 1.25vw;
 `;
 
 const UploadText = styled.div`
+    display: flex;
     margin-top: 1.55vw;
     margin-bottom: 0.89vw;
     padding-left: 0.83vw;
     font-size: 1.25vw;
+`;
+
+const WarningTitle = styled.span`
+    color: #FF7777;
+    font-size: 1vw;
+    padding-top: 0.2vw;
+    margin-left: 0.3vw;
 `;
 
 const UploadTitleInput = styled.div`
@@ -93,7 +102,7 @@ const UploadTitleInput = styled.div`
     }
 `;
 
-const TitleCountCheck = styled.div`
+const TitleCountCheck = styled.span`
     width: 4.9vw;
     color: ${(props) => (props.isOverLimit ? '#FF7777' : '#5E5E5E')};
     text-align: end;
@@ -241,6 +250,10 @@ export const Upload = () => {
     const maxTitleLength = 40;
     const maxDescriptionLength = 180;
     const [isPublic, setIsPublic] = useState(true);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [showWarnings, setShowWarnings] = useState(false);
+    const [uploading, setUploading] = useState(false); // Added state for uploading
+    const [error, setError] = useState(''); // State for error messages
 
     const togglePublicStatus = () => {
         setIsPublic((prevState) => !prevState);
@@ -252,6 +265,7 @@ export const Upload = () => {
             const fileURL = URL.createObjectURL(file);
             setVideoSrc(fileURL);
             setFileName(file.name);
+            setSelectedFile(file);
         }
     };
 
@@ -265,6 +279,67 @@ export const Upload = () => {
         if (videoRef.current) {
             videoRef.current.pause();
         }
+    };
+
+    const handleSave = async () => {
+        setShowWarnings(true);
+
+        if (!titleText || !descriptionText) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        if (!selectedFile) {
+            alert('Please select a file to upload.');
+            return;
+        }
+        alert("upload");
+
+        // setUploading(true);
+    //     setError('');
+    //
+    //     try {
+    //         // Step 1: 서버에 s3관련된 url 요청
+    //         const response = await fetch('/api/getPresignedUploadUrl', {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({
+    //                 fileName: selectedFile.name,
+    //                 fileType: selectedFile.type,
+    //                 title: titleText,
+    //                 description: descriptionText,
+    //                 isPublic: isPublic,
+    //             }),
+    //         });
+    //
+    //         if (!response.ok) {
+    //             throw new Error('Failed to get upload URL');
+    //         }
+    //
+    //         const data = await response.json();
+    //         const { presignedUrl, videoId } = data;
+    //
+    //         // Step 2: s3 관련된 url 기반으로 비디오 전송
+    //         const uploadResponse = await fetch(presignedUrl, {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'Content-Type': selectedFile.type,
+    //             },
+    //             body: selectedFile,
+    //         });
+    //
+    //         if (!uploadResponse.ok) {
+    //             throw new Error('Failed to upload file');
+    //         }
+    //
+    //         alert('File uploaded successfully!');
+    //         // 응답 확인 후 따로 처리(useNavigation 등)
+    //     } catch (err) {
+    //         console.error(err);
+    //         setError('An error occurred during the upload process.');
+    //     } finally {
+    //         setUploading(false);
+    //     }
     };
 
     return (
@@ -289,7 +364,7 @@ export const Upload = () => {
                                         playsInline
                                     ></video>
                                 ) : (
-                                    fileName ? '업로드 완료' : <div style={{display: "flex", justifyContent: "center"}}></div>
+                                    <div style={{ display: 'flex', justifyContent: 'center' }}></div>
                                 )}
                                 <input
                                     id="fileInput"
@@ -304,10 +379,14 @@ export const Upload = () => {
                                 <FileName>{fileName || '파일이 없습니다'}</FileName>
                             </FileNameContainer>
                         </UploadImageContainer>
-
                         <UploadDescription>
                             <UploadTitleContainer>
-                                <UploadTitle><h1>제목</h1></UploadTitle>
+                                <UploadTitle>
+                                    <h1>제목</h1>
+                                    {showWarnings && !titleText && (
+                                        <WarningTitle>*제목을 입력해주세요!</WarningTitle>
+                                    )}
+                                </UploadTitle>
                                 <TextCheck currentText={titleText} maxValue={maxTitleLength} />
                             </UploadTitleContainer>
                             <UploadTitleInput>
@@ -316,31 +395,34 @@ export const Upload = () => {
                                     placeholder="제목을 입력하세요"
                                     value={titleText}
                                     onChange={(e) => {
-                                        if (e.target.value.length <= maxTitleLength + 1) {
+                                        if (e.target.value.length <= maxTitleLength) {
                                             setTitleText(e.target.value);
                                         }
                                     }}
                                 />
                             </UploadTitleInput>
                             <UploadDescriptionContainer>
-                                <UploadText><h1>설명</h1></UploadText>
+                                <UploadText>
+                                    <h1>설명</h1>
+                                    {showWarnings && !descriptionText && (
+                                        <WarningTitle>*내용을 입력해주세요!</WarningTitle>
+                                    )}
+                                </UploadText>
                                 <TextCheck currentText={descriptionText} maxValue={maxDescriptionLength} />
                             </UploadDescriptionContainer>
                             <UploadDescriptionInput>
-                                <textarea
-                                    placeholder="시청자에게 이 와글에 대해 설명해 주세요"
-                                    value={descriptionText}
-                                    onChange={(e) => {
-                                        if (e.target.value.length <= maxDescriptionLength + 1) {
-                                            setDescriptionText(e.target.value);
-                                        }
-                                    }}
-                                />
+                <textarea
+                    placeholder="시청자에게 이 와글에 대해 설명해 주세요"
+                    value={descriptionText}
+                    onChange={(e) => {
+                        if (e.target.value.length <= maxDescriptionLength) {
+                            setDescriptionText(e.target.value);
+                        }
+                    }}
+                />
                             </UploadDescriptionInput>
                             <RevealButton>
-                                <button
-                                    onClick={togglePublicStatus}
-                                >
+                                <button onClick={togglePublicStatus}>
                                     <div style={{ marginRight: '0.5vw' }}>
                                         {isPublic ? (
                                             <img src={UnlockIcon} alt="Unlock Icon" style={{ width: '0.68vw', height: '0.94vw' }} />
@@ -348,17 +430,22 @@ export const Upload = () => {
                                             <img src={LockIcon} alt="Lock Icon" style={{ width: '0.68vw', height: '0.94vw' }} />
                                         )}
                                     </div>
-                                    <div style={{
-                                        justifyContent: isPublic ? 'flex-start' : 'center',
-                                        marginLeft: isPublic ? '0' : '0.36vw',
-                                    }}>
+                                    <div
+                                        style={{
+                                            justifyContent: isPublic ? 'flex-start' : 'center',
+                                            marginLeft: isPublic ? '0' : '0.36vw',
+                                        }}
+                                    >
                                         {isPublic ? '전체공개' : '비공개'}
                                     </div>
                                 </button>
                             </RevealButton>
                         </UploadDescription>
                     </UploadContent>
-                    <SaveButton>확인</SaveButton>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    <SaveButton onClick={handleSave} disabled={uploading}>
+                        {uploading ? '업로드 중...' : '확인'}
+                    </SaveButton>
                 </UploadWrap>
             </Wrapper>
         </>
