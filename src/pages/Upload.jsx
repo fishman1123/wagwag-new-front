@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import UnlockIcon from '../assets/svg/unlock.svg';
 import LockIcon from '../assets/svg/lock.svg';
@@ -29,11 +29,10 @@ const UploadPreviewContent = styled.div`
     height: 21.7vw;
     background-color: #222222;
     border-radius: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
     font-size: 1vw;
+    position: relative;
+    overflow: hidden;
 `;
 
 const UploadContent = styled.div`
@@ -189,25 +188,26 @@ const RevealButton = styled.div`
 
 const FileNameTag = styled.div`
     color: #787878;
-    width: 3.64vw;
+    min-width: 3.64vw;
     font-size: 1.04vw;
     margin-left: 0.52vw;
     padding-right: 1.04vw;
     border-right: 1.5px solid #2B2B2B;
-`
+`;
+
 const FileName = styled.div`
     color: white;
     max-width: 8.85vw;
     font-size: 1.04vw;
     margin-left: 0.93vw;
-`
+`;
 
 const FileNameContainer = styled.div`
     display: flex;
     margin-top: 2.24vw;
     height: 1.25vw;
-    max-width: 13.17;
-`
+    max-width: 13.17vw;
+`;
 
 const SaveButton = styled.button`
     margin-top: 30vw;
@@ -238,7 +238,6 @@ export const Upload = () => {
     const [fileName, setFileName] = useState('');
     const [videoSrc, setVideoSrc] = useState(null);
     const videoRef = useRef(null);
-    const playerRef = useRef(null);
     const maxTitleLength = 40;
     const maxDescriptionLength = 180;
     const [isPublic, setIsPublic] = useState(true);
@@ -256,28 +255,17 @@ export const Upload = () => {
         }
     };
 
-
-    useEffect(() => {
-        if (videoSrc && videoRef.current) {
-            if (!playerRef.current) {
-                playerRef.current = videojs(videoRef.current, {
-                    autoplay: true,
-                    loop: true,
-                    controls: true,
-                    fluid: true, // Makes the video player responsive
-                });
-            } else {
-                playerRef.current.src({ type: 'video/mp4', src: videoSrc });
-            }
+    const handleMouseEnter = () => {
+        if (videoRef.current) {
+            videoRef.current.play();
         }
+    };
 
-        return () => {
-            if (playerRef.current) {
-                playerRef.current.dispose(); // Clean up the video player instance
-                playerRef.current = null;
-            }
-        };
-    }, [videoSrc]);
+    const handleMouseLeave = () => {
+        if (videoRef.current) {
+            videoRef.current.pause();
+        }
+    };
 
     return (
         <>
@@ -286,8 +274,23 @@ export const Upload = () => {
                     <UploadPageTitle>와글 썸네일</UploadPageTitle>
                     <UploadContent>
                         <UploadImageContainer>
-                            <UploadPreviewContent onClick={() => document.getElementById('fileInput').click()}>
-                                {fileName ? '업로드 완료' : '비디오를 업로드 하세요'}
+                            <UploadPreviewContent
+                                onClick={() => document.getElementById('fileInput').click()}
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                {videoSrc ? (
+                                    <video
+                                        ref={videoRef}
+                                        src={videoSrc}
+                                        style={{ width: '100%', height: '100%' }}
+                                        muted
+                                        loop
+                                        playsInline
+                                    ></video>
+                                ) : (
+                                    fileName ? '업로드 완료' : <div style={{display: "flex", justifyContent: "center"}}></div>
+                                )}
                                 <input
                                     id="fileInput"
                                     type="file"
