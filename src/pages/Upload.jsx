@@ -260,7 +260,7 @@ export const Upload = () => {
     const [error, setError] = useState('');
     const [showModal, setShowModal] = useState(false);
 
-    // State for the new alert modal
+    // State for the alert modal
     const [alertModalMessage, setAlertModalMessage] = useState('');
     const [showAlertModal, setShowAlertModal] = useState(false);
 
@@ -321,20 +321,79 @@ export const Upload = () => {
             return;
         }
 
-        // Proceed with upload logic
+        setUploading(true);
+        setError('');
+
         try {
-            setUploading(true);
-            // Perform upload...
-            // Simulate upload delay
-            setTimeout(() => {
-                setAlertModalMessage('업로드가 완료되었습니다.');
-                setShowAlertModal(true);
-                setUploading(false);
-            }, 2000);
+
+            // // Step 1: Request a presigned URL from the server
+            // const presignedUrlResponse = await fetch('/api/getPresignedUploadUrl', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         // Include authentication headers if necessary
+            //     },
+            //     body: JSON.stringify({
+            //         fileName: selectedFile.name,
+            //         fileType: selectedFile.type,
+            //     }),
+            // });
+            //
+            // if (!presignedUrlResponse.ok) {
+            //     throw new Error('Failed to get presigned URL');
+            // }
+            //
+            // const { presignedUrl, fileKey } = await presignedUrlResponse.json();
+            //
+            // // Step 2: Upload the file to S3 using the presigned URL
+            // const uploadResponse = await fetch(presignedUrl, {
+            //     method: 'PUT',
+            //     headers: {
+            //         'Content-Type': selectedFile.type,
+            //     },
+            //     body: selectedFile,
+            // });
+            //
+            // if (!uploadResponse.ok) {
+            //     throw new Error('Failed to upload file to S3');
+            // }
+            //
+            // // Step 3: Send metadata to the server
+            // const metadataResponse = await fetch('/api/saveVideoMetadata', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         // Include authentication headers if necessary
+            //     },
+            //     body: JSON.stringify({
+            //         title: titleText,
+            //         description: descriptionText,
+            //         isPublic: isPublic,
+            //         fileKey: fileKey, // The key or identifier of the uploaded file in S3
+            //     }),
+            // });
+            //
+            // if (!metadataResponse.ok) {
+            //     throw new Error('Failed to save video metadata');
+            // }
+
+            // Success
+            setAlertModalMessage('업로드가 완료되었습니다.');
+            setShowAlertModal(true);
+            // Optionally, reset the form or redirect the user
+            // Reset the form
+            setTitleText('');
+            setDescriptionText('');
+            setFileName('');
+            setVideoSrc(null);
+            setSelectedFile(null);
+            setShowWarnings(false);
         } catch (error) {
+            console.error(error);
             setError('업로드 중 오류가 발생했습니다.');
             setAlertModalMessage('업로드 중 오류가 발생했습니다.');
             setShowAlertModal(true);
+        } finally {
             setUploading(false);
         }
     };
@@ -343,12 +402,10 @@ export const Upload = () => {
         <>
             <VideoUploadModal show={showModal} onClose={() => setShowModal(false)} />
 
-            {/* New CustomModal for alerts */}
             <CustomModal show={showAlertModal} onClose={() => setShowAlertModal(false)}>
-                <p>{alertModalMessage}</p>
+                <div>{alertModalMessage}</div>
             </CustomModal>
 
-            {/* Main Upload Component */}
             <Wrapper>
                 <UploadWrap>
                     <UploadPageTitle>와글 썸네일</UploadPageTitle>
