@@ -1,12 +1,16 @@
+// Upload.js
+
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import UnlockIcon from '../assets/svg/unlock.svg';
 import LockIcon from '../assets/svg/lock.svg';
+import {VideoUploadModal} from '../components/VideoUploadModal';
+import {CustomModal} from '../components/CustomModal';
 
 const Wrapper = styled.div`
     width: 100vw;
     display: flex;
-    font-family: "Pretendard-Medium";
+    font-family: 'Pretendard-Medium';
     justify-content: center;
 `;
 
@@ -71,7 +75,7 @@ const UploadText = styled.div`
 `;
 
 const WarningTitle = styled.span`
-    color: #FF7777;
+    color: #ff7777;
     font-size: 1vw;
     padding-top: 0.2vw;
     margin-left: 0.3vw;
@@ -153,7 +157,7 @@ const UploadDescriptionInput = styled.div`
         }
 
         &::-webkit-scrollbar-track {
-            background-color: #2B2B2B;
+            background-color: #2b2b2b;
             border-radius: 0.4vw;
             margin-top: 1vw;
             margin-bottom: 1vw;
@@ -201,7 +205,7 @@ const FileNameTag = styled.div`
     font-size: 1.04vw;
     margin-left: 0.52vw;
     padding-right: 1.04vw;
-    border-right: 1.5px solid #2B2B2B;
+    border-right: 1.5px solid #2b2b2b;
 `;
 
 const FileName = styled.div`
@@ -225,7 +229,7 @@ const SaveButton = styled.button`
     height: 3.4vw;
     background-color: rgba(255, 255, 255, 0.8);
     color: #080808;
-    font-family: "Pretendard-Medium";
+    font-family: 'Pretendard-Medium';
     border-radius: 0.8vw;
     border: 1px solid #787878;
     transition: 0.5s ease;
@@ -252,8 +256,13 @@ export const Upload = () => {
     const [isPublic, setIsPublic] = useState(true);
     const [selectedFile, setSelectedFile] = useState(null);
     const [showWarnings, setShowWarnings] = useState(false);
-    const [uploading, setUploading] = useState(false); // Added state for uploading
-    const [error, setError] = useState(''); // State for error messages
+    const [uploading, setUploading] = useState(false);
+    const [error, setError] = useState('');
+    const [showModal, setShowModal] = useState(false);
+
+    // State for the new alert modal
+    const [alertModalMessage, setAlertModalMessage] = useState('');
+    const [showAlertModal, setShowAlertModal] = useState(false);
 
     const togglePublicStatus = () => {
         setIsPublic((prevState) => !prevState);
@@ -268,6 +277,22 @@ export const Upload = () => {
             setSelectedFile(file);
         }
     };
+
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.onloadedmetadata = () => {
+                if (videoRef.current.duration > 60) {
+                    // Clear the video attachment
+                    setVideoSrc(null);
+                    setFileName('');
+                    setSelectedFile(null);
+
+                    // Show the modal
+                    setShowModal(true);
+                }
+            };
+        }
+    }, [videoSrc]);
 
     const handleMouseEnter = () => {
         if (videoRef.current) {
@@ -285,65 +310,45 @@ export const Upload = () => {
         setShowWarnings(true);
 
         if (!titleText || !descriptionText) {
-            alert('Please fill in all required fields.');
+            setAlertModalMessage('제목과 설명을 모두 입력해주세요.');
+            setShowAlertModal(true);
             return;
         }
 
         if (!selectedFile) {
-            alert('Please select a file to upload.');
+            setAlertModalMessage('업로드할 파일을 선택해주세요.');
+            setShowAlertModal(true);
             return;
         }
-        alert("upload");
 
-        // setUploading(true);
-    //     setError('');
-    //
-    //     try {
-    //         // Step 1: 서버에 s3관련된 url 요청
-    //         const response = await fetch('/api/getPresignedUploadUrl', {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({
-    //                 fileName: selectedFile.name,
-    //                 fileType: selectedFile.type,
-    //                 title: titleText,
-    //                 description: descriptionText,
-    //                 isPublic: isPublic,
-    //             }),
-    //         });
-    //
-    //         if (!response.ok) {
-    //             throw new Error('Failed to get upload URL');
-    //         }
-    //
-    //         const data = await response.json();
-    //         const { presignedUrl, videoId } = data;
-    //
-    //         // Step 2: s3 관련된 url 기반으로 비디오 전송
-    //         const uploadResponse = await fetch(presignedUrl, {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Content-Type': selectedFile.type,
-    //             },
-    //             body: selectedFile,
-    //         });
-    //
-    //         if (!uploadResponse.ok) {
-    //             throw new Error('Failed to upload file');
-    //         }
-    //
-    //         alert('File uploaded successfully!');
-    //         // 응답 확인 후 따로 처리(useNavigation 등)
-    //     } catch (err) {
-    //         console.error(err);
-    //         setError('An error occurred during the upload process.');
-    //     } finally {
-    //         setUploading(false);
-    //     }
+        // Proceed with upload logic
+        try {
+            setUploading(true);
+            // Perform upload...
+            // Simulate upload delay
+            setTimeout(() => {
+                setAlertModalMessage('업로드가 완료되었습니다.');
+                setShowAlertModal(true);
+                setUploading(false);
+            }, 2000);
+        } catch (error) {
+            setError('업로드 중 오류가 발생했습니다.');
+            setAlertModalMessage('업로드 중 오류가 발생했습니다.');
+            setShowAlertModal(true);
+            setUploading(false);
+        }
     };
 
     return (
         <>
+            <VideoUploadModal show={showModal} onClose={() => setShowModal(false)} />
+
+            {/* New CustomModal for alerts */}
+            <CustomModal show={showAlertModal} onClose={() => setShowAlertModal(false)}>
+                <p>{alertModalMessage}</p>
+            </CustomModal>
+
+            {/* Main Upload Component */}
             <Wrapper>
                 <UploadWrap>
                     <UploadPageTitle>와글 썸네일</UploadPageTitle>
@@ -395,7 +400,7 @@ export const Upload = () => {
                                     placeholder="제목을 입력하세요"
                                     value={titleText}
                                     onChange={(e) => {
-                                        if (e.target.value.length <= maxTitleLength) {
+                                        if (e.target.value.length <= maxTitleLength + 1) {
                                             setTitleText(e.target.value);
                                         }
                                     }}
@@ -415,7 +420,7 @@ export const Upload = () => {
                     placeholder="시청자에게 이 와글에 대해 설명해 주세요"
                     value={descriptionText}
                     onChange={(e) => {
-                        if (e.target.value.length <= maxDescriptionLength) {
+                        if (e.target.value.length <= maxDescriptionLength + 1) {
                             setDescriptionText(e.target.value);
                         }
                     }}
@@ -425,9 +430,17 @@ export const Upload = () => {
                                 <button onClick={togglePublicStatus}>
                                     <div style={{ marginRight: '0.5vw' }}>
                                         {isPublic ? (
-                                            <img src={UnlockIcon} alt="Unlock Icon" style={{ width: '0.68vw', height: '0.94vw' }} />
+                                            <img
+                                                src={UnlockIcon}
+                                                alt="Unlock Icon"
+                                                style={{ width: '0.68vw', height: '0.94vw' }}
+                                            />
                                         ) : (
-                                            <img src={LockIcon} alt="Lock Icon" style={{ width: '0.68vw', height: '0.94vw' }} />
+                                            <img
+                                                src={LockIcon}
+                                                alt="Lock Icon"
+                                                style={{ width: '0.68vw', height: '0.94vw' }}
+                                            />
                                         )}
                                     </div>
                                     <div
